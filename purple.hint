@@ -1,0 +1,13 @@
+category: Gnome Net
+requires: cygwin glib2 libdbus-glib_1_2 libdbus1_3 libgadu3 libgnutls13 libintl8 libmeanwhile1 libxml2 minires mono perl python python-dbus tcl tk
+external-source: pidgin
+sdesc: "GNOME multi-protocol IM library (runtime)"
+ldesc: "libpurple is a library intended to be used by programmers 
+seeking to write an IM client that connects to many IM networks.  It 
+supports AIM, ICQ, Jabber, MSN and Yahoo!, among others.
+
+Pidgin is an graphical IM client written in C which uses the GTK+
+toolkit.
+
+Finch is a text-based IM client written in C which uses the ncurses
+toolkit."
