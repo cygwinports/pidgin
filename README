@@ -32,6 +32,7 @@ Runtime requirements:
   libX11_6-1.1.1-1
 (pidgin)
   atk-1.18.0-1
+  evolution-data-server-1.10.3.1-1
   gdk-pixbuf2-2.10.14-1
   gstreamer010-0.10.13-1
   gstreamer010-plugins-base-0.10.13-1
@@ -42,6 +43,7 @@ Runtime requirements:
   libICE6-1.0.2-1
   libSM6-1.0.2-1
   libX11_6-1.1.1-1
+  libbonobo2-2.18.0-1
   libsqlite3_0-3.3.12-1
   pango-1.16.5-1
   startup-notification-0.9-1
@@ -70,20 +72,20 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack pidgin-2.0.2-X-src.tar.bz2
+  unpack pidgin-2.1.0-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./pidgin-2.0.2-X.cygport all
+  cygport ./pidgin-2.1.0-X.cygport all
 
 This will create:
-  /usr/src/finch-2.0.2-X.tar.bz2
-  /usr/src/libgnt-devel-2.0.2-X.tar.bz2
-  /usr/src/libgnt0-2.0.2-X.tar.bz2
-  /usr/src/libpurple-devel-2.0.2-X.tar.bz2
-  /usr/src/libpurple-2.0.2-X.tar.bz2
-  /usr/src/pidgin-2.0.2-X-src.tar.bz2
-  /usr/src/pidgin-2.0.2-X.tar.bz2
+  /usr/src/finch-2.1.0-X.tar.bz2
+  /usr/src/libgnt-devel-2.1.0-X.tar.bz2
+  /usr/src/libgnt0-2.1.0-X.tar.bz2
+  /usr/src/libpurple-devel-2.1.0-X.tar.bz2
+  /usr/src/libpurple-2.1.0-X.tar.bz2
+  /usr/src/pidgin-2.1.0-X-src.tar.bz2
+  /usr/src/pidgin-2.1.0-X.tar.bz2
 
 -------------------------------------------
 
@@ -179,15 +181,15 @@ Files included in the binary package:
   /usr/lib/pidgin/xmppconsole.la
   /usr/lib/pkgconfig/pidgin.pc
   /usr/share/applications/pidgin.desktop
-  /usr/share/doc/Cygwin/pidgin-2.0.2.README
-  /usr/share/doc/pidgin-2.0.2/AUTHORS
-  /usr/share/doc/pidgin-2.0.2/COPYING
-  /usr/share/doc/pidgin-2.0.2/COPYRIGHT
-  /usr/share/doc/pidgin-2.0.2/ChangeLog
-  /usr/share/doc/pidgin-2.0.2/HACKING
-  /usr/share/doc/pidgin-2.0.2/INSTALL
-  /usr/share/doc/pidgin-2.0.2/NEWS
-  /usr/share/doc/pidgin-2.0.2/README
+  /usr/share/doc/Cygwin/pidgin-2.1.0.README
+  /usr/share/doc/pidgin-2.1.0/AUTHORS
+  /usr/share/doc/pidgin-2.1.0/COPYING
+  /usr/share/doc/pidgin-2.1.0/COPYRIGHT
+  /usr/share/doc/pidgin-2.1.0/ChangeLog
+  /usr/share/doc/pidgin-2.1.0/HACKING
+  /usr/share/doc/pidgin-2.1.0/INSTALL
+  /usr/share/doc/pidgin-2.1.0/NEWS
+  /usr/share/doc/pidgin-2.1.0/README
   /usr/share/icons/hicolor/16x16/apps/pidgin.png
   /usr/share/icons/hicolor/24x24/apps/pidgin.png
   /usr/share/icons/hicolor/32x32/apps/pidgin.png
@@ -734,12 +736,14 @@ Files included in the binary package:
   /usr/lib/finch/gnthistory.la
   /usr/lib/finch/gntlastlog.dll
   /usr/lib/finch/gntlastlog.la
-  /usr/lib/finch/s.dll
-  /usr/lib/finch/s.la
   /usr/share/man/man1/finch.1.gz
 
 (libgnt0)
   /usr/bin/cyggnt-0.dll
+  /usr/lib/gnt/irssi.dll
+  /usr/lib/gnt/irssi.la
+  /usr/lib/gnt/s.dll
+  /usr/lib/gnt/s.la
 
 (libgnt-devel)
   /usr/include/gnt/gnt.h
@@ -909,6 +913,9 @@ Files included in the binary package:
 ------------------
 
 Port Notes:
+
+----- version 2.1.0-1 -----
+Version bump.
 
 ----- version 2.0.2-1 -----
 Initial release for Cygwin.

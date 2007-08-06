@@ -1,5 +1,5 @@
 category: Gnome Net
-requires: cygwin atk glib2 gstreamer010 gstreamer010-plugins-base gstreamer010-plugins-good gstreamer010-plugins-oss gtk2-x11 gtkspell libICE6 libSM6 libX11_6 libintl8 libpurple libsqlite3_0 pango startup-notification
+requires: cygwin atk evolution-data-server glib2 gstreamer010 gstreamer010-plugins-base gstreamer010-plugins-good gstreamer010-plugins-oss gtk2-x11 gtkspell libICE6 libSM6 libX11_6 libbonobo2 libintl8 libpurple libsqlite3_0 pango startup-notification
 sdesc: "GNOME multi-protocol IM client"
 ldesc: "libpurple is a library intended to be used by programmers 
 seeking to write an IM client that connects to many IM networks.  It 
