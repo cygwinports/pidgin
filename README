@@ -23,28 +23,29 @@ Runtime requirements:
   libgnutls13-1.6.3-1
   libintl8-0.15-1
   libmeanwhile1-1.0.2-1
-  libxml2-2.6.29-1
+  libsilc112-1.1.3-1
+  libxml2-2.6.30-1
   minires-1.01-1
-  mono-1.2.4-1
-  perl-5.8.7-5
+  mono-1.2.5-1
+  perl-5.8.8-4
   python-2.5.1-3
   python-dbus-0.81.1-1
-  tcl-8.4.15-1
-  tk-8.4.15-1
+  tcl-8.4.16-1
+  tk-8.4.16-1
 (libgnt/finch)
   libncurses8-5.5-3
-  libX11_6-1.1.1-1
+  libX11_6-1.1.3-1
 (pidgin)
   atk-1.18.0-1
   evolution-data-server-1.10.3.1-1
   gdk-pixbuf2-2.10.14-1
   gtk2-x11-2.10.14-1
-  gtkspell-2.0.11-2
-  libICE6-1.0.2-1
-  libSM6-1.0.2-1
-  libX11_6-1.1.1-1
+  gtkspell-2.0.11-3
+  libICE6-1.0.4-1
+  libSM6-1.0.3-1
+  libX11_6-1.1.3-1
   libbonobo2-2.18.0-1
-  libsqlite3_0-3.3.12-1
+  libsqlite3_0-3.3.17-1
   pango-1.16.5-1
   startup-notification-0.9-1
 
@@ -72,20 +73,20 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack pidgin-2.1.1-X-src.tar.bz2
+  unpack pidgin-2.2.1-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./pidgin-2.1.1-X.cygport all
+  cygport ./pidgin-2.2.1-X.cygport all
 
 This will create:
-  /usr/src/finch-2.1.1-X.tar.bz2
-  /usr/src/libgnt-devel-2.1.1-X.tar.bz2
-  /usr/src/libgnt0-2.1.1-X.tar.bz2
-  /usr/src/libpurple-devel-2.1.1-X.tar.bz2
-  /usr/src/libpurple-2.1.1-X.tar.bz2
-  /usr/src/pidgin-2.1.1-X-src.tar.bz2
-  /usr/src/pidgin-2.1.1-X.tar.bz2
+  /usr/src/finch-2.2.1-X.tar.bz2
+  /usr/src/libgnt-devel-2.2.1-X.tar.bz2
+  /usr/src/libgnt0-2.2.1-X.tar.bz2
+  /usr/src/libpurple-devel-2.2.1-X.tar.bz2
+  /usr/src/libpurple-2.2.1-X.tar.bz2
+  /usr/src/pidgin-2.2.1-X-src.tar.bz2
+  /usr/src/pidgin-2.2.1-X.tar.bz2
 
 -------------------------------------------
 
@@ -104,6 +105,7 @@ Files included in the binary package:
   /usr/include/pidgin/gtkcellrendererprogress.h
   /usr/include/pidgin/gtkcellview.h
   /usr/include/pidgin/gtkcellviewmenuitem.h
+  /usr/include/pidgin/gtkcertmgr.h
   /usr/include/pidgin/gtkconn.h
   /usr/include/pidgin/gtkconv.h
   /usr/include/pidgin/gtkconvwin.h
@@ -134,6 +136,8 @@ Files included in the binary package:
   /usr/include/pidgin/gtksession.h
   /usr/include/pidgin/gtksound.h
   /usr/include/pidgin/gtksourceiter.h
+  /usr/include/pidgin/gtksourceundomanager.h
+  /usr/include/pidgin/gtksourceview-marshal.h
   /usr/include/pidgin/gtkstatusbox.h
   /usr/include/pidgin/gtkthemes.h
   /usr/include/pidgin/gtkutils.h
@@ -155,6 +159,10 @@ Files included in the binary package:
   /usr/lib/pidgin/extplacement.la
   /usr/lib/pidgin/gestures.dll
   /usr/lib/pidgin/gestures.la
+  /usr/lib/pidgin/gevolution.dll
+  /usr/lib/pidgin/gevolution.la
+  /usr/lib/pidgin/gtkbuddynote.dll
+  /usr/lib/pidgin/gtkbuddynote.la
   /usr/lib/pidgin/history.dll
   /usr/lib/pidgin/history.la
   /usr/lib/pidgin/iconaway.dll
@@ -181,16 +189,17 @@ Files included in the binary package:
   /usr/lib/pidgin/xmppconsole.la
   /usr/lib/pkgconfig/pidgin.pc
   /usr/share/applications/pidgin.desktop
-  /usr/share/doc/Cygwin/pidgin-2.1.1.README
-  /usr/share/doc/pidgin-2.1.1/AUTHORS
-  /usr/share/doc/pidgin-2.1.1/COPYING
-  /usr/share/doc/pidgin-2.1.1/COPYRIGHT
-  /usr/share/doc/pidgin-2.1.1/ChangeLog
-  /usr/share/doc/pidgin-2.1.1/HACKING
-  /usr/share/doc/pidgin-2.1.1/INSTALL
-  /usr/share/doc/pidgin-2.1.1/NEWS
-  /usr/share/doc/pidgin-2.1.1/README
+  /usr/share/doc/Cygwin/pidgin-2.2.1.README
+  /usr/share/doc/pidgin-2.2.1/AUTHORS
+  /usr/share/doc/pidgin-2.2.1/COPYING
+  /usr/share/doc/pidgin-2.2.1/COPYRIGHT
+  /usr/share/doc/pidgin-2.2.1/ChangeLog
+  /usr/share/doc/pidgin-2.2.1/HACKING
+  /usr/share/doc/pidgin-2.2.1/INSTALL
+  /usr/share/doc/pidgin-2.2.1/NEWS
+  /usr/share/doc/pidgin-2.2.1/README
   /usr/share/icons/hicolor/16x16/apps/pidgin.png
+  /usr/share/icons/hicolor/22x22/apps/pidgin.png
   /usr/share/icons/hicolor/24x24/apps/pidgin.png
   /usr/share/icons/hicolor/32x32/apps/pidgin.png
   /usr/share/icons/hicolor/48x48/apps/pidgin.png
@@ -199,6 +208,7 @@ Files included in the binary package:
   /usr/share/locale/am/LC_MESSAGES/pidgin.mo
   /usr/share/locale/ar/LC_MESSAGES/pidgin.mo
   /usr/share/locale/az/LC_MESSAGES/pidgin.mo
+  /usr/share/locale/be@latin/LC_MESSAGES/pidgin.mo
   /usr/share/locale/bg/LC_MESSAGES/pidgin.mo
   /usr/share/locale/bn/LC_MESSAGES/pidgin.mo
   /usr/share/locale/bs/LC_MESSAGES/pidgin.mo
@@ -231,6 +241,7 @@ Files included in the binary package:
   /usr/share/locale/kn/LC_MESSAGES/pidgin.mo
   /usr/share/locale/ko/LC_MESSAGES/pidgin.mo
   /usr/share/locale/ku/LC_MESSAGES/pidgin.mo
+  /usr/share/locale/lo/LC_MESSAGES/pidgin.mo
   /usr/share/locale/lt/LC_MESSAGES/pidgin.mo
   /usr/share/locale/mk/LC_MESSAGES/pidgin.mo
   /usr/share/locale/my_MM/LC_MESSAGES/pidgin.mo
@@ -249,7 +260,7 @@ Files included in the binary package:
   /usr/share/locale/sl/LC_MESSAGES/pidgin.mo
   /usr/share/locale/sq/LC_MESSAGES/pidgin.mo
   /usr/share/locale/sr/LC_MESSAGES/pidgin.mo
-  /usr/share/locale/sr@Latn/LC_MESSAGES/pidgin.mo
+  /usr/share/locale/sr@latin/LC_MESSAGES/pidgin.mo
   /usr/share/locale/sv/LC_MESSAGES/pidgin.mo
   /usr/share/locale/ta/LC_MESSAGES/pidgin.mo
   /usr/share/locale/te/LC_MESSAGES/pidgin.mo
@@ -277,11 +288,13 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/animations/16/typing2.png
   /usr/share/pixmaps/pidgin/animations/16/typing3.png
   /usr/share/pixmaps/pidgin/animations/16/typing4.png
+  /usr/share/pixmaps/pidgin/animations/16/typing5.png
   /usr/share/pixmaps/pidgin/arrow-down.xpm
   /usr/share/pixmaps/pidgin/arrow-left.xpm
   /usr/share/pixmaps/pidgin/arrow-right.xpm
   /usr/share/pixmaps/pidgin/arrow-up.xpm
   /usr/share/pixmaps/pidgin/buttons/edit.png
+  /usr/share/pixmaps/pidgin/buttons/info.png
   /usr/share/pixmaps/pidgin/buttons/music.png
   /usr/share/pixmaps/pidgin/buttons/pause.png
   /usr/share/pixmaps/pidgin/dialogs/16/auth.png
@@ -322,6 +335,7 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/emotes/default/angel.png
   /usr/share/pixmaps/pidgin/emotes/default/angry.png
   /usr/share/pixmaps/pidgin/emotes/default/arrogant.png
+  /usr/share/pixmaps/pidgin/emotes/default/at-wits-end.png
   /usr/share/pixmaps/pidgin/emotes/default/bad.png
   /usr/share/pixmaps/pidgin/emotes/default/bashful.png
   /usr/share/pixmaps/pidgin/emotes/default/beat-up.png
@@ -332,6 +346,7 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/emotes/default/bowl.png
   /usr/share/pixmaps/pidgin/emotes/default/boy.png
   /usr/share/pixmaps/pidgin/emotes/default/brb.png
+  /usr/share/pixmaps/pidgin/emotes/default/bulgy-eyes.png
   /usr/share/pixmaps/pidgin/emotes/default/bye.png
   /usr/share/pixmaps/pidgin/emotes/default/cake.png
   /usr/share/pixmaps/pidgin/emotes/default/call-me.png
@@ -356,6 +371,7 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/emotes/default/curl-lip.png
   /usr/share/pixmaps/pidgin/emotes/default/curse.png
   /usr/share/pixmaps/pidgin/emotes/default/cute.png
+  /usr/share/pixmaps/pidgin/emotes/default/cyclops.png
   /usr/share/pixmaps/pidgin/emotes/default/dance.png
   /usr/share/pixmaps/pidgin/emotes/default/dazed.png
   /usr/share/pixmaps/pidgin/emotes/default/desire.png
@@ -372,6 +388,7 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/emotes/default/embarrassed.png
   /usr/share/pixmaps/pidgin/emotes/default/excruciating.png
   /usr/share/pixmaps/pidgin/emotes/default/eyeroll.png
+  /usr/share/pixmaps/pidgin/emotes/default/female-fighter.png
   /usr/share/pixmaps/pidgin/emotes/default/film.png
   /usr/share/pixmaps/pidgin/emotes/default/fingers-crossed.png
   /usr/share/pixmaps/pidgin/emotes/default/flag.png
@@ -391,25 +408,31 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/emotes/default/highfive.png
   /usr/share/pixmaps/pidgin/emotes/default/hug-left.png
   /usr/share/pixmaps/pidgin/emotes/default/hug-right.png
-  /usr/share/pixmaps/pidgin/emotes/default/hungry.png
   /usr/share/pixmaps/pidgin/emotes/default/hypnotized.png
   /usr/share/pixmaps/pidgin/emotes/default/in-love.png
   /usr/share/pixmaps/pidgin/emotes/default/island.png
   /usr/share/pixmaps/pidgin/emotes/default/jump.png
   /usr/share/pixmaps/pidgin/emotes/default/kiss.png
+  /usr/share/pixmaps/pidgin/emotes/default/kissed.png
+  /usr/share/pixmaps/pidgin/emotes/default/kissing.png
   /usr/share/pixmaps/pidgin/emotes/default/knife.png
   /usr/share/pixmaps/pidgin/emotes/default/lamp.png
   /usr/share/pixmaps/pidgin/emotes/default/lashes.png
   /usr/share/pixmaps/pidgin/emotes/default/laugh.png
   /usr/share/pixmaps/pidgin/emotes/default/liquor.png
+  /usr/share/pixmaps/pidgin/emotes/default/loser.png
   /usr/share/pixmaps/pidgin/emotes/default/love-over.png
   /usr/share/pixmaps/pidgin/emotes/default/love.png
   /usr/share/pixmaps/pidgin/emotes/default/lying.png
   /usr/share/pixmaps/pidgin/emotes/default/mad-tongue.png
   /usr/share/pixmaps/pidgin/emotes/default/mail.png
+  /usr/share/pixmaps/pidgin/emotes/default/male-fighter1.png
+  /usr/share/pixmaps/pidgin/emotes/default/male-fighter2.png
   /usr/share/pixmaps/pidgin/emotes/default/mean.png
   /usr/share/pixmaps/pidgin/emotes/default/meeting.png
+  /usr/share/pixmaps/pidgin/emotes/default/messed.png
   /usr/share/pixmaps/pidgin/emotes/default/mobile.png
+  /usr/share/pixmaps/pidgin/emotes/default/mohawk.png
   /usr/share/pixmaps/pidgin/emotes/default/moneymouth.png
   /usr/share/pixmaps/pidgin/emotes/default/monkey.png
   /usr/share/pixmaps/pidgin/emotes/default/moon.png
@@ -417,14 +440,17 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/emotes/default/msn-busy.png
   /usr/share/pixmaps/pidgin/emotes/default/msn.png
   /usr/share/pixmaps/pidgin/emotes/default/msn_online.png
+  /usr/share/pixmaps/pidgin/emotes/default/music.png
   /usr/share/pixmaps/pidgin/emotes/default/musical-note.png
   /usr/share/pixmaps/pidgin/emotes/default/nailbiting.png
   /usr/share/pixmaps/pidgin/emotes/default/neutral.png
+  /usr/share/pixmaps/pidgin/emotes/default/on-the-phone.png
   /usr/share/pixmaps/pidgin/emotes/default/party.png
   /usr/share/pixmaps/pidgin/emotes/default/peace.png
   /usr/share/pixmaps/pidgin/emotes/default/phone.png
   /usr/share/pixmaps/pidgin/emotes/default/pig.png
   /usr/share/pixmaps/pidgin/emotes/default/pill.png
+  /usr/share/pixmaps/pidgin/emotes/default/pirate.png
   /usr/share/pixmaps/pidgin/emotes/default/pissed-off.png
   /usr/share/pixmaps/pidgin/emotes/default/pizza.png
   /usr/share/pixmaps/pidgin/emotes/default/plate.png
@@ -450,8 +476,10 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/emotes/default/shout.png
   /usr/share/pixmaps/pidgin/emotes/default/shut-mouth.png
   /usr/share/pixmaps/pidgin/emotes/default/sick.png
+  /usr/share/pixmaps/pidgin/emotes/default/sidefrown.png
   /usr/share/pixmaps/pidgin/emotes/default/sigarette.png
   /usr/share/pixmaps/pidgin/emotes/default/silly.png
+  /usr/share/pixmaps/pidgin/emotes/default/sinister.png
   /usr/share/pixmaps/pidgin/emotes/default/skeleton.png
   /usr/share/pixmaps/pidgin/emotes/default/skywalker.png
   /usr/share/pixmaps/pidgin/emotes/default/sleepy.png
@@ -465,14 +493,17 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/emotes/default/soldier.png
   /usr/share/pixmaps/pidgin/emotes/default/star.png
   /usr/share/pixmaps/pidgin/emotes/default/starving.png
+  /usr/share/pixmaps/pidgin/emotes/default/stop.png
   /usr/share/pixmaps/pidgin/emotes/default/struggle.png
   /usr/share/pixmaps/pidgin/emotes/default/sun.png
   /usr/share/pixmaps/pidgin/emotes/default/sweat.png
+  /usr/share/pixmaps/pidgin/emotes/default/talktohand.png
   /usr/share/pixmaps/pidgin/emotes/default/teeth.png
   /usr/share/pixmaps/pidgin/emotes/default/terror.png
   /usr/share/pixmaps/pidgin/emotes/default/theme
   /usr/share/pixmaps/pidgin/emotes/default/thinking.png
   /usr/share/pixmaps/pidgin/emotes/default/thunder.png
+  /usr/share/pixmaps/pidgin/emotes/default/time-out.png
   /usr/share/pixmaps/pidgin/emotes/default/tongue.png
   /usr/share/pixmaps/pidgin/emotes/default/tremble.png
   /usr/share/pixmaps/pidgin/emotes/default/turtle.png
@@ -482,6 +513,7 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/emotes/default/victory.png
   /usr/share/pixmaps/pidgin/emotes/default/waiting.png
   /usr/share/pixmaps/pidgin/emotes/default/watermelon.png
+  /usr/share/pixmaps/pidgin/emotes/default/waving.png
   /usr/share/pixmaps/pidgin/emotes/default/weep.png
   /usr/share/pixmaps/pidgin/emotes/default/wilt.png
   /usr/share/pixmaps/pidgin/emotes/default/wink.png
@@ -493,11 +525,13 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/protocols/16/aim.png
   /usr/share/pixmaps/pidgin/protocols/16/bonjour.png
   /usr/share/pixmaps/pidgin/protocols/16/gadu-gadu.png
+  /usr/share/pixmaps/pidgin/protocols/16/google-talk.png
   /usr/share/pixmaps/pidgin/protocols/16/icq.png
   /usr/share/pixmaps/pidgin/protocols/16/irc.png
   /usr/share/pixmaps/pidgin/protocols/16/jabber.png
   /usr/share/pixmaps/pidgin/protocols/16/meanwhile.png
   /usr/share/pixmaps/pidgin/protocols/16/msn.png
+  /usr/share/pixmaps/pidgin/protocols/16/myspace.png
   /usr/share/pixmaps/pidgin/protocols/16/novell.png
   /usr/share/pixmaps/pidgin/protocols/16/qq.png
   /usr/share/pixmaps/pidgin/protocols/16/silc.png
@@ -507,11 +541,13 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/protocols/22/aim.png
   /usr/share/pixmaps/pidgin/protocols/22/bonjour.png
   /usr/share/pixmaps/pidgin/protocols/22/gadu-gadu.png
+  /usr/share/pixmaps/pidgin/protocols/22/google-talk.png
   /usr/share/pixmaps/pidgin/protocols/22/icq.png
   /usr/share/pixmaps/pidgin/protocols/22/irc.png
   /usr/share/pixmaps/pidgin/protocols/22/jabber.png
   /usr/share/pixmaps/pidgin/protocols/22/meanwhile.png
   /usr/share/pixmaps/pidgin/protocols/22/msn.png
+  /usr/share/pixmaps/pidgin/protocols/22/myspace.png
   /usr/share/pixmaps/pidgin/protocols/22/novell.png
   /usr/share/pixmaps/pidgin/protocols/22/qq.png
   /usr/share/pixmaps/pidgin/protocols/22/silc.png
@@ -526,12 +562,22 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/protocols/48/jabber.png
   /usr/share/pixmaps/pidgin/protocols/48/meanwhile.png
   /usr/share/pixmaps/pidgin/protocols/48/msn.png
+  /usr/share/pixmaps/pidgin/protocols/48/myspace.png
   /usr/share/pixmaps/pidgin/protocols/48/novell.png
   /usr/share/pixmaps/pidgin/protocols/48/qq.png
   /usr/share/pixmaps/pidgin/protocols/48/silc.png
   /usr/share/pixmaps/pidgin/protocols/48/simple.png
   /usr/share/pixmaps/pidgin/protocols/48/yahoo.png
   /usr/share/pixmaps/pidgin/protocols/48/zephyr.png
+  /usr/share/pixmaps/pidgin/status/11/available.png
+  /usr/share/pixmaps/pidgin/status/11/away.png
+  /usr/share/pixmaps/pidgin/status/11/busy.png
+  /usr/share/pixmaps/pidgin/status/11/chat.png
+  /usr/share/pixmaps/pidgin/status/11/extended-away.png
+  /usr/share/pixmaps/pidgin/status/11/invisible.png
+  /usr/share/pixmaps/pidgin/status/11/offline.png
+  /usr/share/pixmaps/pidgin/status/11/person.png
+  /usr/share/pixmaps/pidgin/status/11/rtl/extended-away.png
   /usr/share/pixmaps/pidgin/status/16/available.png
   /usr/share/pixmaps/pidgin/status/16/away.png
   /usr/share/pixmaps/pidgin/status/16/busy.png
@@ -540,10 +586,11 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/status/16/invisible.png
   /usr/share/pixmaps/pidgin/status/16/log-in.png
   /usr/share/pixmaps/pidgin/status/16/log-out.png
-  /usr/share/pixmaps/pidgin/status/16/message-pending.png
   /usr/share/pixmaps/pidgin/status/16/offline.png
   /usr/share/pixmaps/pidgin/status/16/person.png
   /usr/share/pixmaps/pidgin/status/16/rtl/extended-away.png
+  /usr/share/pixmaps/pidgin/status/16/rtl/log-in.png
+  /usr/share/pixmaps/pidgin/status/16/rtl/log-out.png
   /usr/share/pixmaps/pidgin/status/22/available.png
   /usr/share/pixmaps/pidgin/status/22/away.png
   /usr/share/pixmaps/pidgin/status/22/busy.png
@@ -555,6 +602,8 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/status/22/offline.png
   /usr/share/pixmaps/pidgin/status/22/person.png
   /usr/share/pixmaps/pidgin/status/22/rtl/extended-away.png
+  /usr/share/pixmaps/pidgin/status/22/rtl/log-in.png
+  /usr/share/pixmaps/pidgin/status/22/rtl/log-out.png
   /usr/share/pixmaps/pidgin/status/32/available.png
   /usr/share/pixmaps/pidgin/status/32/away.png
   /usr/share/pixmaps/pidgin/status/32/busy.png
@@ -566,6 +615,8 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/status/32/offline.png
   /usr/share/pixmaps/pidgin/status/32/person.png
   /usr/share/pixmaps/pidgin/status/32/rtl/extended-away.png
+  /usr/share/pixmaps/pidgin/status/32/rtl/log-in.png
+  /usr/share/pixmaps/pidgin/status/32/rtl/log-out.png
   /usr/share/pixmaps/pidgin/status/48/available.png
   /usr/share/pixmaps/pidgin/status/48/away.png
   /usr/share/pixmaps/pidgin/status/48/busy.png
@@ -584,6 +635,7 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/toolbar/16/font-size-up.png
   /usr/share/pixmaps/pidgin/toolbar/16/insert-image.png
   /usr/share/pixmaps/pidgin/toolbar/16/insert-link.png
+  /usr/share/pixmaps/pidgin/toolbar/16/insert.png
   /usr/share/pixmaps/pidgin/toolbar/16/message-new.png
   /usr/share/pixmaps/pidgin/toolbar/16/plugins.png
   /usr/share/pixmaps/pidgin/toolbar/16/send-file.png
@@ -595,6 +647,7 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/tray/16/tray-extended-away.png
   /usr/share/pixmaps/pidgin/tray/16/tray-invisible.png
   /usr/share/pixmaps/pidgin/tray/16/tray-message.png
+  /usr/share/pixmaps/pidgin/tray/16/tray-new-im.png
   /usr/share/pixmaps/pidgin/tray/16/tray-offline.png
   /usr/share/pixmaps/pidgin/tray/16/tray-online.png
   /usr/share/pixmaps/pidgin/tray/22/tray-away.png
@@ -603,8 +656,170 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/tray/22/tray-extended-away.png
   /usr/share/pixmaps/pidgin/tray/22/tray-invisible.png
   /usr/share/pixmaps/pidgin/tray/22/tray-message.png
+  /usr/share/pixmaps/pidgin/tray/22/tray-new-im.png
   /usr/share/pixmaps/pidgin/tray/22/tray-offline.png
   /usr/share/pixmaps/pidgin/tray/22/tray-online.png
+  /usr/share/pixmaps/pidgin/tray/32/tray-away.png
+  /usr/share/pixmaps/pidgin/tray/32/tray-busy.png
+  /usr/share/pixmaps/pidgin/tray/32/tray-connecting.png
+  /usr/share/pixmaps/pidgin/tray/32/tray-extended-away.png
+  /usr/share/pixmaps/pidgin/tray/32/tray-invisible.png
+  /usr/share/pixmaps/pidgin/tray/32/tray-new-im.png
+  /usr/share/pixmaps/pidgin/tray/32/tray-offline.png
+  /usr/share/pixmaps/pidgin/tray/32/tray-online.png
+  /usr/share/pixmaps/pidgin/tray/48/tray-away.png
+  /usr/share/pixmaps/pidgin/tray/48/tray-busy.png
+  /usr/share/pixmaps/pidgin/tray/48/tray-connecting.png
+  /usr/share/pixmaps/pidgin/tray/48/tray-extended-away.png
+  /usr/share/pixmaps/pidgin/tray/48/tray-invisible.png
+  /usr/share/pixmaps/pidgin/tray/48/tray-new-im.png
+  /usr/share/pixmaps/pidgin/tray/48/tray-offline.png
+  /usr/share/pixmaps/pidgin/tray/48/tray-online.png
+
+(finch)
+  /usr/bin/finch.exe
+  /usr/include/finch/finch.h
+  /usr/include/finch/gntaccount.h
+  /usr/include/finch/gntblist.h
+  /usr/include/finch/gntcertmgr.h
+  /usr/include/finch/gntconn.h
+  /usr/include/finch/gntconv.h
+  /usr/include/finch/gntdebug.h
+  /usr/include/finch/gntft.h
+  /usr/include/finch/gntidle.h
+  /usr/include/finch/gntnotify.h
+  /usr/include/finch/gntplugin.h
+  /usr/include/finch/gntpounce.h
+  /usr/include/finch/gntprefs.h
+  /usr/include/finch/gntrequest.h
+  /usr/include/finch/gntsound.h
+  /usr/include/finch/gntstatus.h
+  /usr/include/finch/gntui.h
+  /usr/lib/finch/gntclipboard.dll
+  /usr/lib/finch/gntclipboard.la
+  /usr/lib/finch/gntgf.dll
+  /usr/lib/finch/gntgf.la
+  /usr/lib/finch/gnthistory.dll
+  /usr/lib/finch/gnthistory.la
+  /usr/lib/finch/gntlastlog.dll
+  /usr/lib/finch/gntlastlog.la
+  /usr/share/man/man1/finch.1.gz
+
+(libgnt0)
+  /usr/bin/cyggnt-0.dll
+  /usr/lib/gnt/irssi.dll
+  /usr/lib/gnt/irssi.la
+  /usr/lib/gnt/s.dll
+  /usr/lib/gnt/s.la
+
+(libgnt-devel)
+  /usr/include/gnt/gnt.h
+  /usr/include/gnt/gntbindable.h
+  /usr/include/gnt/gntbox.h
+  /usr/include/gnt/gntbutton.h
+  /usr/include/gnt/gntcheckbox.h
+  /usr/include/gnt/gntclipboard.h
+  /usr/include/gnt/gntcolors.h
+  /usr/include/gnt/gntcombobox.h
+  /usr/include/gnt/gntentry.h
+  /usr/include/gnt/gntfilesel.h
+  /usr/include/gnt/gntkeys.h
+  /usr/include/gnt/gntlabel.h
+  /usr/include/gnt/gntline.h
+  /usr/include/gnt/gntmarshal.h
+  /usr/include/gnt/gntmenu.h
+  /usr/include/gnt/gntmenuitem.h
+  /usr/include/gnt/gntmenuitemcheck.h
+  /usr/include/gnt/gntslider.h
+  /usr/include/gnt/gntstyle.h
+  /usr/include/gnt/gnttextview.h
+  /usr/include/gnt/gnttree.h
+  /usr/include/gnt/gntutils.h
+  /usr/include/gnt/gntwidget.h
+  /usr/include/gnt/gntwindow.h
+  /usr/include/gnt/gntwm.h
+  /usr/include/gnt/gntws.h
+  /usr/lib/libgnt.dll.a
+  /usr/lib/libgnt.la
+  /usr/lib/pkgconfig/gnt.pc
+
+(libpurple)
+  /usr/bin/cygpurple-0.dll
+  /usr/bin/cygpurple-client-0.dll
+  /usr/lib/perl5/vendor_perl/5.8/cygwin/Purple.pm
+  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/.packlist
+  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/Purple.bs
+  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/Purple.dll
+  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/autosplit.ix
+  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/libPurple.dll.a
+  /usr/bin/purple-client-example.exe
+  /usr/bin/purple-remote
+  /usr/bin/purple-send
+  /usr/bin/purple-send-async
+  /usr/bin/purple-url-handler
+  /usr/lib/purple-2/GetBuddyBack.dll
+  /usr/lib/purple-2/MPlugin.dll
+  /usr/lib/purple-2/PurpleAPI.dll
+  /usr/lib/purple-2/autoaccept.dll
+  /usr/lib/purple-2/autoaccept.la
+  /usr/lib/purple-2/buddynote.dll
+  /usr/lib/purple-2/buddynote.la
+  /usr/lib/purple-2/cygaim.dll
+  /usr/lib/purple-2/cyggg.dll
+  /usr/lib/purple-2/cygicq.dll
+  /usr/lib/purple-2/cygirc.dll
+  /usr/lib/purple-2/cygmsn.dll
+  /usr/lib/purple-2/cygmyspace.dll
+  /usr/lib/purple-2/cygnovell.dll
+  /usr/lib/purple-2/cygqq.dll
+  /usr/lib/purple-2/cygsametime.dll
+  /usr/lib/purple-2/cygsilcpurple.dll
+  /usr/lib/purple-2/cygsimple.dll
+  /usr/lib/purple-2/cygxmpp.dll
+  /usr/lib/purple-2/cygyahoo.dll
+  /usr/lib/purple-2/cygzephyr.dll
+  /usr/lib/purple-2/dbus-example.dll
+  /usr/lib/purple-2/dbus-example.la
+  /usr/lib/purple-2/idle.dll
+  /usr/lib/purple-2/idle.la
+  /usr/lib/purple-2/joinpart.dll
+  /usr/lib/purple-2/joinpart.la
+  /usr/lib/purple-2/libaim.la
+  /usr/lib/purple-2/libgg.la
+  /usr/lib/purple-2/libicq.la
+  /usr/lib/purple-2/libirc.la
+  /usr/lib/purple-2/libmsn.la
+  /usr/lib/purple-2/libmyspace.la
+  /usr/lib/purple-2/libnovell.la
+  /usr/lib/purple-2/libqq.la
+  /usr/lib/purple-2/libsametime.la
+  /usr/lib/purple-2/libsilcpurple.la
+  /usr/lib/purple-2/libsimple.la
+  /usr/lib/purple-2/libxmpp.la
+  /usr/lib/purple-2/libyahoo.la
+  /usr/lib/purple-2/libzephyr.la
+  /usr/lib/purple-2/log_reader.dll
+  /usr/lib/purple-2/log_reader.la
+  /usr/lib/purple-2/mono.dll
+  /usr/lib/purple-2/mono.la
+  /usr/lib/purple-2/newline.dll
+  /usr/lib/purple-2/newline.la
+  /usr/lib/purple-2/offlinemsg.dll
+  /usr/lib/purple-2/offlinemsg.la
+  /usr/lib/purple-2/perl.dll
+  /usr/lib/purple-2/perl.la
+  /usr/lib/purple-2/psychic.dll
+  /usr/lib/purple-2/psychic.la
+  /usr/lib/purple-2/ssl-gnutls.dll
+  /usr/lib/purple-2/ssl-gnutls.la
+  /usr/lib/purple-2/ssl-nss.dll
+  /usr/lib/purple-2/ssl-nss.la
+  /usr/lib/purple-2/ssl.dll
+  /usr/lib/purple-2/ssl.la
+  /usr/lib/purple-2/statenotify.dll
+  /usr/lib/purple-2/statenotify.la
+  /usr/lib/purple-2/tcl.dll
+  /usr/lib/purple-2/tcl.la
   /usr/share/pixmaps/purple/buddy_icons/qq/qq_1.png
   /usr/share/pixmaps/purple/buddy_icons/qq/qq_10.png
   /usr/share/pixmaps/purple/buddy_icons/qq/qq_100.png
@@ -705,154 +920,22 @@ Files included in the binary package:
   /usr/share/pixmaps/purple/buddy_icons/qq/qq_97.png
   /usr/share/pixmaps/purple/buddy_icons/qq/qq_98.png
   /usr/share/pixmaps/purple/buddy_icons/qq/qq_99.png
-  /usr/share/sounds/pidgin/alert.wav
-  /usr/share/sounds/pidgin/login.wav
-  /usr/share/sounds/pidgin/logout.wav
-  /usr/share/sounds/pidgin/receive.wav
-  /usr/share/sounds/pidgin/send.wav
-
-(finch)
-  /usr/bin/finch.exe
-  /usr/include/finch/finch.h
-  /usr/include/finch/gntaccount.h
-  /usr/include/finch/gntblist.h
-  /usr/include/finch/gntconn.h
-  /usr/include/finch/gntconv.h
-  /usr/include/finch/gntdebug.h
-  /usr/include/finch/gntft.h
-  /usr/include/finch/gntidle.h
-  /usr/include/finch/gntnotify.h
-  /usr/include/finch/gntplugin.h
-  /usr/include/finch/gntpounce.h
-  /usr/include/finch/gntprefs.h
-  /usr/include/finch/gntrequest.h
-  /usr/include/finch/gntstatus.h
-  /usr/include/finch/gntui.h
-  /usr/lib/finch/gntclipboard.dll
-  /usr/lib/finch/gntclipboard.la
-  /usr/lib/finch/gntgf.dll
-  /usr/lib/finch/gntgf.la
-  /usr/lib/finch/gnthistory.dll
-  /usr/lib/finch/gnthistory.la
-  /usr/lib/finch/gntlastlog.dll
-  /usr/lib/finch/gntlastlog.la
-  /usr/share/man/man1/finch.1.gz
-
-(libgnt0)
-  /usr/bin/cyggnt-0.dll
-  /usr/lib/gnt/irssi.dll
-  /usr/lib/gnt/irssi.la
-  /usr/lib/gnt/s.dll
-  /usr/lib/gnt/s.la
-
-(libgnt-devel)
-  /usr/include/gnt/gnt.h
-  /usr/include/gnt/gntbindable.h
-  /usr/include/gnt/gntbox.h
-  /usr/include/gnt/gntbutton.h
-  /usr/include/gnt/gntcheckbox.h
-  /usr/include/gnt/gntclipboard.h
-  /usr/include/gnt/gntcolors.h
-  /usr/include/gnt/gntcombobox.h
-  /usr/include/gnt/gntentry.h
-  /usr/include/gnt/gntfilesel.h
-  /usr/include/gnt/gntkeys.h
-  /usr/include/gnt/gntlabel.h
-  /usr/include/gnt/gntline.h
-  /usr/include/gnt/gntmarshal.h
-  /usr/include/gnt/gntmenu.h
-  /usr/include/gnt/gntmenuitem.h
-  /usr/include/gnt/gntmenuitemcheck.h
-  /usr/include/gnt/gntstyle.h
-  /usr/include/gnt/gnttextview.h
-  /usr/include/gnt/gnttree.h
-  /usr/include/gnt/gntutils.h
-  /usr/include/gnt/gntwidget.h
-  /usr/include/gnt/gntwindow.h
-  /usr/include/gnt/gntwm.h
-  /usr/lib/libgnt.dll.a
-  /usr/lib/libgnt.la
-  /usr/lib/pkgconfig/gnt.pc
-
-(libpurple)
-  /usr/bin/cygpurple-0.dll
-  /usr/bin/cygpurple-client-0.dll
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/Purple.pm
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/.packlist
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/Purple.bs
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/Purple.dll
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/autosplit.ix
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/libPurple.dll.a
-  /usr/bin/purple-client-example.exe
-  /usr/bin/purple-remote
-  /usr/bin/purple-send
-  /usr/bin/purple-send-async
-  /usr/bin/purple-url-handler
-  /usr/lib/purple-2/GetBuddyBack.dll
-  /usr/lib/purple-2/MPlugin.dll
-  /usr/lib/purple-2/PurpleAPI.dll
-  /usr/lib/purple-2/autoaccept.dll
-  /usr/lib/purple-2/autoaccept.la
-  /usr/lib/purple-2/buddynote.dll
-  /usr/lib/purple-2/buddynote.la
-  /usr/lib/purple-2/cygaim.dll
-  /usr/lib/purple-2/cyggg.dll
-  /usr/lib/purple-2/cygicq.dll
-  /usr/lib/purple-2/cygirc.dll
-  /usr/lib/purple-2/cygmsn.dll
-  /usr/lib/purple-2/cygnovell.dll
-  /usr/lib/purple-2/cygqq.dll
-  /usr/lib/purple-2/cygsametime.dll
-  /usr/lib/purple-2/cygsimple.dll
-  /usr/lib/purple-2/cygxmpp.dll
-  /usr/lib/purple-2/cygyahoo.dll
-  /usr/lib/purple-2/cygzephyr.dll
-  /usr/lib/purple-2/dbus-example.dll
-  /usr/lib/purple-2/dbus-example.la
-  /usr/lib/purple-2/idle.dll
-  /usr/lib/purple-2/idle.la
-  /usr/lib/purple-2/joinpart.dll
-  /usr/lib/purple-2/joinpart.la
-  /usr/lib/purple-2/libaim.la
-  /usr/lib/purple-2/libgg.la
-  /usr/lib/purple-2/libicq.la
-  /usr/lib/purple-2/libirc.la
-  /usr/lib/purple-2/libmsn.la
-  /usr/lib/purple-2/libnovell.la
-  /usr/lib/purple-2/libqq.la
-  /usr/lib/purple-2/libsametime.la
-  /usr/lib/purple-2/libsimple.la
-  /usr/lib/purple-2/libxmpp.la
-  /usr/lib/purple-2/libyahoo.la
-  /usr/lib/purple-2/libzephyr.la
-  /usr/lib/purple-2/log_reader.dll
-  /usr/lib/purple-2/log_reader.la
-  /usr/lib/purple-2/mono.dll
-  /usr/lib/purple-2/mono.la
-  /usr/lib/purple-2/newline.dll
-  /usr/lib/purple-2/newline.la
-  /usr/lib/purple-2/offlinemsg.dll
-  /usr/lib/purple-2/offlinemsg.la
-  /usr/lib/purple-2/perl.dll
-  /usr/lib/purple-2/perl.la
-  /usr/lib/purple-2/psychic.dll
-  /usr/lib/purple-2/psychic.la
-  /usr/lib/purple-2/ssl-gnutls.dll
-  /usr/lib/purple-2/ssl-gnutls.la
-  /usr/lib/purple-2/ssl-nss.dll
-  /usr/lib/purple-2/ssl-nss.la
-  /usr/lib/purple-2/ssl.dll
-  /usr/lib/purple-2/ssl.la
-  /usr/lib/purple-2/statenotify.dll
-  /usr/lib/purple-2/statenotify.la
-  /usr/lib/purple-2/tcl.dll
-  /usr/lib/purple-2/tcl.la
+  /usr/share/purple/ca-certs/Equifax_Secure_CA.pem
+  /usr/share/purple/ca-certs/GTE_CyberTrust_Global_Root.pem
+  /usr/share/purple/ca-certs/Verisign_Class3_Primary_CA.pem
+  /usr/share/purple/ca-certs/Verisign_RSA_Secure_Server_CA.pem
+  /usr/share/sounds/purple/alert.wav
+  /usr/share/sounds/purple/login.wav
+  /usr/share/sounds/purple/logout.wav
+  /usr/share/sounds/purple/receive.wav
+  /usr/share/sounds/purple/send.wav
 
 (libpurple-devel)
   /usr/include/libpurple/account.h
   /usr/include/libpurple/accountopt.h
   /usr/include/libpurple/blist.h
   /usr/include/libpurple/buddyicon.h
+  /usr/include/libpurple/certificate.h
   /usr/include/libpurple/cipher.h
   /usr/include/libpurple/circbuffer.h
   /usr/include/libpurple/cmds.h
@@ -864,6 +947,7 @@ Files included in the binary package:
   /usr/include/libpurple/dbus-maybe.h
   /usr/include/libpurple/dbus-purple.h
   /usr/include/libpurple/dbus-server.h
+  /usr/include/libpurple/dbus-types.h
   /usr/include/libpurple/dbus-useful.h
   /usr/include/libpurple/debug.h
   /usr/include/libpurple/desktopitem.h
@@ -913,6 +997,9 @@ Files included in the binary package:
 ------------------
 
 Port Notes:
+
+----- version 2.2.1-1 -----
+Version bump.
 
 ----- version 2.1.1-1 -----
 Version bump.
