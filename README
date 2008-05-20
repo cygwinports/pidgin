@@ -7,59 +7,52 @@ AIM, ICQ, Jabber, MSN and Yahoo!, among others.
 Pidgin is an graphical IM client written in C which uses the GTK+
 toolkit.
 
-Finch is a text-based IM client written in C which uses the ncurses
-toolkit.
-
 Runtime requirements:
-  cygwin-1.5.24-2
-  glib2-2.12.13-1
-  gstreamer010-0.10.13-1
-  gstreamer010-plugins-base-0.10.13-1
-  gstreamer010-plugins-gconf-0.10.6-1
-  gstreamer010-plugins-oss-0.10.6-1
-  libdbus-glib_1_2-0.73-1
+  cygwin-1.5.25-11
+  glib2-2.14.6-1
+  libdbus-glib_1_2-0.74-1
   libdbus1_3-1.0.2-1
-  libgadu3-1.7.1-1
-  libgnutls13-1.6.3-1
+  libgnutls26-2.2.2-1
   libintl8-0.15-1
   libmeanwhile1-1.0.2-1
-  libsilc112-1.1.3-1
-  libxml2-2.6.30-1
+  libnspr4-4.6.8-1
+  libnss3-3.11.9-1
+  libsasl2-2.1.19-3
+  libsilc112-1.1.7-1
+  libxml2-2.6.32-1
   minires-1.01-1
-  mono-1.2.5-1
-  perl-5.8.8-4
-  python-2.5.1-3
-  python-dbus-0.81.1-1
-  tcl-8.4.16-1
-  tk-8.4.16-1
-(libgnt/finch)
-  libncurses8-5.5-3
-  libX11_6-1.1.3-1
+  python-2.5.2-1
+  python-dbus-0.82.3-1
+  tcl-8.4.18-1
+  tk-8.4.18-1
 (pidgin)
-  atk-1.18.0-1
-  evolution-data-server-1.10.3.1-1
-  gdk-pixbuf2-2.10.14-1
-  gtk2-x11-2.10.14-1
+  atk-1.20.0-1
+  gdk-pixbuf2-2.12.9-1
+  gstreamer010-0.10.19-1
+  gstreamer010-plugins-base-0.10.19-1
+  gstreamer010-plugins-gconf
+  gstreamer010-plugins-good
+  gstreamer010-plugins-oss
+  gtk2-x11-2.12.9-1
   gtkspell-2.0.11-3
   libICE6-1.0.4-1
   libSM6-1.0.3-1
   libX11_6-1.1.3-1
-  libbonobo2-2.18.0-1
-  libsqlite3_0-3.3.17-1
-  pango-1.16.5-1
+  libbonobo2-2.20.4-1
+  pango-1.18.4-1
   startup-notification-0.9-1
 
 Build requirements:
 (besides corresponding -devel packages)
-  cygwin-1.5.24-2
   autoconf2.5-2.61-1
-  automake1.9-1.9.6-2
+  automake1.10-1.10.1-1
   binutils-20060817-1
-  cygport-0.3.5-1
-  gawk-3.1.5-4
+  cygport-0.3.10-1
+  gawk-3.1.6-1
   gcc-core-3.4.4-3
-  intltool-0.35.5-1
-  libtool1.5-1.5.23a-2
+  gnome-common-2.20.0-1
+  intltool-0.36.3-1
+  libtool-2.2.2-2
   make-3.81-1
   pkg-config-0.21-1
   sed-4.1.5-2
@@ -73,20 +66,17 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack pidgin-2.2.1-X-src.tar.bz2
+  unpack pidgin-2.4.2-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./pidgin-2.2.1-X.cygport all
+  cygport ./pidgin-2.4.2-X.cygport all
 
 This will create:
-  /usr/src/finch-2.2.1-X.tar.bz2
-  /usr/src/libgnt-devel-2.2.1-X.tar.bz2
-  /usr/src/libgnt0-2.2.1-X.tar.bz2
-  /usr/src/libpurple-devel-2.2.1-X.tar.bz2
-  /usr/src/libpurple-2.2.1-X.tar.bz2
-  /usr/src/pidgin-2.2.1-X-src.tar.bz2
-  /usr/src/pidgin-2.2.1-X.tar.bz2
+  /usr/src/libpurple-devel-2.4.2-X.tar.bz2
+  /usr/src/libpurple-2.4.2-X.tar.bz2
+  /usr/src/pidgin-2.4.2-X-src.tar.bz2
+  /usr/src/pidgin-2.4.2-X.tar.bz2
 
 -------------------------------------------
 
@@ -142,25 +132,18 @@ Files included in the binary package:
   /usr/include/pidgin/gtkthemes.h
   /usr/include/pidgin/gtkutils.h
   /usr/include/pidgin/gtkwhiteboard.h
+  /usr/include/pidgin/minidialog.h
   /usr/include/pidgin/pidgin.h
   /usr/include/pidgin/pidgincombobox.h
   /usr/include/pidgin/pidginstock.h
+  /usr/include/pidgin/pidgintooltip.h
   /usr/lib/libpidgin.a
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/Pidgin.pm
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Pidgin/.packlist
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Pidgin/Pidgin.bs
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Pidgin/Pidgin.dll
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Pidgin/libPidgin.dll.a
-  /usr/lib/pidgin/cap.dll
-  /usr/lib/pidgin/cap.la
   /usr/lib/pidgin/convcolors.dll
   /usr/lib/pidgin/convcolors.la
   /usr/lib/pidgin/extplacement.dll
   /usr/lib/pidgin/extplacement.la
   /usr/lib/pidgin/gestures.dll
   /usr/lib/pidgin/gestures.la
-  /usr/lib/pidgin/gevolution.dll
-  /usr/lib/pidgin/gevolution.la
   /usr/lib/pidgin/gtkbuddynote.dll
   /usr/lib/pidgin/gtkbuddynote.la
   /usr/lib/pidgin/history.dll
@@ -177,6 +160,8 @@ Files included in the binary package:
   /usr/lib/pidgin/pidginrc.la
   /usr/lib/pidgin/relnot.dll
   /usr/lib/pidgin/relnot.la
+  /usr/lib/pidgin/sendbutton.dll
+  /usr/lib/pidgin/sendbutton.la
   /usr/lib/pidgin/spellchk.dll
   /usr/lib/pidgin/spellchk.la
   /usr/lib/pidgin/ticker.dll
@@ -189,15 +174,14 @@ Files included in the binary package:
   /usr/lib/pidgin/xmppconsole.la
   /usr/lib/pkgconfig/pidgin.pc
   /usr/share/applications/pidgin.desktop
-  /usr/share/doc/Cygwin/pidgin-2.2.1.README
-  /usr/share/doc/pidgin-2.2.1/AUTHORS
-  /usr/share/doc/pidgin-2.2.1/COPYING
-  /usr/share/doc/pidgin-2.2.1/COPYRIGHT
-  /usr/share/doc/pidgin-2.2.1/ChangeLog
-  /usr/share/doc/pidgin-2.2.1/HACKING
-  /usr/share/doc/pidgin-2.2.1/INSTALL
-  /usr/share/doc/pidgin-2.2.1/NEWS
-  /usr/share/doc/pidgin-2.2.1/README
+  /usr/share/doc/pidgin-2.4.2/AUTHORS
+  /usr/share/doc/pidgin-2.4.2/COPYING
+  /usr/share/doc/pidgin-2.4.2/COPYRIGHT
+  /usr/share/doc/pidgin-2.4.2/ChangeLog
+  /usr/share/doc/pidgin-2.4.2/HACKING
+  /usr/share/doc/pidgin-2.4.2/INSTALL
+  /usr/share/doc/pidgin-2.4.2/NEWS
+  /usr/share/doc/pidgin-2.4.2/README
   /usr/share/icons/hicolor/16x16/apps/pidgin.png
   /usr/share/icons/hicolor/22x22/apps/pidgin.png
   /usr/share/icons/hicolor/24x24/apps/pidgin.png
@@ -273,7 +257,6 @@ Files included in the binary package:
   /usr/share/locale/zh_HK/LC_MESSAGES/pidgin.mo
   /usr/share/locale/zh_TW/LC_MESSAGES/pidgin.mo
   /usr/share/man/man1/pidgin.1.gz
-  /usr/share/perl/cygwin-pods/5.8/pidgin.pod
   /usr/share/pixmaps/pidgin/animations/16/connect0.png
   /usr/share/pixmaps/pidgin/animations/16/connect1.png
   /usr/share/pixmaps/pidgin/animations/16/connect2.png
@@ -676,90 +659,14 @@ Files included in the binary package:
   /usr/share/pixmaps/pidgin/tray/48/tray-offline.png
   /usr/share/pixmaps/pidgin/tray/48/tray-online.png
 
-(finch)
-  /usr/bin/finch.exe
-  /usr/include/finch/finch.h
-  /usr/include/finch/gntaccount.h
-  /usr/include/finch/gntblist.h
-  /usr/include/finch/gntcertmgr.h
-  /usr/include/finch/gntconn.h
-  /usr/include/finch/gntconv.h
-  /usr/include/finch/gntdebug.h
-  /usr/include/finch/gntft.h
-  /usr/include/finch/gntidle.h
-  /usr/include/finch/gntnotify.h
-  /usr/include/finch/gntplugin.h
-  /usr/include/finch/gntpounce.h
-  /usr/include/finch/gntprefs.h
-  /usr/include/finch/gntrequest.h
-  /usr/include/finch/gntsound.h
-  /usr/include/finch/gntstatus.h
-  /usr/include/finch/gntui.h
-  /usr/lib/finch/gntclipboard.dll
-  /usr/lib/finch/gntclipboard.la
-  /usr/lib/finch/gntgf.dll
-  /usr/lib/finch/gntgf.la
-  /usr/lib/finch/gnthistory.dll
-  /usr/lib/finch/gnthistory.la
-  /usr/lib/finch/gntlastlog.dll
-  /usr/lib/finch/gntlastlog.la
-  /usr/share/man/man1/finch.1.gz
-
-(libgnt0)
-  /usr/bin/cyggnt-0.dll
-  /usr/lib/gnt/irssi.dll
-  /usr/lib/gnt/irssi.la
-  /usr/lib/gnt/s.dll
-  /usr/lib/gnt/s.la
-
-(libgnt-devel)
-  /usr/include/gnt/gnt.h
-  /usr/include/gnt/gntbindable.h
-  /usr/include/gnt/gntbox.h
-  /usr/include/gnt/gntbutton.h
-  /usr/include/gnt/gntcheckbox.h
-  /usr/include/gnt/gntclipboard.h
-  /usr/include/gnt/gntcolors.h
-  /usr/include/gnt/gntcombobox.h
-  /usr/include/gnt/gntentry.h
-  /usr/include/gnt/gntfilesel.h
-  /usr/include/gnt/gntkeys.h
-  /usr/include/gnt/gntlabel.h
-  /usr/include/gnt/gntline.h
-  /usr/include/gnt/gntmarshal.h
-  /usr/include/gnt/gntmenu.h
-  /usr/include/gnt/gntmenuitem.h
-  /usr/include/gnt/gntmenuitemcheck.h
-  /usr/include/gnt/gntslider.h
-  /usr/include/gnt/gntstyle.h
-  /usr/include/gnt/gnttextview.h
-  /usr/include/gnt/gnttree.h
-  /usr/include/gnt/gntutils.h
-  /usr/include/gnt/gntwidget.h
-  /usr/include/gnt/gntwindow.h
-  /usr/include/gnt/gntwm.h
-  /usr/include/gnt/gntws.h
-  /usr/lib/libgnt.dll.a
-  /usr/lib/libgnt.la
-  /usr/lib/pkgconfig/gnt.pc
-
 (libpurple)
   /usr/bin/cygpurple-0.dll
   /usr/bin/cygpurple-client-0.dll
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/Purple.pm
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/.packlist
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/Purple.bs
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/Purple.dll
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/autosplit.ix
-  /usr/lib/perl5/vendor_perl/5.8/cygwin/auto/Purple/libPurple.dll.a
   /usr/bin/purple-client-example.exe
   /usr/bin/purple-remote
   /usr/bin/purple-send
   /usr/bin/purple-send-async
   /usr/bin/purple-url-handler
-  /usr/lib/purple-2/GetBuddyBack.dll
-  /usr/lib/purple-2/MPlugin.dll
-  /usr/lib/purple-2/PurpleAPI.dll
   /usr/lib/purple-2/autoaccept.dll
   /usr/lib/purple-2/autoaccept.la
   /usr/lib/purple-2/buddynote.dll
@@ -800,14 +707,10 @@ Files included in the binary package:
   /usr/lib/purple-2/libzephyr.la
   /usr/lib/purple-2/log_reader.dll
   /usr/lib/purple-2/log_reader.la
-  /usr/lib/purple-2/mono.dll
-  /usr/lib/purple-2/mono.la
   /usr/lib/purple-2/newline.dll
   /usr/lib/purple-2/newline.la
   /usr/lib/purple-2/offlinemsg.dll
   /usr/lib/purple-2/offlinemsg.la
-  /usr/lib/purple-2/perl.dll
-  /usr/lib/purple-2/perl.la
   /usr/lib/purple-2/psychic.dll
   /usr/lib/purple-2/psychic.la
   /usr/lib/purple-2/ssl-gnutls.dll
@@ -971,6 +874,7 @@ Files included in the binary package:
   /usr/include/libpurple/privacy.h
   /usr/include/libpurple/proxy.h
   /usr/include/libpurple/prpl.h
+  /usr/include/libpurple/purple.h
   /usr/include/libpurple/request.h
   /usr/include/libpurple/roomlist.h
   /usr/include/libpurple/savedstatuses.h
@@ -997,6 +901,10 @@ Files included in the binary package:
 ------------------
 
 Port Notes:
+
+----- version 2.4.2-1 -----
+Version bump.
+Disabled finch as it consistently segfaults upon exit.
 
 ----- version 2.2.1-1 -----
 Version bump.
