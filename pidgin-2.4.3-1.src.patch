@@ -1,0 +1,1044 @@
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/configure.ac src/pidgin-2.4.3/configure.ac
+--- origsrc/pidgin-2.4.3/configure.ac	2008-07-01 19:46:08.000000000 -0500
++++ src/pidgin-2.4.3/configure.ac	2008-07-11 14:30:05.609375000 -0500
+@@ -115,6 +115,30 @@
+ AC_PROG_INTLTOOL
+ PKG_PROG_PKG_CONFIG
+ 
++# win32
++case "$host_os" in
++cygwin*)
++	platform_win32=yes
++	LIBFINCH="-lfinch"
++	LIBPIDGIN="-lpidgin"
++	FINCH_PLUGIN_LDFLAGS="-no-undefined -Wl,\$(top_builddir)/finch/libfinch.a"
++	PIDGIN_PLUGIN_LDFLAGS="-no-undefined -Wl,\$(top_builddir)/pidgin/libpidgin.a"
++	;;
++*)
++	platform_win32=no
++	LIBFINCH=
++	LIBPIDGIN=
++	FINCH_PLUGIN_LDFLAGS=
++	PIDGIN_PLUGIN_LDFLAGS=
++	;;
++esac
++
++AM_CONDITIONAL(PLATFORM_WIN32, test "x$platform_win32" = "xyes")
++AC_SUBST(LIBFINCH)
++AC_SUBST(LIBPIDGIN)
++AC_SUBST(FINCH_PLUGIN_LDFLAGS)
++AC_SUBST(PIDGIN_PLUGIN_LDFLAGS)
++
+ GETTEXT_PACKAGE=pidgin
+ AC_SUBST(GETTEXT_PACKAGE)
+ 
+@@ -1208,7 +1232,7 @@
+ fi
+ 
+ if test "x$enable_dbus" = "xyes" ; then
+-	PKG_CHECK_MODULES(DBUS, [dbus-1 >= 0.60 dbus-glib-1 >= 0.60], [
++	PKG_CHECK_MODULES(DBUS, [dbus-1 >= 0.60 dbus-glib-1 >= 0.60 gobject-2.0], [
+ 		AC_SUBST(DBUS_CFLAGS)
+ 		AC_SUBST(DBUS_LIBS)
+ 		enable_dbus=yes
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/finch/Makefile.am src/pidgin-2.4.3/finch/Makefile.am
+--- origsrc/pidgin-2.4.3/finch/Makefile.am	2008-07-01 19:46:08.000000000 -0500
++++ src/pidgin-2.4.3/finch/Makefile.am	2008-07-11 14:30:05.625000000 -0500
+@@ -7,7 +7,7 @@
+ pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = finch.pc
+ 
+-SUBDIRS = libgnt plugins
++SUBDIRS = libgnt . plugins
+ 
+ if ENABLE_GNT
+ 
+@@ -62,7 +62,13 @@
+ 	$(finch_headers)
+ 
+ finch_DEPENDENCIES = @LIBOBJS@
++
++if PLATFORM_WIN32
++finch_LDFLAGS = -Wl,--export-all-symbols -Wl,--out-implib,libfinch.a
++else
+ finch_LDFLAGS = -export-dynamic
++endif
++
+ finch_LDADD = \
+ 	@LIBOBJS@ \
+ 	$(DBUS_LIBS) \
+@@ -90,3 +96,9 @@
+ 	$(LIBXML_CFLAGS) \
+ 	$(GSTREAMER_CFLAGS) \
+ 	$(GNT_CFLAGS)
++
++if PLATFORM_WIN32
++install-data-local:
++	$(mkinstalldirs) $(DESTDIR)$(libdir)
++	$(INSTALL_DATA) libfinch.a $(DESTDIR)$(libdir)
++endif
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/finch/finch.pc.in src/pidgin-2.4.3/finch/finch.pc.in
+--- origsrc/pidgin-2.4.3/finch/finch.pc.in	2008-07-01 19:46:08.000000000 -0500
++++ src/pidgin-2.4.3/finch/finch.pc.in	2008-07-11 14:30:05.625000000 -0500
+@@ -11,4 +11,5 @@
+ Version: @VERSION@
+ Requires: gnt purple
+ Cflags: -I${includedir}/finch
++Libs: -L${libdir} @LIBFINCH@
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/finch/libgnt/wms/Makefile.am src/pidgin-2.4.3/finch/libgnt/wms/Makefile.am
+--- origsrc/pidgin-2.4.3/finch/libgnt/wms/Makefile.am	2008-07-01 19:46:10.000000000 -0500
++++ src/pidgin-2.4.3/finch/libgnt/wms/Makefile.am	2008-07-11 14:30:05.640625000 -0500
+@@ -5,8 +5,8 @@
+ purple_wms =
+ endif
+ 
+-s_la_LDFLAGS             = -module -avoid-version
+-irssi_la_LDFLAGS         = -module -avoid-version
++s_la_LDFLAGS             = -module -avoid-version -no-undefined
++irssi_la_LDFLAGS         = -module -avoid-version -no-undefined
+ 
+ plugin_LTLIBRARIES = \
+ 	$(purple_wms)
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/finch/plugins/Makefile.am src/pidgin-2.4.3/finch/plugins/Makefile.am
+--- origsrc/pidgin-2.4.3/finch/plugins/Makefile.am	2008-07-01 19:46:10.000000000 -0500
++++ src/pidgin-2.4.3/finch/plugins/Makefile.am	2008-07-11 14:30:05.687500000 -0500
+@@ -1,8 +1,8 @@
+-gntclipboard_la_LDFLAGS = -module -avoid-version
+-gntgf_la_LDFLAGS      = -module -avoid-version
+-gnthistory_la_LDFLAGS = -module -avoid-version
+-gntlastlog_la_LDFLAGS = -module -avoid-version
+-grouping_la_LDFLAGS   = -module -avoid-version
++gntclipboard_la_LDFLAGS = -module -avoid-version $(FINCH_PLUGIN_LDFLAGS)
++gntgf_la_LDFLAGS      = -module -avoid-version $(FINCH_PLUGIN_LDFLAGS)
++gnthistory_la_LDFLAGS = -module -avoid-version $(FINCH_PLUGIN_LDFLAGS)
++gntlastlog_la_LDFLAGS = -module -avoid-version $(FINCH_PLUGIN_LDFLAGS)
++grouping_la_LDFLAGS   = -module -avoid-version $(FINCH_PLUGIN_LDFLAGS)
+ 
+ if PLUGINS
+ 
+@@ -24,11 +24,11 @@
+ gntclipboard_la_CFLAGS = $(X11_CFLAGS)
+ gntgf_la_CFLAGS = $(X11_CFLAGS)
+ 
+-gntclipboard_la_LIBADD = $(GLIB_LIBS) $(X11_LIBS)
+-gntgf_la_LIBADD       = $(GLIB_LIBS) $(X11_LIBS) $(top_builddir)/finch/libgnt/libgnt.la
+-gnthistory_la_LIBADD  = $(GLIB_LIBS)
+-gntlastlog_la_LIBADD  = $(GLIB_LIBS)
+-grouping_la_LIBADD    = $(GLIB_LIBS) $(top_builddir)/finch/libgnt/libgnt.la
++gntclipboard_la_LIBADD = $(GLIB_LIBS) $(X11_LIBS) $(top_builddir)/finch/libgnt/libgnt.la $(top_builddir)/libpurple/libpurple.la
++gntgf_la_LIBADD       = $(GLIB_LIBS) $(X11_LIBS) $(top_builddir)/finch/libgnt/libgnt.la $(top_builddir)/libpurple/libpurple.la
++gnthistory_la_LIBADD  = $(GLIB_LIBS) $(top_builddir)/finch/libgnt/libgnt.la $(top_builddir)/libpurple/libpurple.la
++gntlastlog_la_LIBADD  = $(GLIB_LIBS) $(top_builddir)/finch/libgnt/libgnt.la $(top_builddir)/libpurple/libpurple.la
++grouping_la_LIBADD    = $(GLIB_LIBS) $(top_builddir)/finch/libgnt/libgnt.la $(top_builddir)/libpurple/libpurple.la
+ 
+ endif # PLUGINS
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/Makefile.am src/pidgin-2.4.3/libpurple/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/Makefile.am	2008-07-01 19:46:10.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/Makefile.am	2008-07-11 14:30:05.703125000 -0500
+@@ -30,7 +30,7 @@
+ pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = purple.pc
+ 
+-SUBDIRS = $(GCONF_DIR) plugins protocols tests . example
++SUBDIRS = . $(GCONF_DIR) plugins protocols tests example
+ 
+ purple_coresources = \
+ 	account.c \
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/dnsquery.c src/pidgin-2.4.3/libpurple/dnsquery.c
+--- origsrc/pidgin-2.4.3/libpurple/dnsquery.c	2008-07-01 19:46:11.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/dnsquery.c	2008-07-11 14:30:05.875000000 -0500
+@@ -47,7 +47,7 @@
+ 	gpointer data;
+ 	guint timeout;
+ 
+-#if defined(__unix__) || defined(__APPLE__)
++#if (defined(__unix__) && !defined(__CYGWIN__)) || defined(__APPLE__)
+ 	PurpleDnsQueryResolverProcess *resolver;
+ #elif defined _WIN32 /* end __unix__ || __APPLE__ */
+ 	GThread *resolver;
+@@ -56,7 +56,7 @@
+ #endif
+ };
+ 
+-#if defined(__unix__) || defined(__APPLE__)
++#if (defined(__unix__) && !defined(__CYGWIN__)) || defined(__APPLE__)
+ 
+ #define MAX_DNS_CHILDREN 4
+ 
+@@ -131,7 +131,7 @@
+ 	return FALSE;
+ }
+ 
+-#if defined(__unix__) || defined(__APPLE__)
++#if (defined(__unix__) && !defined(__CYGWIN__)) || defined(__APPLE__)
+ 
+ /*
+  * Unix!
+@@ -907,7 +907,7 @@
+ 	if (ops && ops->destroy)
+ 		ops->destroy(query_data);
+ 
+-#if defined(__unix__) || defined(__APPLE__)
++#if (defined(__unix__) && !defined(__CYGWIN__)) || defined(__APPLE__)
+ 	queued_requests = g_slist_remove(queued_requests, query_data);
+ 
+ 	if (query_data->resolver != NULL)
+@@ -987,7 +987,7 @@
+ void
+ purple_dnsquery_uninit(void)
+ {
+-#if defined(__unix__) || defined(__APPLE__)
++#if (defined(__unix__) && !defined(__CYGWIN__)) || defined(__APPLE__)
+ 	while (free_dns_children != NULL)
+ 	{
+ 		purple_dnsquery_resolver_destroy(free_dns_children->data);
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/plugins/Makefile.am src/pidgin-2.4.3/libpurple/plugins/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/plugins/Makefile.am	2008-07-01 19:46:11.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/plugins/Makefile.am	2008-07-11 14:30:05.890625000 -0500
+@@ -24,26 +24,26 @@
+ 
+ plugindir = $(libdir)/purple-$(PURPLE_MAJOR_VERSION)
+ 
+-autoaccept_la_LDFLAGS       = -module -avoid-version
+-buddynote_la_LDFLAGS        = -module -avoid-version
+-ciphertest_la_LDFLAGS		= -module -avoid-version
+-codeinline_la_LDFLAGS		= -module -avoid-version
+-debug_example_la_LDFLAGS    = -module -avoid-version
+-helloworld_la_LDFLAGS       = -module -avoid-version
+-idle_la_LDFLAGS             = -module -avoid-version
+-joinpart_la_LDFLAGS         = -module -avoid-version
+-log_reader_la_LDFLAGS       = -module -avoid-version
+-newline_la_LDFLAGS          = -module -avoid-version
+-notify_example_la_LDFLAGS   = -module -avoid-version
+-offlinemsg_la_LDFLAGS       = -module -avoid-version
+-pluginpref_example_la_LDFLAGS = -module -avoid-version
+-psychic_la_LDFLAGS          = -module -avoid-version
+-signals_test_la_LDFLAGS		= -module -avoid-version
+-simple_la_LDFLAGS			= -module -avoid-version
+-statenotify_la_LDFLAGS      = -module -avoid-version
++autoaccept_la_LDFLAGS       = -module -avoid-version -no-undefined
++buddynote_la_LDFLAGS        = -module -avoid-version -no-undefined
++ciphertest_la_LDFLAGS		= -module -avoid-version -no-undefined
++codeinline_la_LDFLAGS		= -module -avoid-version -no-undefined
++debug_example_la_LDFLAGS    = -module -avoid-version -no-undefined
++helloworld_la_LDFLAGS       = -module -avoid-version -no-undefined
++idle_la_LDFLAGS             = -module -avoid-version -no-undefined
++joinpart_la_LDFLAGS         = -module -avoid-version -no-undefined
++log_reader_la_LDFLAGS       = -module -avoid-version -no-undefined
++newline_la_LDFLAGS          = -module -avoid-version -no-undefined
++notify_example_la_LDFLAGS   = -module -avoid-version -no-undefined
++offlinemsg_la_LDFLAGS       = -module -avoid-version -no-undefined
++pluginpref_example_la_LDFLAGS = -module -avoid-version -no-undefined
++psychic_la_LDFLAGS          = -module -avoid-version -no-undefined
++signals_test_la_LDFLAGS		= -module -avoid-version -no-undefined
++simple_la_LDFLAGS			= -module -avoid-version -no-undefined
++statenotify_la_LDFLAGS      = -module -avoid-version -no-undefined
+ 
+ # this can't be in a conditional otherwise automake 1.4 yells
+-dbus_example_la_LDFLAGS     = -module -avoid-version
++dbus_example_la_LDFLAGS     = -module -avoid-version -no-undefined
+ 
+ if PLUGINS
+ 
+@@ -87,28 +87,28 @@
+ simple_la_SOURCES			= simple.c
+ statenotify_la_SOURCES      = statenotify.c
+ 
+-autoaccept_la_LIBADD        = $(GLIB_LIBS)
+-buddynote_la_LIBADD         = $(GLIB_LIBS)
+-ciphertest_la_LIBADD		= $(GLIB_LIBS)
+-codeinline_la_LIBADD		= $(GLIB_LIBS)
+-idle_la_LIBADD              = $(GLIB_LIBS)
+-joinpart_la_LIBADD          = $(GLIB_LIBS)
+-log_reader_la_LIBADD        = $(GLIB_LIBS)
+-newline_la_LIBADD           = $(GLIB_LIBS)
+-notify_example_la_LIBADD    = $(GLIB_LIBS)
+-offlinemsg_la_LIBADD        = $(GLIB_LIBS)
+-pluginpref_example_la_LIBADD = $(GLIB_LIBS)
+-psychic_la_LIBADD           = $(GLIB_LIBS)
+-signals_test_la_LIBADD		= $(GLIB_LIBS)
+-simple_la_LIBADD			= $(GLIB_LIBS)
+-statenotify_la_LIBADD       = $(GLIB_LIBS)
++autoaccept_la_LIBADD        = ../libpurple.la $(GLIB_LIBS)
++buddynote_la_LIBADD         = ../libpurple.la $(GLIB_LIBS)
++ciphertest_la_LIBADD		= ../libpurple.la $(GLIB_LIBS)
++codeinline_la_LIBADD		= ../libpurple.la $(GLIB_LIBS)
++idle_la_LIBADD              = ../libpurple.la $(GLIB_LIBS)
++joinpart_la_LIBADD          = ../libpurple.la $(GLIB_LIBS)
++log_reader_la_LIBADD        = ../libpurple.la $(GLIB_LIBS)
++newline_la_LIBADD           = ../libpurple.la $(GLIB_LIBS)
++notify_example_la_LIBADD    = ../libpurple.la $(GLIB_LIBS)
++offlinemsg_la_LIBADD        = ../libpurple.la $(GLIB_LIBS)
++pluginpref_example_la_LIBADD = ../libpurple.la $(GLIB_LIBS)
++psychic_la_LIBADD           = ../libpurple.la $(GLIB_LIBS)
++signals_test_la_LIBADD		= ../libpurple.la $(GLIB_LIBS)
++simple_la_LIBADD			= ../libpurple.la $(GLIB_LIBS)
++statenotify_la_LIBADD       = ../libpurple.la $(GLIB_LIBS)
+ 
+ if ENABLE_DBUS
+ 
+ CLEANFILES              = dbus-example-bindings.c
+ dbus_example_la_SOURCES = dbus-example.c
+ 
+-dbus_example_la_LIBADD      = $(GLIB_LIBS) $(DBUS_LIBS)
++dbus_example_la_LIBADD      = ../libpurple.la $(GLIB_LIBS) $(DBUS_LIBS)
+ 
+ .PHONY: always
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/plugins/mono/loader/Makefile.am src/pidgin-2.4.3/libpurple/plugins/mono/loader/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/plugins/mono/loader/Makefile.am	2008-07-01 19:46:12.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/plugins/mono/loader/Makefile.am	2008-07-11 14:30:05.906250000 -0500
+@@ -12,9 +12,9 @@
+ 	blist-glue.c \
+ 	status-glue.c 
+ 
+-mono_la_LDFLAGS  = -module -avoid-version
++mono_la_LDFLAGS  = -module -avoid-version -no-undefined
+ 
+-mono_la_LIBADD = $(MONO_LIBS)
++mono_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(MONO_LIBS)
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir) \
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/plugins/perl/Makefile.am src/pidgin-2.4.3/libpurple/plugins/perl/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/plugins/perl/Makefile.am	2008-07-01 19:46:12.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/plugins/perl/Makefile.am	2008-07-11 14:30:05.921875000 -0500
+@@ -4,8 +4,8 @@
+ 
+ plugin_LTLIBRARIES = perl.la
+ 
+-perl_la_LDFLAGS = -module -avoid-version
+-perl_la_LIBADD = $(GLIB_LIBS) $(PERL_LIBS)
++perl_la_LDFLAGS = -module -avoid-version -no-undefined
++perl_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(PERL_LIBS)
+ perl_la_SOURCES = \
+ 	perl.c \
+ 	perl-common.c \
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/plugins/perl/common/Makefile.PL.in src/pidgin-2.4.3/libpurple/plugins/perl/common/Makefile.PL.in
+--- origsrc/pidgin-2.4.3/libpurple/plugins/perl/common/Makefile.PL.in	2008-07-01 19:46:12.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/plugins/perl/common/Makefile.PL.in	2008-07-11 14:30:05.937500000 -0500
+@@ -11,6 +11,7 @@
+        AUTHOR           => 'Purple <http://pidgin.im/>') : ()),
+     'DEFINE'            => '@DEBUG_CFLAGS@',
+     'INC'               => '-I. -I@srcdir@ -I@top_srcdir@ -I@top_srcdir@/libpurple @GLIB_CFLAGS@',
++    'LIBS'              => [ '-L@top_builddir@/libpurple/.libs -lpurple @GLIB_LIBS@' ],
+     'OBJECT'            => '$(O_FILES)', # link all the C files too
+ #    'OPTIMIZE'          => '-g', # For debugging
+ );
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/plugins/ssl/Makefile.am src/pidgin-2.4.3/libpurple/plugins/ssl/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/plugins/ssl/Makefile.am	2008-07-01 19:46:13.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/plugins/ssl/Makefile.am	2008-07-11 14:30:05.937500000 -0500
+@@ -3,9 +3,9 @@
+ 
+ plugindir = $(libdir)/purple-$(PURPLE_MAJOR_VERSION)
+ 
+-ssl_la_LDFLAGS        = -module -avoid-version
+-ssl_gnutls_la_LDFLAGS = -module -avoid-version
+-ssl_nss_la_LDFLAGS    = -module -avoid-version
++ssl_la_LDFLAGS        = -module -avoid-version -no-undefined
++ssl_gnutls_la_LDFLAGS = -module -avoid-version -no-undefined
++ssl_nss_la_LDFLAGS    = -module -avoid-version -no-undefined
+ 
+ if PLUGINS
+ 
+@@ -18,9 +18,9 @@
+ ssl_gnutls_la_SOURCES = ssl-gnutls.c
+ ssl_nss_la_SOURCES    = ssl-nss.c
+ 
+-ssl_la_LIBADD        = $(GLIB_LIBS)
+-ssl_gnutls_la_LIBADD = $(GLIB_LIBS) $(GNUTLS_LIBS)
+-ssl_nss_la_LIBADD    = $(GLIB_LIBS) $(NSS_LIBS)
++ssl_la_LIBADD        = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
++ssl_gnutls_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(GNUTLS_LIBS)
++ssl_nss_la_LIBADD    = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(NSS_LIBS)
+ 
+ endif # PLUGINS
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/plugins/tcl/Makefile.am src/pidgin-2.4.3/libpurple/plugins/tcl/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/plugins/tcl/Makefile.am	2008-07-01 19:46:13.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/plugins/tcl/Makefile.am	2008-07-11 14:30:06.062500000 -0500
+@@ -1,13 +1,13 @@
+ plugindir = $(libdir)/purple-$(PURPLE_MAJOR_VERSION)
+ 
+-tcl_la_LDFLAGS = -module -avoid-version
++tcl_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ plugin_LTLIBRARIES = tcl.la
+ 
+ tcl_la_SOURCES = tcl.c tcl_glib.c tcl_glib.h tcl_cmds.c tcl_signals.c tcl_purple.h \
+                  tcl_ref.c tcl_cmd.c
+ 
+-tcl_la_LIBADD = $(GLIB_LIBS) $(TCL_LIBS) $(TK_LIBS)
++tcl_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(TCL_LIBS) $(TK_LIBS)
+ 
+ EXTRA_DIST = signal-test.tcl Makefile.mingw
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/bonjour/Makefile.am src/pidgin-2.4.3/libpurple/protocols/bonjour/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/bonjour/Makefile.am	2008-07-01 19:46:13.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/bonjour/Makefile.am	2008-07-11 14:30:06.140625000 -0500
+@@ -25,7 +25,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libbonjour_la_LDFLAGS = -module -avoid-version
++libbonjour_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_BONJOUR
+ 
+@@ -40,7 +40,7 @@
+ st =
+ pkg_LTLIBRARIES       = libbonjour.la
+ libbonjour_la_SOURCES = $(BONJOURSOURCES)
+-libbonjour_la_LIBADD  = $(GLIB_LIBS) $(LIBXML_LIBS) $(AVAHI_LIBS)
++libbonjour_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(LIBXML_LIBS) $(AVAHI_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/gg/Makefile.am src/pidgin-2.4.3/libpurple/protocols/gg/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/gg/Makefile.am	2008-07-01 19:46:14.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/gg/Makefile.am	2008-07-11 14:30:06.156250000 -0500
+@@ -47,7 +47,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libgg_la_LDFLAGS = -module -avoid-version
++libgg_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_GG
+ 
+@@ -66,7 +66,7 @@
+ noinst_LIBRARIES =
+ 
+ libgg_la_SOURCES = $(GGSOURCES)
+-libgg_la_LIBADD  = $(GLIB_LIBS) $(GADU_LIBS)
++libgg_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(GADU_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/irc/Makefile.am src/pidgin-2.4.3/libpurple/protocols/irc/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/irc/Makefile.am	2008-07-01 19:46:14.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/irc/Makefile.am	2008-07-11 14:30:06.296875000 -0500
+@@ -6,7 +6,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libirc_la_LDFLAGS = -module -avoid-version
++libirc_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_IRC
+ 
+@@ -24,7 +24,7 @@
+ noinst_LIBRARIES =
+ 
+ libirc_la_SOURCES = $(IRCSOURCES)
+-libirc_la_LIBADD  = $(GLIB_LIBS)
++libirc_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/jabber/Makefile.am src/pidgin-2.4.3/libpurple/protocols/jabber/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/jabber/Makefile.am	2008-07-01 19:46:14.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/jabber/Makefile.am	2008-07-11 14:30:06.453125000 -0500
+@@ -52,7 +52,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libxmpp_la_LDFLAGS = -module -avoid-version
++libxmpp_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_JABBER
+ 
+@@ -66,14 +66,14 @@
+ else
+ 
+ st =
+-pkg_LTLIBRARIES = libjabber.la libxmpp.la
+-noinst_LIBRARIES =
++pkg_LTLIBRARIES = libxmpp.la
++noinst_LTLIBRARIES = libjabber.la
+ 
+ libjabber_la_SOURCES = $(JABBERSOURCES)
+ libjabber_la_LIBADD = $(GLIB_LIBS) $(SASL_LIBS) $(LIBXML_LIBS)
+ 
+ libxmpp_la_SOURCES = libxmpp.c
+-libxmpp_la_LIBADD = libjabber.la
++libxmpp_la_LIBADD = libjabber.la $(top_builddir)/libpurple/libpurple.la
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/msn/Makefile.am src/pidgin-2.4.3/libpurple/protocols/msn/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/msn/Makefile.am	2008-07-01 19:46:14.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/msn/Makefile.am	2008-07-11 14:30:06.562500000 -0500
+@@ -73,7 +73,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libmsn_la_LDFLAGS = -module -avoid-version
++libmsn_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_MSN
+ 
+@@ -87,7 +87,7 @@
+ st =
+ pkg_LTLIBRARIES   = libmsn.la
+ libmsn_la_SOURCES = $(MSNSOURCES)
+-libmsn_la_LIBADD  = $(GLIB_LIBS)
++libmsn_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/msnp9/Makefile.am src/pidgin-2.4.3/libpurple/protocols/msnp9/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/msnp9/Makefile.am	2008-07-01 19:46:16.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/msnp9/Makefile.am	2008-07-11 14:30:06.609375000 -0500
+@@ -65,7 +65,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libmsn_la_LDFLAGS = -module -avoid-version
++libmsn_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_MSN
+ 
+@@ -79,7 +79,7 @@
+ st =
+ pkg_LTLIBRARIES   = libmsn.la
+ libmsn_la_SOURCES = $(MSNP9SOURCES)
+-libmsn_la_LIBADD  = $(GLIB_LIBS)
++libmsn_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/myspace/Makefile.am src/pidgin-2.4.3/libpurple/protocols/myspace/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/myspace/Makefile.am	2008-07-01 19:46:16.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/myspace/Makefile.am	2008-07-11 14:30:06.625000000 -0500
+@@ -18,7 +18,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libmyspace_la_LDFLAGS = -module -avoid-version
++libmyspace_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_MYSPACE
+ 
+@@ -32,7 +32,7 @@
+ st =
+ pkg_LTLIBRARIES       = libmyspace.la
+ libmyspace_la_SOURCES = $(MSIMSOURCES)
+-libmyspace_la_LIBADD  = $(GLIB_LIBS)
++libmyspace_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/novell/Makefile.am src/pidgin-2.4.3/libpurple/protocols/novell/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/novell/Makefile.am	2008-07-01 19:46:17.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/novell/Makefile.am	2008-07-11 14:30:06.718750000 -0500
+@@ -28,7 +28,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libnovell_la_LDFLAGS = -module -avoid-version
++libnovell_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_NOVELL
+ 
+@@ -46,7 +46,7 @@
+ noinst_LIBRARIES =
+ 
+ libnovell_la_SOURCES = $(NOVELLSOURCES)
+-libnovell_la_LIBADD  = $(GLIB_LIBS)
++libnovell_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/null/Makefile.am src/pidgin-2.4.3/libpurple/protocols/null/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/null/Makefile.am	2008-07-01 19:46:17.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/null/Makefile.am	2008-07-11 14:30:07.062500000 -0500
+@@ -6,13 +6,13 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libnull_la_LDFLAGS = -module -avoid-version
++libnull_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ # nullprpl isn't built by default. when it is built, it's dynamically linked.
+ st =
+ pkg_LTLIBRARIES   = libnull.la
+ libnull_la_SOURCES = $(NULLSOURCES)
+-libnull_la_LIBADD  = $(GLIB_LIBS)
++libnull_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/libpurple \
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/oscar/Makefile.am src/pidgin-2.4.3/libpurple/protocols/oscar/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/oscar/Makefile.am	2008-07-01 19:46:17.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/oscar/Makefile.am	2008-07-11 14:30:07.109375000 -0500
+@@ -47,8 +47,8 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libaim_la_LDFLAGS = -module -avoid-version
+-libicq_la_LDFLAGS = -module -avoid-version
++libaim_la_LDFLAGS = -module -avoid-version -no-undefined
++libicq_la_LDFLAGS = -module -avoid-version -no-undefined
+ if STATIC_OSCAR
+ 
+ st = -DPURPLE_STATIC_PRPL
+@@ -60,9 +60,10 @@
+ else
+ 
+ st =
+-pkg_LTLIBRARIES     = liboscar.la libaim.la libicq.la
++noinst_LTLIBRARIES = liboscar.la
++pkg_LTLIBRARIES     = libaim.la libicq.la
+ liboscar_la_SOURCES = $(OSCARSOURCES)
+-liboscar_la_LIBADD  = $(GLIB_LIBS)
++liboscar_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
+ 
+ libaim_la_SOURCES = libaim.c
+ libaim_la_LIBADD = liboscar.la
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/qq/Makefile.am src/pidgin-2.4.3/libpurple/protocols/qq/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/qq/Makefile.am	2008-07-01 19:46:17.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/qq/Makefile.am	2008-07-11 14:30:07.203125000 -0500
+@@ -65,7 +65,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libqq_la_LDFLAGS = -module -avoid-version
++libqq_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_QQ
+ 
+@@ -79,7 +79,7 @@
+ st =
+ pkg_LTLIBRARIES  = libqq.la
+ libqq_la_SOURCES = $(QQSOURCES)
+-libqq_la_LIBADD  = $(GLIB_LIBS)
++libqq_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/sametime/Makefile.am src/pidgin-2.4.3/libpurple/protocols/sametime/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/sametime/Makefile.am	2008-07-01 19:46:17.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/sametime/Makefile.am	2008-07-11 14:30:07.281250000 -0500
+@@ -27,8 +27,8 @@
+ endif
+ 
+ 
+-libsametime_la_LDFLAGS = -module -avoid-version
+-libsametime_la_LIBADD = $(GLIB_LIBS) $(MEANWHILE_LIBS)
++libsametime_la_LDFLAGS = -module -avoid-version -no-undefined
++libsametime_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(MEANWHILE_LIBS)
+ 
+ 
+ AM_CFLAGS = \
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/silc/Makefile.am src/pidgin-2.4.3/libpurple/protocols/silc/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/silc/Makefile.am	2008-07-01 19:46:17.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/silc/Makefile.am	2008-07-11 14:30:07.453125000 -0500
+@@ -6,7 +6,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libsilcpurple_la_LDFLAGS = -module -avoid-version
++libsilcpurple_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_SILC
+ 
+@@ -25,7 +25,7 @@
+ noinst_LIBRARIES =
+ 
+ libsilcpurple_la_SOURCES = $(SILCSOURCES)
+-libsilcpurple_la_LIBADD  = $(GLIB_LIBS) $(SILC_LIBS)
++libsilcpurple_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(SILC_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/silc10/Makefile.am src/pidgin-2.4.3/libpurple/protocols/silc10/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/silc10/Makefile.am	2008-07-01 19:46:17.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/silc10/Makefile.am	2008-07-11 14:30:07.468750000 -0500
+@@ -6,7 +6,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libsilcpurple_la_LDFLAGS = -module -avoid-version
++libsilcpurple_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_SILC
+ 
+@@ -25,7 +25,7 @@
+ noinst_LIBRARIES =
+ 
+ libsilcpurple_la_SOURCES = $(SILCSOURCES)
+-libsilcpurple_la_LIBADD  = $(GLIB_LIBS) $(SILC_LIBS)
++libsilcpurple_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(SILC_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/simple/Makefile.am src/pidgin-2.4.3/libpurple/protocols/simple/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/simple/Makefile.am	2008-07-01 19:46:18.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/simple/Makefile.am	2008-07-11 14:30:07.500000000 -0500
+@@ -11,7 +11,7 @@
+ 
+ AM_CFLAGS = $(st) 
+ 
+-libsimple_la_LDFLAGS = -module -avoid-version
++libsimple_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_MSN
+ 
+@@ -25,7 +25,7 @@
+ st =
+ pkg_LTLIBRARIES   = libsimple.la
+ libsimple_la_SOURCES = $(SIMPLESOURCES)
+-libsimple_la_LIBADD  = $(GLIB_LIBS)
++libsimple_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/toc/Makefile.am src/pidgin-2.4.3/libpurple/protocols/toc/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/toc/Makefile.am	2008-07-01 19:46:18.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/toc/Makefile.am	2008-07-11 14:30:07.578125000 -0500
+@@ -8,7 +8,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libtoc_la_LDFLAGS = -module -avoid-version
++libtoc_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_TOC
+ 
+@@ -22,6 +22,7 @@
+ st =
+ pkg_LTLIBRARIES   = libtoc.la
+ libtoc_la_SOURCES = $(TOCSOURCES)
++libtoc_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/yahoo/Makefile.am src/pidgin-2.4.3/libpurple/protocols/yahoo/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/yahoo/Makefile.am	2008-07-01 19:46:18.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/yahoo/Makefile.am	2008-07-11 14:30:07.671875000 -0500
+@@ -31,7 +31,7 @@
+ 
+ AM_CFLAGS = $(st)
+ 
+-libyahoo_la_LDFLAGS = -module -avoid-version
++libyahoo_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_YAHOO
+ 
+@@ -45,7 +45,7 @@
+ st =
+ pkg_LTLIBRARIES     = libyahoo.la
+ libyahoo_la_SOURCES = $(YAHOOSOURCES)
+-libyahoo_la_LIBADD  = $(GLIB_LIBS)
++libyahoo_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/protocols/zephyr/Makefile.am src/pidgin-2.4.3/libpurple/protocols/zephyr/Makefile.am
+--- origsrc/pidgin-2.4.3/libpurple/protocols/zephyr/Makefile.am	2008-07-01 19:46:18.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/protocols/zephyr/Makefile.am	2008-07-11 14:30:07.687500000 -0500
+@@ -73,7 +73,7 @@
+ 
+ ZEPHYRLIBSEXT = $(ZEPHYR_LDFLAGS) $(ZEPHYR_LIBS)
+ 
+-libzephyr_la_LDFLAGS = -module -avoid-version
++libzephyr_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_ZEPHYR
+ 
+@@ -90,10 +90,10 @@
+ 
+ if EXTERNAL_LIBZEPHYR
+ libzephyr_la_SOURCES = $(ZEPHYRSOURCESEXT)
+-libzephyr_la_LIBADD = $(GLIB_LIBS) $(ZEPHYRLIBSEXT)
++libzephyr_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(ZEPHYRLIBSEXT)
+ else
+ libzephyr_la_SOURCES = $(ZEPHYRSOURCES)
+-libzephyr_la_LIBADD  = $(GLIB_LIBS) $(ZEPHYRLIBS)
++libzephyr_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(ZEPHYRLIBS)
+ endif
+ 
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/proxy.c src/pidgin-2.4.3/libpurple/proxy.c
+--- origsrc/pidgin-2.4.3/libpurple/proxy.c	2008-07-01 19:46:18.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/proxy.c	2008-07-11 14:30:07.765625000 -0500
+@@ -40,6 +40,10 @@
+ #include "proxy.h"
+ #include "util.h"
+ 
++#ifndef INET6_ADDRSTRLEN
++#define INET6_ADDRSTRLEN    46
++#endif
++
+ struct _PurpleProxyConnectData {
+ 	void *handle;
+ 	PurpleProxyConnectFunction connect_cb;
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/libpurple/util.c src/pidgin-2.4.3/libpurple/util.c
+--- origsrc/pidgin-2.4.3/libpurple/util.c	2008-07-01 19:46:18.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/util.c	2008-07-11 14:30:07.781250000 -0500
+@@ -4271,6 +4271,7 @@
+ 	return g_string_free(workstr, FALSE);
+ }
+ 
++#ifdef HAVE_GETADDRINFO
+ /*
+  * This function is copied from g_strerror() but changed to use
+  * gai_strerror().
+@@ -4318,6 +4319,7 @@
+ 	errno = saved_errno;
+ 	return msg;
+ }
++#endif /* HAVE_GETADDRINFO */
+ 
+ char *
+ purple_utf8_ncr_encode(const char *str)
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/pidgin/Makefile.am src/pidgin-2.4.3/pidgin/Makefile.am
+--- origsrc/pidgin-2.4.3/pidgin/Makefile.am	2008-07-01 19:46:18.000000000 -0500
++++ src/pidgin-2.4.3/pidgin/Makefile.am	2008-07-11 14:30:07.796875000 -0500
+@@ -68,7 +68,7 @@
+ pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = pidgin.pc
+ 
+-SUBDIRS = pixmaps plugins
++SUBDIRS = . pixmaps plugins
+ 
+ bin_PROGRAMS = pidgin
+ 
+@@ -182,7 +182,13 @@
+ 
+ 
+ pidgin_DEPENDENCIES = @LIBOBJS@
++
++if PLATFORM_WIN32
++pidgin_LDFLAGS = -Wl,--export-all-symbols,--out-implib,libpidgin.a
++else
+ pidgin_LDFLAGS = -export-dynamic
++endif
++
+ pidgin_LDADD = \
+ 	@LIBOBJS@ \
+ 	$(DBUS_LIBS) \
+@@ -220,3 +226,9 @@
+ 	$(LIBXML_CFLAGS) \
+ 	$(INTGG_CFLAGS)
+ endif  # ENABLE_GTK
++
++if PLATFORM_WIN32
++install-data-local:
++	$(mkinstalldirs) $(DESTDIR)$(libdir)
++	$(INSTALL_DATA) libpidgin.a $(DESTDIR)$(libdir)
++endif
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/pidgin/pidgin-uninstalled.pc.in src/pidgin-2.4.3/pidgin/pidgin-uninstalled.pc.in
+--- origsrc/pidgin-2.4.3/pidgin/pidgin-uninstalled.pc.in	2008-07-01 19:46:19.000000000 -0500
++++ src/pidgin-2.4.3/pidgin/pidgin-uninstalled.pc.in	2008-07-11 14:30:07.890625000 -0500
+@@ -11,3 +11,4 @@
+ Version: @VERSION@
+ Requires: gtk+-2.0 purple
+ Cflags: -I${pcfiledir}
++Libs: -L${pcfiledir} @LIBPIDGIN@
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/pidgin/pidgin.pc.in src/pidgin-2.4.3/pidgin/pidgin.pc.in
+--- origsrc/pidgin-2.4.3/pidgin/pidgin.pc.in	2008-07-01 19:46:19.000000000 -0500
++++ src/pidgin-2.4.3/pidgin/pidgin.pc.in	2008-07-11 14:30:07.937500000 -0500
+@@ -11,4 +11,5 @@
+ Version: @VERSION@
+ Requires: gtk+-2.0 purple
+ Cflags: -I${includedir}/pidgin
++Libs: -L${libdir} @LIBPIDGIN@
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/pidgin/plugins/Makefile.am src/pidgin-2.4.3/pidgin/plugins/Makefile.am
+--- origsrc/pidgin-2.4.3/pidgin/plugins/Makefile.am	2008-07-01 19:46:24.000000000 -0500
++++ src/pidgin-2.4.3/pidgin/plugins/Makefile.am	2008-07-11 14:30:07.953125000 -0500
+@@ -30,22 +30,22 @@
+ 
+ plugindir = $(libdir)/pidgin
+ 
+-convcolors_la_LDFLAGS       = -module -avoid-version
+-contact_priority_la_LDFLAGS = -module -avoid-version
+-extplacement_la_LDFLAGS     = -module -avoid-version
+-gtk_signals_test_la_LDFLAGS = -module -avoid-version
+-gtkbuddynote_la_LDFLAGS     = -module -avoid-version
+-history_la_LDFLAGS          = -module -avoid-version
+-iconaway_la_LDFLAGS         = -module -avoid-version
+-markerline_la_LDFLAGS       = -module -avoid-version
+-notify_la_LDFLAGS           = -module -avoid-version
+-pidginrc_la_LDFLAGS         = -module -avoid-version
+-relnot_la_LDFLAGS           = -module -avoid-version
+-sendbutton_la_LDFLAGS       = -module -avoid-version
+-spellchk_la_LDFLAGS         = -module -avoid-version
+-timestamp_la_LDFLAGS        = -module -avoid-version
+-timestamp_format_la_LDFLAGS = -module -avoid-version
+-xmppconsole_la_LDFLAGS      = -module -avoid-version
++convcolors_la_LDFLAGS       = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++contact_priority_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++extplacement_la_LDFLAGS     = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++gtk_signals_test_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++gtkbuddynote_la_LDFLAGS     = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++history_la_LDFLAGS          = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++iconaway_la_LDFLAGS         = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++markerline_la_LDFLAGS       = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++notify_la_LDFLAGS           = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++pidginrc_la_LDFLAGS         = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++relnot_la_LDFLAGS           = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++sendbutton_la_LDFLAGS       = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++spellchk_la_LDFLAGS         = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++timestamp_la_LDFLAGS        = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++timestamp_format_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++xmppconsole_la_LDFLAGS      = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
+ 
+ if PLUGINS
+ 
+@@ -86,22 +86,22 @@
+ timestamp_format_la_SOURCES = timestamp_format.c
+ xmppconsole_la_SOURCES      = xmppconsole.c
+ 
+-convcolors_la_LIBADD        = $(GTK_LIBS)
+-contact_priority_la_LIBADD  = $(GTK_LIBS)
+-extplacement_la_LIBADD      = $(GTK_LIBS)
+-gtk_signals_test_la_LIBADD  = $(GTK_LIBS)
+-gtkbuddynote_la_LIBADD      = $(GTK_LIBS)
+-history_la_LIBADD           = $(GTK_LIBS)
+-iconaway_la_LIBADD          = $(GTK_LIBS)
+-markerline_la_LIBADD        = $(GTK_LIBS)
+-notify_la_LIBADD            = $(GTK_LIBS)
+-pidginrc_la_LIBADD          = $(GTK_LIBS)
+-relnot_la_LIBADD            = $(GLIB_LIBS)
+-sendbutton_la_LIBADD        = $(GTK_LIBS)
+-spellchk_la_LIBADD          = $(GTK_LIBS)
+-timestamp_la_LIBADD         = $(GTK_LIBS)
+-timestamp_format_la_LIBADD  = $(GTK_LIBS)
+-xmppconsole_la_LIBADD       = $(GTK_LIBS)
++convcolors_la_LIBADD        = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++contact_priority_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++extplacement_la_LIBADD      = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++gtk_signals_test_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++gtkbuddynote_la_LIBADD      = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++history_la_LIBADD           = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++iconaway_la_LIBADD          = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++markerline_la_LIBADD        = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++notify_la_LIBADD            = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++pidginrc_la_LIBADD          = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++relnot_la_LIBADD            = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
++sendbutton_la_LIBADD        = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++spellchk_la_LIBADD          = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++timestamp_la_LIBADD         = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++timestamp_format_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
++xmppconsole_la_LIBADD       = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
+ 
+ endif # PLUGINS
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/pidgin/plugins/cap/Makefile.am src/pidgin-2.4.3/pidgin/plugins/cap/Makefile.am
+--- origsrc/pidgin-2.4.3/pidgin/plugins/cap/Makefile.am	2008-07-01 19:46:24.000000000 -0500
++++ src/pidgin-2.4.3/pidgin/plugins/cap/Makefile.am	2008-07-11 14:30:08.031250000 -0500
+@@ -1,6 +1,6 @@
+ capdir = $(libdir)/pidgin
+ 
+-cap_la_LDFLAGS = -module -avoid-version
++cap_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
+ 
+ if PLUGINS
+ 
+@@ -15,7 +15,7 @@
+ 
+ endif
+ 
+-cap_la_LIBADD = $(GTK_LIBS) $(SQLITE3_LIBS)
++cap_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS) $(SQLITE3_LIBS)
+ 
+ AM_CPPFLAGS = \
+ 	-DDATADIR=\"$(datadir)\" \
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/pidgin/plugins/gestures/Makefile.am src/pidgin-2.4.3/pidgin/plugins/gestures/Makefile.am
+--- origsrc/pidgin-2.4.3/pidgin/plugins/gestures/Makefile.am	2008-07-01 19:46:24.000000000 -0500
++++ src/pidgin-2.4.3/pidgin/plugins/gestures/Makefile.am	2008-07-11 14:30:08.078125000 -0500
+@@ -1,6 +1,6 @@
+ plugindir = $(libdir)/pidgin
+ 
+-gestures_la_LDFLAGS = -module -avoid-version
++gestures_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
+ 
+ if PLUGINS
+ 
+@@ -13,7 +13,7 @@
+ 	stroke.c \
+ 	stroke-draw.c
+ 
+-gestures_la_LIBADD = $(GTK_LIBS)
++gestures_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/pidgin/plugins/gevolution/Makefile.am src/pidgin-2.4.3/pidgin/plugins/gevolution/Makefile.am
+--- origsrc/pidgin-2.4.3/pidgin/plugins/gevolution/Makefile.am	2008-07-01 19:46:24.000000000 -0500
++++ src/pidgin-2.4.3/pidgin/plugins/gevolution/Makefile.am	2008-07-11 14:30:08.109375000 -0500
+@@ -1,6 +1,6 @@
+ plugindir = $(libdir)/pidgin
+ 
+-gevolution_la_LDFLAGS = -module -avoid-version
++gevolution_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
+ 
+ if PLUGINS
+ 
+@@ -15,7 +15,7 @@
+ 	new_person_dialog.c \
+ 	eds-utils.c
+ 
+-gevolution_la_LIBADD = $(EVOLUTION_ADDRESSBOOK_LIBS) $(GTK_LIBS)
++gevolution_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(EVOLUTION_ADDRESSBOOK_LIBS) $(GTK_LIBS)
+ 
+ endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/pidgin/plugins/musicmessaging/Makefile.am src/pidgin-2.4.3/pidgin/plugins/musicmessaging/Makefile.am
+--- origsrc/pidgin-2.4.3/pidgin/plugins/musicmessaging/Makefile.am	2008-07-01 19:46:24.000000000 -0500
++++ src/pidgin-2.4.3/pidgin/plugins/musicmessaging/Makefile.am	2008-07-11 14:30:08.203125000 -0500
+@@ -3,7 +3,7 @@
+ 
+ musicmessagingdir = $(libdir)/pidgin
+ 
+-musicmessaging_la_LDFLAGS = -module -avoid-version
++musicmessaging_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
+ 
+ if PLUGINS
+ if ENABLE_DBUS
+@@ -16,7 +16,7 @@
+ musicmessaging_la_SOURCES = \
+ 	musicmessaging.c
+ 
+-musicmessaging_la_LIBADD = $(GTK_LIBS) $(DBUS_LIBS)
++musicmessaging_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS) $(DBUS_LIBS)
+ 
+ CLEANFILES              = music-messaging-bindings.c
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/pidgin/plugins/perl/common/Makefile.PL.in src/pidgin-2.4.3/pidgin/plugins/perl/common/Makefile.PL.in
+--- origsrc/pidgin-2.4.3/pidgin/plugins/perl/common/Makefile.PL.in	2008-07-01 19:46:24.000000000 -0500
++++ src/pidgin-2.4.3/pidgin/plugins/perl/common/Makefile.PL.in	2008-07-11 14:30:08.250000000 -0500
+@@ -10,6 +10,7 @@
+        'AUTHOR'        => 'Pidgin <http://pidgin.im/>') :  ()),
+     'DEFINE'        => '@DEBUG_CFLAGS@',
+     'INC'           => '-I. -I@srcdir@ -I@top_srcdir@ -I@top_srcdir@/libpurple -I@top_srcdir@/pidgin @GTK_CFLAGS@',
++    'LIBS'          => ['-L@top_builddir@/libpurple/.libs -lpurple -L@top_builddir@/pidgin @LIBPIDGIN@ @GLIB_LIBS@'],
+     'OBJECT'        => '$(O_FILES)', # link all the C files too
+     'TYPEMAPS'      => ["@top_srcdir@/libpurple/plugins/perl/common/typemap"],
+ #    'OPTIMIZE'      => '-g', # For debugging.
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x aclocal.m4 -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/pidgin-2.4.3/pidgin/plugins/ticker/Makefile.am src/pidgin-2.4.3/pidgin/plugins/ticker/Makefile.am
+--- origsrc/pidgin-2.4.3/pidgin/plugins/ticker/Makefile.am	2008-07-01 19:46:24.000000000 -0500
++++ src/pidgin-2.4.3/pidgin/plugins/ticker/Makefile.am	2008-07-11 14:30:08.328125000 -0500
+@@ -3,7 +3,7 @@
+ 
+ plugindir = $(libdir)/pidgin
+ 
+-ticker_la_LDFLAGS = -module -avoid-version
++ticker_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
+ 
+ if PLUGINS
+ 
+@@ -14,7 +14,7 @@
+ 	gtkticker.h \
+ 	ticker.c
+ 
+-ticker_la_LIBADD = $(GTK_LIBS)
++ticker_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GTK_LIBS)
+ 
+ endif
+ 
