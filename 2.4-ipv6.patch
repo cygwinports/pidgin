@@ -1,0 +1,31 @@
+--- origsrc/pidgin-2.4.3/libpurple/proxy.c	2008-07-01 19:46:18.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/proxy.c	2008-07-11 14:30:07.765625000 -0500
+@@ -40,6 +40,10 @@
+ #include "proxy.h"
+ #include "util.h"
+ 
++#ifndef INET6_ADDRSTRLEN
++#define INET6_ADDRSTRLEN    46
++#endif
++
+ struct _PurpleProxyConnectData {
+ 	void *handle;
+ 	PurpleProxyConnectFunction connect_cb;
+--- origsrc/pidgin-2.4.3/libpurple/util.c	2008-07-01 19:46:18.000000000 -0500
++++ src/pidgin-2.4.3/libpurple/util.c	2008-07-11 14:30:07.781250000 -0500
+@@ -4271,6 +4271,7 @@
+ 	return g_string_free(workstr, FALSE);
+ }
+ 
++#ifdef HAVE_GETADDRINFO
+ /*
+  * This function is copied from g_strerror() but changed to use
+  * gai_strerror().
+@@ -4318,6 +4319,7 @@
+ 	errno = saved_errno;
+ 	return msg;
+ }
++#endif /* HAVE_GETADDRINFO */
+ 
+ char *
+ purple_utf8_ncr_encode(const char *str)

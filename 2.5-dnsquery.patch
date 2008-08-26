@@ -1,0 +1,11 @@
+--- origsrc/pidgin-2.5.0/libpurple/dnsquery.c	2008-08-18 20:53:30.000000000 -0500
++++ src/pidgin-2.5.0/libpurple/dnsquery.c	2008-08-25 21:29:48.744974700 -0500
+@@ -32,7 +32,7 @@
+ #include "prefs.h"
+ #include "util.h"
+ 
+-#if (defined(__APPLE__) || defined (__unix__)) && !defined(__osf__)
++#if (defined(__APPLE__) || defined (__unix__)) && !defined(__osf__) && !defined(__CYGWIN__)
+ #define PURPLE_DNSQUERY_USE_FORK
+ #endif
+ /**************************************************************************
