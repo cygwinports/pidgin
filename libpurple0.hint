@@ -1,6 +1,7 @@
 category: Gnome Net
-requires: libatk1.0_0 libbonobo2_0 libdbus1_3 libebook1.2_9 libedataserver1.2_11 libgcc1 libglib2.0_0 libgstreamer0.10_0 libgtk2.0_0 libgtkspell0 libICE6 libintl8 libpango1.0_0 libpurple0 libSM6 libstartup-notification1_0 libX11_6 python python-dbus
-sdesc: "GNOME multi-protocol IM client"
+requires: libdbus-glib_1_2 libdbus1_3 libgcc1 libglib2.0_0 libgnutls26 libintl8 libmeanwhile1 libsasl2 libsilc1.1_2 libsilcclient1.1_3 libxml2 tcl tk
+external-source: pidgin
+sdesc: "GNOME multi-protocol IM library (runtime)"
 ldesc: "libpurple is a library intended to be used by programmers 
 seeking to write an IM client that connects to many IM networks.  It 
 supports AIM, ICQ, Jabber, MSN and Yahoo!, among others.

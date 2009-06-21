@@ -1,0 +1,67 @@
+This avoids fork(), but is it this actually necessary?
+
+--- origsrc/pidgin-2.5.7/libpurple/dnsquery.c	2009-06-20 17:34:19.000000000 -0500
++++ src/pidgin-2.5.7/libpurple/dnsquery.c	2009-06-21 03:52:28.486672500 -0500
+@@ -32,7 +32,7 @@
+ #include "prefs.h"
+ #include "util.h"
+ 
+-#if (defined(__APPLE__) || defined (__unix__)) && !defined(__osf__)
++#if (defined(__APPLE__) || defined (__unix__)) && !defined(__osf__) && !defined(__CYGWIN__)
+ #define PURPLE_DNSQUERY_USE_FORK
+ #endif
+ /**************************************************************************
+@@ -52,7 +52,7 @@ struct _PurpleDnsQueryData {
+ 
+ #if defined(PURPLE_DNSQUERY_USE_FORK)
+ 	PurpleDnsQueryResolverProcess *resolver;
+-#elif defined _WIN32 /* end PURPLE_DNSQUERY_USE_FORK  */
++#elif defined G_PLATFORM_WIN32 /* end PURPLE_DNSQUERY_USE_FORK  */
+ 	GThread *resolver;
+ 	GSList *hosts;
+ 	gchar *error_message;
+@@ -650,7 +650,7 @@ purple_dnsquery_a(const char *hostname, 
+ 	return query_data;
+ }
+ 
+-#elif defined _WIN32 /* end PURPLE_DNSQUERY_USE_FORK  */
++#elif defined G_PLATFORM_WIN32 /* end PURPLE_DNSQUERY_USE_FORK  */
+ 
+ /*
+  * Windows!
+@@ -822,7 +822,7 @@ purple_dnsquery_a(const char *hostname, 
+ 	return query_data;
+ }
+ 
+-#else /* not PURPLE_DNSQUERY_USE_FORK or _WIN32 */
++#else /* not PURPLE_DNSQUERY_USE_FORK or G_PLATFORM_WIN32 */
+ 
+ /*
+  * We weren't able to do anything fancier above, so use the
+@@ -898,7 +898,7 @@ purple_dnsquery_a(const char *hostname, 
+ 	return query_data;
+ }
+ 
+-#endif /* not PURPLE_DNSQUERY_USE_FORK or _WIN32 */
++#endif /* not PURPLE_DNSQUERY_USE_FORK or G_PLATFORM_WIN32 */
+ 
+ void
+ purple_dnsquery_destroy(PurpleDnsQueryData *query_data)
+@@ -922,7 +922,7 @@ purple_dnsquery_destroy(PurpleDnsQueryDa
+ 		 * have more stuff to resolve.
+ 		 */
+ 		purple_dnsquery_resolver_destroy(query_data->resolver);
+-#elif defined _WIN32 /* end PURPLE_DNSQUERY_USE_FORK */
++#elif defined G_PLATFORM_WIN32 /* end PURPLE_DNSQUERY_USE_FORK */
+ 	if (query_data->resolver != NULL)
+ 	{
+ 		/*
+@@ -943,7 +943,7 @@ purple_dnsquery_destroy(PurpleDnsQueryDa
+ 		query_data->hosts = g_slist_remove(query_data->hosts, query_data->hosts->data);
+ 	}
+ 	g_free(query_data->error_message);
+-#endif /* end _WIN32 */
++#endif /* end G_PLATFORM_WIN32 */
+ 
+ 	if (query_data->timeout > 0)
+ 		purple_timeout_remove(query_data->timeout);

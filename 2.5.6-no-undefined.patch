@@ -1,6 +1,6 @@
---- origsrc/pidgin-2.5.0/configure.ac	2008-08-18 20:53:21.000000000 -0500
-+++ src/pidgin-2.5.0/configure.ac	2008-08-25 21:33:10.073090200 -0500
-@@ -119,6 +119,30 @@
+--- origsrc/pidgin-2.5.6/configure.ac	2009-05-19 12:06:37.000000000 -0500
++++ src/pidgin-2.5.6/configure.ac	2009-06-15 13:46:06.485014000 -0500
+@@ -118,6 +118,30 @@ AC_FUNC_ALLOCA
  GETTEXT_PACKAGE=pidgin
  AC_SUBST(GETTEXT_PACKAGE)
  
@@ -31,9 +31,9 @@
  
  # before gettexting, in case iconv matters
  case "$host_os" in
---- origsrc/pidgin-2.5.0/finch/Makefile.am	2008-08-18 20:53:22.000000000 -0500
-+++ src/pidgin-2.5.0/finch/Makefile.am	2008-08-25 21:33:53.962310700 -0500
-@@ -7,7 +7,7 @@
+--- origsrc/pidgin-2.5.6/finch/Makefile.am	2009-04-28 13:09:22.000000000 -0500
++++ src/pidgin-2.5.6/finch/Makefile.am	2009-06-15 13:46:06.487014100 -0500
+@@ -7,7 +7,7 @@ EXTRA_DIST = \
  pkgconfigdir = $(libdir)/pkgconfig
  pkgconfig_DATA = finch.pc
  
@@ -42,7 +42,7 @@
  
  if ENABLE_GNT
  
-@@ -62,7 +62,13 @@
+@@ -62,7 +62,13 @@ finchinclude_HEADERS = \
  	$(finch_headers)
  
  finch_DEPENDENCIES = @LIBOBJS@
@@ -56,7 +56,7 @@
  finch_LDADD = \
  	@LIBOBJS@ \
  	$(DBUS_LIBS) \
-@@ -90,3 +96,9 @@
+@@ -90,3 +96,9 @@ AM_CPPFLAGS = \
  	$(LIBXML_CFLAGS) \
  	$(GSTREAMER_CFLAGS) \
  	$(GNT_CFLAGS)
@@ -66,17 +66,17 @@
 +	$(mkinstalldirs) $(DESTDIR)$(libdir)
 +	$(INSTALL_DATA) libfinch.a $(DESTDIR)$(libdir)
 +endif
---- origsrc/pidgin-2.5.0/finch/finch.pc.in	2008-08-18 20:53:22.000000000 -0500
-+++ src/pidgin-2.5.0/finch/finch.pc.in	2008-08-25 21:33:53.977935200 -0500
-@@ -11,4 +11,5 @@
+--- origsrc/pidgin-2.5.6/finch/finch.pc.in	2009-04-28 13:09:22.000000000 -0500
++++ src/pidgin-2.5.6/finch/finch.pc.in	2009-06-15 13:46:06.489014200 -0500
+@@ -11,4 +11,5 @@ Description: Finch is an instant messeng
  Version: @VERSION@
  Requires: gnt purple
  Cflags: -I${includedir}/finch
 +Libs: -L${libdir} @LIBFINCH@
  
---- origsrc/pidgin-2.5.0/finch/libgnt/wms/Makefile.am	2008-08-18 20:53:28.000000000 -0500
-+++ src/pidgin-2.5.0/finch/libgnt/wms/Makefile.am	2008-08-25 21:33:53.993559700 -0500
-@@ -5,8 +5,8 @@
+--- origsrc/pidgin-2.5.6/finch/libgnt/wms/Makefile.am	2009-04-28 13:09:23.000000000 -0500
++++ src/pidgin-2.5.6/finch/libgnt/wms/Makefile.am	2009-06-15 13:46:06.492014400 -0500
+@@ -6,8 +6,8 @@ else
  purple_wms =
  endif
  
@@ -86,9 +86,9 @@
 +irssi_la_LDFLAGS         = -module -avoid-version -no-undefined
  
  plugin_LTLIBRARIES = \
- 	$(purple_wms)
---- origsrc/pidgin-2.5.0/finch/plugins/Makefile.am	2008-08-18 20:53:28.000000000 -0500
-+++ src/pidgin-2.5.0/finch/plugins/Makefile.am	2008-08-25 21:33:53.993559700 -0500
+ 	$(wms) \
+--- origsrc/pidgin-2.5.6/finch/plugins/Makefile.am	2009-04-28 13:09:23.000000000 -0500
++++ src/pidgin-2.5.6/finch/plugins/Makefile.am	2009-06-15 13:46:06.495014500 -0500
 @@ -1,8 +1,8 @@
 -gntclipboard_la_LDFLAGS = -module -avoid-version
 -gntgf_la_LDFLAGS      = -module -avoid-version
@@ -103,7 +103,7 @@
  
  if PLUGINS
  
-@@ -24,11 +24,11 @@
+@@ -24,11 +24,11 @@ grouping_la_SOURCES   = grouping.c
  gntclipboard_la_CFLAGS = $(X11_CFLAGS)
  gntgf_la_CFLAGS = $(X11_CFLAGS)
  
@@ -120,9 +120,9 @@
  
  endif # PLUGINS
  
---- origsrc/pidgin-2.5.0/libpurple/Makefile.am	2008-08-18 20:53:28.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/Makefile.am	2008-08-25 21:33:54.009184200 -0500
-@@ -30,7 +30,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/Makefile.am	2009-04-28 13:09:23.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/Makefile.am	2009-06-15 13:46:06.497014600 -0500
+@@ -30,7 +30,7 @@ endif
  pkgconfigdir = $(libdir)/pkgconfig
  pkgconfig_DATA = purple.pc
  
@@ -131,9 +131,9 @@
  
  purple_coresources = \
  	account.c \
---- origsrc/pidgin-2.5.0/libpurple/plugins/Makefile.am	2008-08-18 20:53:32.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/plugins/Makefile.am	2008-08-25 21:33:54.024808700 -0500
-@@ -24,26 +24,26 @@
+--- origsrc/pidgin-2.5.6/libpurple/plugins/Makefile.am	2009-04-28 13:09:24.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/plugins/Makefile.am	2009-06-15 13:46:06.500014800 -0500
+@@ -24,26 +24,26 @@ SUBDIRS = \
  
  plugindir = $(libdir)/purple-$(PURPLE_MAJOR_VERSION)
  
@@ -178,7 +178,7 @@
  
  if PLUGINS
  
-@@ -87,28 +87,28 @@
+@@ -87,28 +87,28 @@ signals_test_la_SOURCES		= signals-test.
  simple_la_SOURCES			= simple.c
  statenotify_la_SOURCES      = statenotify.c
  
@@ -223,9 +223,9 @@
  
  .PHONY: always
  
---- origsrc/pidgin-2.5.0/libpurple/plugins/mono/loader/Makefile.am	2008-08-18 20:53:34.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/plugins/mono/loader/Makefile.am	2008-08-25 21:33:54.056057700 -0500
-@@ -12,9 +12,9 @@
+--- origsrc/pidgin-2.5.6/libpurple/plugins/mono/loader/Makefile.am	2009-04-28 13:09:24.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/plugins/mono/loader/Makefile.am	2009-06-15 13:46:06.502014900 -0500
+@@ -12,9 +12,9 @@ mono_la_SOURCES	= \
  	blist-glue.c \
  	status-glue.c 
  
@@ -237,9 +237,9 @@
  
  AM_CPPFLAGS = \
  	-I$(top_srcdir) \
---- origsrc/pidgin-2.5.0/libpurple/plugins/perl/Makefile.am	2008-08-18 20:53:34.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/plugins/perl/Makefile.am	2008-08-25 21:33:54.071682200 -0500
-@@ -4,8 +4,8 @@
+--- origsrc/pidgin-2.5.6/libpurple/plugins/perl/Makefile.am	2009-04-28 13:09:24.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/plugins/perl/Makefile.am	2009-06-15 13:46:06.505015100 -0500
+@@ -4,8 +4,8 @@ perl_dirs = common
  
  plugin_LTLIBRARIES = perl.la
  
@@ -250,9 +250,9 @@
  perl_la_SOURCES = \
  	perl.c \
  	perl-common.c \
---- origsrc/pidgin-2.5.0/libpurple/plugins/perl/common/Makefile.PL.in	2008-08-18 20:53:34.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/plugins/perl/common/Makefile.PL.in	2008-08-25 21:33:54.087306700 -0500
-@@ -11,6 +11,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/plugins/perl/common/Makefile.PL.in	2009-04-28 13:09:24.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/plugins/perl/common/Makefile.PL.in	2009-06-15 13:46:06.507015200 -0500
+@@ -11,6 +11,7 @@ WriteMakefile(
         AUTHOR           => 'Purple <http://pidgin.im/>') : ()),
      'DEFINE'            => '@DEBUG_CFLAGS@',
      'INC'               => '-I. -I@srcdir@ -I@top_srcdir@ -I@top_srcdir@/libpurple @GLIB_CFLAGS@',
@@ -260,9 +260,9 @@
      'OBJECT'            => '$(O_FILES)', # link all the C files too
  #    'OPTIMIZE'          => '-g', # For debugging
  );
---- origsrc/pidgin-2.5.0/libpurple/plugins/ssl/Makefile.am	2008-08-18 20:53:35.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/plugins/ssl/Makefile.am	2008-08-25 21:33:54.087306700 -0500
-@@ -3,9 +3,9 @@
+--- origsrc/pidgin-2.5.6/libpurple/plugins/ssl/Makefile.am	2009-04-28 13:09:24.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/plugins/ssl/Makefile.am	2009-06-15 13:46:06.510015400 -0500
+@@ -3,9 +3,9 @@ EXTRA_DIST = \
  
  plugindir = $(libdir)/purple-$(PURPLE_MAJOR_VERSION)
  
@@ -275,7 +275,7 @@
  
  if PLUGINS
  
-@@ -18,9 +18,9 @@
+@@ -39,9 +39,9 @@ ssl_la_SOURCES        = ssl.c
  ssl_gnutls_la_SOURCES = ssl-gnutls.c
  ssl_nss_la_SOURCES    = ssl-nss.c
  
@@ -288,8 +288,8 @@
  
  endif # PLUGINS
  
---- origsrc/pidgin-2.5.0/libpurple/plugins/tcl/Makefile.am	2008-08-18 20:53:35.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/plugins/tcl/Makefile.am	2008-08-25 21:33:54.118555700 -0500
+--- origsrc/pidgin-2.5.6/libpurple/plugins/tcl/Makefile.am	2009-04-28 13:09:24.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/plugins/tcl/Makefile.am	2009-06-15 13:46:06.513015600 -0500
 @@ -1,13 +1,13 @@
  plugindir = $(libdir)/purple-$(PURPLE_MAJOR_VERSION)
  
@@ -306,9 +306,9 @@
  
  EXTRA_DIST = signal-test.tcl Makefile.mingw
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/bonjour/Makefile.am	2008-08-18 20:53:36.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/bonjour/Makefile.am	2008-08-25 21:33:54.134180200 -0500
-@@ -25,7 +25,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/bonjour/Makefile.am	2009-04-28 13:09:25.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/bonjour/Makefile.am	2009-06-15 13:46:06.515015700 -0500
+@@ -25,7 +25,7 @@ BONJOURSOURCES = \
  
  AM_CFLAGS = $(st)
  
@@ -317,7 +317,7 @@
  
  if STATIC_BONJOUR
  
-@@ -40,7 +40,7 @@
+@@ -40,7 +40,7 @@ else
  st =
  pkg_LTLIBRARIES       = libbonjour.la
  libbonjour_la_SOURCES = $(BONJOURSOURCES)
@@ -326,9 +326,9 @@
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/gg/Makefile.am	2008-08-18 20:53:37.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/gg/Makefile.am	2008-08-25 21:33:54.149804700 -0500
-@@ -47,7 +47,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/gg/Makefile.am	2009-04-28 13:09:25.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/gg/Makefile.am	2009-06-15 13:46:06.534016800 -0500
+@@ -47,7 +47,7 @@ GGSOURCES = \
  
  AM_CFLAGS = $(st)
  
@@ -337,18 +337,18 @@
  
  if STATIC_GG
  
-@@ -66,7 +66,7 @@
- noinst_LIBRARIES =
- 
+@@ -62,7 +62,7 @@ else
+ st = $(GADU_CFLAGS)
+ pkg_LTLIBRARIES = libgg.la
  libgg_la_SOURCES = $(GGSOURCES)
 -libgg_la_LIBADD  = $(GLIB_LIBS) $(GADU_LIBS)
 +libgg_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(GADU_LIBS)
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/irc/Makefile.am	2008-08-18 20:53:38.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/irc/Makefile.am	2008-08-25 21:33:54.149804700 -0500
-@@ -6,7 +6,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/irc/Makefile.am	2009-04-28 13:09:25.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/irc/Makefile.am	2009-06-15 13:46:06.537016900 -0500
+@@ -13,7 +13,7 @@ IRCSOURCES = \
  
  AM_CFLAGS = $(st)
  
@@ -357,18 +357,18 @@
  
  if STATIC_IRC
  
-@@ -24,7 +24,7 @@
- noinst_LIBRARIES =
- 
+@@ -27,7 +27,7 @@ else
+ st =
+ pkg_LTLIBRARIES   = libirc.la
  libirc_la_SOURCES = $(IRCSOURCES)
 -libirc_la_LIBADD  = $(GLIB_LIBS)
 +libirc_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/jabber/Makefile.am	2008-08-18 20:53:38.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/jabber/Makefile.am	2008-08-25 21:33:54.181053700 -0500
-@@ -52,7 +52,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/jabber/Makefile.am	2009-04-28 13:09:25.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/jabber/Makefile.am	2009-06-15 13:48:16.969477200 -0500
+@@ -54,7 +54,7 @@ JABBERSOURCES = auth.c \
  
  AM_CFLAGS = $(st)
  
@@ -377,27 +377,20 @@
  
  if STATIC_JABBER
  
-@@ -66,14 +66,14 @@
- else
- 
+@@ -68,7 +69,7 @@ else
  st =
--pkg_LTLIBRARIES = libjabber.la libxmpp.la
--noinst_LIBRARIES =
-+pkg_LTLIBRARIES = libxmpp.la
-+noinst_LTLIBRARIES = libjabber.la
- 
+-pkg_LTLIBRARIES      = libjabber.la libxmpp.la
+-noinst_LTLIBRARIES      = libjabber.la
++pkg_LTLIBRARIES      = libxmpp.la
  libjabber_la_SOURCES = $(JABBERSOURCES)
- libjabber_la_LIBADD = $(GLIB_LIBS) $(SASL_LIBS) $(LIBXML_LIBS)
+-libjabber_la_LIBADD  = $(GLIB_LIBS) $(SASL_LIBS) $(LIBXML_LIBS)
++libjabber_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(SASL_LIBS) $(LIBXML_LIBS)
  
  libxmpp_la_SOURCES = libxmpp.c
--libxmpp_la_LIBADD = libjabber.la
-+libxmpp_la_LIBADD = libjabber.la $(top_builddir)/libpurple/libpurple.la
- 
- endif
- 
---- origsrc/pidgin-2.5.0/libpurple/protocols/msn/Makefile.am	2008-08-18 20:53:40.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/msn/Makefile.am	2008-08-25 21:33:54.196678200 -0500
-@@ -69,7 +69,7 @@
+ libxmpp_la_LIBADD = libjabber.la
+--- origsrc/pidgin-2.5.6/libpurple/protocols/msn/Makefile.am	2009-04-28 13:09:25.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/msn/Makefile.am	2009-06-15 13:46:06.544017300 -0500
+@@ -69,7 +69,7 @@ MSNSOURCES = \
  
  AM_CFLAGS = $(st)
  
@@ -406,7 +399,7 @@
  
  if STATIC_MSN
  
-@@ -83,7 +83,7 @@
+@@ -83,7 +83,7 @@ else
  st =
  pkg_LTLIBRARIES   = libmsn.la
  libmsn_la_SOURCES = $(MSNSOURCES)
@@ -415,9 +408,9 @@
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/msnp9/Makefile.am	2008-08-18 20:53:42.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/msnp9/Makefile.am	2008-08-25 21:33:54.212302700 -0500
-@@ -65,7 +65,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/msnp9/Makefile.am	2009-04-28 13:09:26.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/msnp9/Makefile.am	2009-06-15 13:46:06.546017500 -0500
+@@ -65,7 +65,7 @@ MSNP9SOURCES = \
  
  AM_CFLAGS = $(st)
  
@@ -426,7 +419,7 @@
  
  if STATIC_MSN
  
-@@ -79,7 +79,7 @@
+@@ -79,7 +79,7 @@ else
  st =
  pkg_LTLIBRARIES   = libmsn.la
  libmsn_la_SOURCES = $(MSNP9SOURCES)
@@ -435,9 +428,9 @@
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/myspace/Makefile.am	2008-08-18 20:53:44.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/myspace/Makefile.am	2008-08-25 21:33:54.243551700 -0500
-@@ -18,7 +18,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/myspace/Makefile.am	2009-04-28 13:09:26.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/myspace/Makefile.am	2009-06-15 13:46:06.550017700 -0500
+@@ -19,7 +19,7 @@ MSIMSOURCES = markup.c \
  
  AM_CFLAGS = $(st)
  
@@ -446,7 +439,7 @@
  
  if STATIC_MYSPACE
  
-@@ -32,7 +32,7 @@
+@@ -33,7 +33,7 @@ else
  st =
  pkg_LTLIBRARIES       = libmyspace.la
  libmyspace_la_SOURCES = $(MSIMSOURCES)
@@ -455,9 +448,9 @@
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/novell/Makefile.am	2008-08-18 20:53:44.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/novell/Makefile.am	2008-08-25 21:33:54.259176200 -0500
-@@ -28,7 +28,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/novell/Makefile.am	2009-04-28 13:09:26.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/novell/Makefile.am	2009-06-15 13:46:06.553017900 -0500
+@@ -28,7 +28,7 @@ NOVELLSOURCES = \
  
  AM_CFLAGS = $(st)
  
@@ -466,18 +459,18 @@
  
  if STATIC_NOVELL
  
-@@ -46,7 +46,7 @@
- noinst_LIBRARIES =
- 
+@@ -42,7 +42,7 @@ else
+ st =
+ pkg_LTLIBRARIES      = libnovell.la
  libnovell_la_SOURCES = $(NOVELLSOURCES)
 -libnovell_la_LIBADD  = $(GLIB_LIBS)
 +libnovell_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/null/Makefile.am	2008-08-18 20:53:44.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/null/Makefile.am	2008-08-25 21:33:54.274800700 -0500
-@@ -6,13 +6,13 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/null/Makefile.am	2009-04-28 13:09:26.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/null/Makefile.am	2009-06-15 13:48:43.394988700 -0500
+@@ -8,7 +8,7 @@ NULLSOURCES = nullprpl.c
  
  AM_CFLAGS = $(st)
  
@@ -486,16 +479,9 @@
  
  # nullprpl isn't built by default. when it is built, it's dynamically linked.
  st =
- pkg_LTLIBRARIES   = libnull.la
- libnull_la_SOURCES = $(NULLSOURCES)
--libnull_la_LIBADD  = $(GLIB_LIBS)
-+libnull_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
- 
- AM_CPPFLAGS = \
- 	-I$(top_srcdir)/libpurple \
---- origsrc/pidgin-2.5.0/libpurple/protocols/oscar/Makefile.am	2008-08-18 20:53:45.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/oscar/Makefile.am	2008-08-25 21:33:54.274800700 -0500
-@@ -47,8 +47,8 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/oscar/Makefile.am	2009-04-28 13:09:26.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/oscar/Makefile.am	2009-06-15 13:46:06.562018400 -0500
+@@ -47,8 +47,8 @@ OSCARSOURCES = \
  
  AM_CFLAGS = $(st)
  
@@ -506,22 +492,20 @@
  if STATIC_OSCAR
  
  st = -DPURPLE_STATIC_PRPL
-@@ -60,9 +60,10 @@
- else
- 
+@@ -61,7 +62,7 @@ liboscar_la_CFLAGS  = $(AM_CFLAGS)
  st =
 -pkg_LTLIBRARIES     = liboscar.la libaim.la libicq.la
-+noinst_LTLIBRARIES = liboscar.la
++noinst_LTLIBRARIES  = liboscar.la
 +pkg_LTLIBRARIES     = libaim.la libicq.la
  liboscar_la_SOURCES = $(OSCARSOURCES)
 -liboscar_la_LIBADD  = $(GLIB_LIBS)
 +liboscar_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
  
- libaim_la_SOURCES = libaim.c
- libaim_la_LIBADD = liboscar.la
---- origsrc/pidgin-2.5.0/libpurple/protocols/qq/Makefile.am	2008-08-18 20:53:46.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/qq/Makefile.am	2008-08-25 21:33:54.337298700 -0500
-@@ -61,7 +61,7 @@
+ libaim_la_SOURCES   = libaim.c
+ libaim_la_LIBADD    = liboscar.la
+--- origsrc/pidgin-2.5.6/libpurple/protocols/qq/Makefile.am	2009-04-28 13:09:26.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/qq/Makefile.am	2009-06-15 13:46:06.566018600 -0500
+@@ -53,7 +53,7 @@ QQSOURCES = \
  
  AM_CFLAGS = $(st)
  
@@ -530,7 +514,7 @@
  
  if STATIC_QQ
  
-@@ -75,7 +75,7 @@
+@@ -67,7 +67,7 @@ else
  st =
  pkg_LTLIBRARIES  = libqq.la
  libqq_la_SOURCES = $(QQSOURCES)
@@ -539,42 +523,22 @@
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/sametime/Makefile.am	2008-08-18 20:53:47.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/sametime/Makefile.am	2008-08-25 21:33:54.337298700 -0500
-@@ -27,8 +27,8 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/sametime/Makefile.am	2009-04-28 13:09:27.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/sametime/Makefile.am	2009-06-15 13:49:04.179177500 -0500
+@@ -24,8 +24,8 @@ pkg_LTLIBRARIES     = libsametime.la
  endif
  
- 
+ libsametime_la_SOURCES = $(SAMETIMESOURCES)
 -libsametime_la_LDFLAGS = -module -avoid-version
 -libsametime_la_LIBADD = $(GLIB_LIBS) $(MEANWHILE_LIBS)
 +libsametime_la_LDFLAGS = -module -avoid-version -no-undefined
 +libsametime_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(MEANWHILE_LIBS)
  
- 
- AM_CFLAGS = \
---- origsrc/pidgin-2.5.0/libpurple/protocols/silc/Makefile.am	2008-08-18 20:53:47.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/silc/Makefile.am	2008-08-25 21:33:54.352923200 -0500
-@@ -6,7 +6,7 @@
- 
- AM_CFLAGS = $(st)
- 
--libsilcpurple_la_LDFLAGS = -module -avoid-version
-+libsilcpurple_la_LDFLAGS = -module -avoid-version -no-undefined
- 
- if STATIC_SILC
- 
-@@ -25,7 +25,7 @@
- noinst_LIBRARIES =
- 
- libsilcpurple_la_SOURCES = $(SILCSOURCES)
--libsilcpurple_la_LIBADD  = $(GLIB_LIBS) $(SILC_LIBS)
-+libsilcpurple_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(SILC_LIBS)
- 
- endif
- 
---- origsrc/pidgin-2.5.0/libpurple/protocols/silc10/Makefile.am	2008-08-18 20:53:47.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/silc10/Makefile.am	2008-08-25 21:33:54.368547700 -0500
-@@ -6,7 +6,7 @@
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/libpurple \
+--- origsrc/pidgin-2.5.6/libpurple/protocols/silc/Makefile.am	2009-04-28 13:09:27.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/silc/Makefile.am	2009-06-15 13:46:06.575019100 -0500
+@@ -19,7 +19,7 @@ SILCSOURCES = \
  
  AM_CFLAGS = $(st)
  
@@ -583,38 +547,58 @@
  
  if STATIC_SILC
  
-@@ -25,7 +25,7 @@
- noinst_LIBRARIES =
- 
+@@ -34,7 +34,7 @@ else
+ st = $(SILC_CFLAGS)
+ pkg_LTLIBRARIES          = libsilcpurple.la
  libsilcpurple_la_SOURCES = $(SILCSOURCES)
 -libsilcpurple_la_LIBADD  = $(GLIB_LIBS) $(SILC_LIBS)
 +libsilcpurple_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(SILC_LIBS)
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/simple/Makefile.am	2008-08-18 20:53:48.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/simple/Makefile.am	2008-08-25 21:33:54.415421200 -0500
-@@ -11,7 +11,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/silc10/Makefile.am	2009-04-28 13:09:27.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/silc10/Makefile.am	2009-06-15 13:46:06.578019300 -0500
+@@ -9,7 +9,7 @@ SILCSOURCES = silc.c silcpurple.h buddy.
  
- AM_CFLAGS = $(st) 
+ AM_CFLAGS = $(st)
+ 
+-libsilcpurple_la_LDFLAGS = -module -avoid-version
++libsilcpurple_la_LDFLAGS = -module -avoid-version -no-undefined
+ 
+ if STATIC_SILC
+ 
+@@ -24,7 +24,7 @@ else
+ st = $(SILC_CFLAGS)
+ pkg_LTLIBRARIES          = libsilcpurple.la
+ libsilcpurple_la_SOURCES = $(SILCSOURCES)
+-libsilcpurple_la_LIBADD  = $(GLIB_LIBS) $(SILC_LIBS)
++libsilcpurple_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(SILC_LIBS)
+ 
+ endif
+ 
+--- origsrc/pidgin-2.5.6/libpurple/protocols/simple/Makefile.am	2009-04-28 13:09:27.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/simple/Makefile.am	2009-06-15 13:46:06.581019500 -0500
+@@ -11,7 +11,7 @@ SIMPLESOURCES = \
+ 
+ AM_CFLAGS = $(st)
  
 -libsimple_la_LDFLAGS = -module -avoid-version
 +libsimple_la_LDFLAGS = -module -avoid-version -no-undefined
  
  if STATIC_MSN
  
-@@ -25,7 +25,7 @@
+@@ -25,7 +25,7 @@ else
  st =
- pkg_LTLIBRARIES   = libsimple.la
+ pkg_LTLIBRARIES      = libsimple.la
  libsimple_la_SOURCES = $(SIMPLESOURCES)
 -libsimple_la_LIBADD  = $(GLIB_LIBS)
 +libsimple_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS)
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/toc/Makefile.am	2008-08-18 20:53:48.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/toc/Makefile.am	2008-08-25 21:33:54.431045700 -0500
-@@ -8,7 +8,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/toc/Makefile.am	2009-04-28 13:09:27.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/toc/Makefile.am	2009-06-15 13:46:06.583019600 -0500
+@@ -8,7 +8,7 @@ TOCSOURCES = toc.c
  
  AM_CFLAGS = $(st)
  
@@ -623,7 +607,7 @@
  
  if STATIC_TOC
  
-@@ -22,6 +22,7 @@
+@@ -22,6 +22,7 @@ else
  st =
  pkg_LTLIBRARIES   = libtoc.la
  libtoc_la_SOURCES = $(TOCSOURCES)
@@ -631,9 +615,9 @@
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/yahoo/Makefile.am	2008-08-18 20:53:48.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/yahoo/Makefile.am	2008-08-25 21:33:54.431045700 -0500
-@@ -31,7 +31,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/yahoo/Makefile.am	2009-04-28 13:09:27.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/yahoo/Makefile.am	2009-06-15 13:46:06.586019700 -0500
+@@ -31,7 +31,7 @@ YAHOOSOURCES = \
  
  AM_CFLAGS = $(st)
  
@@ -642,7 +626,7 @@
  
  if STATIC_YAHOO
  
-@@ -45,7 +45,7 @@
+@@ -45,7 +45,7 @@ else
  st =
  pkg_LTLIBRARIES     = libyahoo.la
  libyahoo_la_SOURCES = $(YAHOOSOURCES)
@@ -651,9 +635,9 @@
  
  endif
  
---- origsrc/pidgin-2.5.0/libpurple/protocols/zephyr/Makefile.am	2008-08-18 20:53:49.000000000 -0500
-+++ src/pidgin-2.5.0/libpurple/protocols/zephyr/Makefile.am	2008-08-25 21:33:54.477919200 -0500
-@@ -73,7 +73,7 @@
+--- origsrc/pidgin-2.5.6/libpurple/protocols/zephyr/Makefile.am	2009-04-28 13:09:27.000000000 -0500
++++ src/pidgin-2.5.6/libpurple/protocols/zephyr/Makefile.am	2009-06-15 13:46:06.589019900 -0500
+@@ -72,7 +72,7 @@ ZEPHYRLIBS = $(KRB4_LDFLAGS) $(KRB4_LIBS
  
  ZEPHYRLIBSEXT = $(ZEPHYR_LDFLAGS) $(ZEPHYR_LIBS)
  
@@ -662,12 +646,12 @@
  
  if STATIC_ZEPHYR
  
-@@ -90,10 +90,10 @@
+@@ -89,10 +89,10 @@ pkg_LTLIBRARIES = libzephyr.la
  
  if EXTERNAL_LIBZEPHYR
  libzephyr_la_SOURCES = $(ZEPHYRSOURCESEXT)
--libzephyr_la_LIBADD = $(GLIB_LIBS) $(ZEPHYRLIBSEXT)
-+libzephyr_la_LIBADD = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(ZEPHYRLIBSEXT)
+-libzephyr_la_LIBADD  = $(GLIB_LIBS) $(ZEPHYRLIBSEXT)
++libzephyr_la_LIBADD  = $(top_builddir)/libpurple/libpurple.la $(GLIB_LIBS) $(ZEPHYRLIBSEXT)
  else
  libzephyr_la_SOURCES = $(ZEPHYRSOURCES)
 -libzephyr_la_LIBADD  = $(GLIB_LIBS) $(ZEPHYRLIBS)
@@ -675,9 +659,9 @@
  endif
  
  
---- origsrc/pidgin-2.5.0/pidgin/Makefile.am	2008-08-18 20:53:51.000000000 -0500
-+++ src/pidgin-2.5.0/pidgin/Makefile.am	2008-08-25 21:33:54.477919200 -0500
-@@ -68,7 +68,7 @@
+--- origsrc/pidgin-2.5.6/pidgin/Makefile.am	2009-04-28 13:09:27.000000000 -0500
++++ src/pidgin-2.5.6/pidgin/Makefile.am	2009-06-15 13:46:06.595020300 -0500
+@@ -68,7 +68,7 @@ if ENABLE_GTK
  pkgconfigdir = $(libdir)/pkgconfig
  pkgconfig_DATA = pidgin.pc
  
@@ -686,7 +670,7 @@
  
  bin_PROGRAMS = pidgin
  
-@@ -184,7 +184,13 @@
+@@ -184,7 +184,13 @@ pidgininclude_HEADERS = \
  
  
  pidgin_DEPENDENCIES = @LIBOBJS@
@@ -699,8 +683,8 @@
 +
  pidgin_LDADD = \
  	@LIBOBJS@ \
- 	$(DBUS_LIBS) \
-@@ -222,3 +228,9 @@
+ 	$(GLIB_LIBS) \
+@@ -223,3 +229,9 @@ AM_CPPFLAGS = \
  	$(LIBXML_CFLAGS) \
  	$(INTGG_CFLAGS)
  endif  # ENABLE_GTK
@@ -710,24 +694,24 @@
 +	$(mkinstalldirs) $(DESTDIR)$(libdir)
 +	$(INSTALL_DATA) libpidgin.a $(DESTDIR)$(libdir)
 +endif
---- origsrc/pidgin-2.5.0/pidgin/pidgin-uninstalled.pc.in	2008-08-18 20:53:53.000000000 -0500
-+++ src/pidgin-2.5.0/pidgin/pidgin-uninstalled.pc.in	2008-08-25 21:33:54.493543700 -0500
-@@ -11,3 +11,4 @@
+--- origsrc/pidgin-2.5.6/pidgin/pidgin-uninstalled.pc.in	2009-04-28 13:09:28.000000000 -0500
++++ src/pidgin-2.5.6/pidgin/pidgin-uninstalled.pc.in	2009-06-15 13:46:06.597020400 -0500
+@@ -11,3 +11,4 @@ Description: Pidgin is a GTK2-based inst
  Version: @VERSION@
  Requires: gtk+-2.0 purple
  Cflags: -I${pcfiledir}
 +Libs: -L${pcfiledir} @LIBPIDGIN@
---- origsrc/pidgin-2.5.0/pidgin/pidgin.pc.in	2008-08-18 20:53:53.000000000 -0500
-+++ src/pidgin-2.5.0/pidgin/pidgin.pc.in	2008-08-25 21:33:54.509168200 -0500
-@@ -11,4 +11,5 @@
+--- origsrc/pidgin-2.5.6/pidgin/pidgin.pc.in	2009-04-28 13:09:28.000000000 -0500
++++ src/pidgin-2.5.6/pidgin/pidgin.pc.in	2009-06-15 13:46:06.599020500 -0500
+@@ -11,4 +11,5 @@ Description: Pidgin is a GTK2-based inst
  Version: @VERSION@
  Requires: gtk+-2.0 purple
  Cflags: -I${includedir}/pidgin
 +Libs: -L${libdir} @LIBPIDGIN@
  
---- origsrc/pidgin-2.5.0/pidgin/plugins/Makefile.am	2008-08-18 20:54:02.000000000 -0500
-+++ src/pidgin-2.5.0/pidgin/plugins/Makefile.am	2008-08-25 21:33:54.509168200 -0500
-@@ -30,22 +30,22 @@
+--- origsrc/pidgin-2.5.6/pidgin/plugins/Makefile.am	2009-04-28 13:09:29.000000000 -0500
++++ src/pidgin-2.5.6/pidgin/plugins/Makefile.am	2009-06-15 13:46:06.603020700 -0500
+@@ -30,22 +30,22 @@ SUBDIRS = \
  
  plugindir = $(libdir)/pidgin
  
@@ -766,7 +750,7 @@
  
  if PLUGINS
  
-@@ -86,22 +86,22 @@
+@@ -86,22 +86,22 @@ timestamp_la_SOURCES        = timestamp.
  timestamp_format_la_SOURCES = timestamp_format.c
  xmppconsole_la_SOURCES      = xmppconsole.c
  
@@ -805,8 +789,8 @@
  
  endif # PLUGINS
  
---- origsrc/pidgin-2.5.0/pidgin/plugins/cap/Makefile.am	2008-08-18 20:54:02.000000000 -0500
-+++ src/pidgin-2.5.0/pidgin/plugins/cap/Makefile.am	2008-08-25 21:33:54.524792700 -0500
+--- origsrc/pidgin-2.5.6/pidgin/plugins/cap/Makefile.am	2009-04-28 13:09:29.000000000 -0500
++++ src/pidgin-2.5.6/pidgin/plugins/cap/Makefile.am	2009-06-15 13:46:06.605020800 -0500
 @@ -1,6 +1,6 @@
  capdir = $(libdir)/pidgin
  
@@ -815,7 +799,7 @@
  
  if PLUGINS
  
-@@ -15,7 +15,7 @@
+@@ -15,7 +15,7 @@ cap_la_SOURCES = \
  
  endif
  
@@ -824,8 +808,8 @@
  
  AM_CPPFLAGS = \
  	-DDATADIR=\"$(datadir)\" \
---- origsrc/pidgin-2.5.0/pidgin/plugins/gestures/Makefile.am	2008-08-18 20:54:03.000000000 -0500
-+++ src/pidgin-2.5.0/pidgin/plugins/gestures/Makefile.am	2008-08-25 21:33:54.571666200 -0500
+--- origsrc/pidgin-2.5.6/pidgin/plugins/gestures/Makefile.am	2009-04-28 13:09:30.000000000 -0500
++++ src/pidgin-2.5.6/pidgin/plugins/gestures/Makefile.am	2009-06-15 13:46:06.607020900 -0500
 @@ -1,6 +1,6 @@
  plugindir = $(libdir)/pidgin
  
@@ -834,7 +818,7 @@
  
  if PLUGINS
  
-@@ -13,7 +13,7 @@
+@@ -13,7 +13,7 @@ gestures_la_SOURCES = \
  	stroke.c \
  	stroke-draw.c
  
@@ -843,8 +827,8 @@
  
  endif
  
---- origsrc/pidgin-2.5.0/pidgin/plugins/gevolution/Makefile.am	2008-08-18 20:54:03.000000000 -0500
-+++ src/pidgin-2.5.0/pidgin/plugins/gevolution/Makefile.am	2008-08-25 21:33:54.571666200 -0500
+--- origsrc/pidgin-2.5.6/pidgin/plugins/gevolution/Makefile.am	2009-04-28 13:09:30.000000000 -0500
++++ src/pidgin-2.5.6/pidgin/plugins/gevolution/Makefile.am	2009-06-15 13:46:06.609021100 -0500
 @@ -1,6 +1,6 @@
  plugindir = $(libdir)/pidgin
  
@@ -853,7 +837,7 @@
  
  if PLUGINS
  
-@@ -15,7 +15,7 @@
+@@ -15,7 +15,7 @@ gevolution_la_SOURCES = \
  	new_person_dialog.c \
  	eds-utils.c
  
@@ -862,9 +846,9 @@
  
  endif
  
---- origsrc/pidgin-2.5.0/pidgin/plugins/musicmessaging/Makefile.am	2008-08-18 20:54:03.000000000 -0500
-+++ src/pidgin-2.5.0/pidgin/plugins/musicmessaging/Makefile.am	2008-08-25 21:33:54.602915200 -0500
-@@ -3,7 +3,7 @@
+--- origsrc/pidgin-2.5.6/pidgin/plugins/musicmessaging/Makefile.am	2009-04-28 13:09:30.000000000 -0500
++++ src/pidgin-2.5.6/pidgin/plugins/musicmessaging/Makefile.am	2009-06-15 13:46:06.612021200 -0500
+@@ -3,7 +3,7 @@ EXTRA_DIST = \
  
  musicmessagingdir = $(libdir)/pidgin
  
@@ -873,7 +857,7 @@
  
  if PLUGINS
  if ENABLE_DBUS
-@@ -16,7 +16,7 @@
+@@ -16,7 +16,7 @@ musicmessaging_LTLIBRARIES = musicmessag
  musicmessaging_la_SOURCES = \
  	musicmessaging.c
  
@@ -882,9 +866,9 @@
  
  CLEANFILES              = music-messaging-bindings.c
  
---- origsrc/pidgin-2.5.0/pidgin/plugins/perl/common/Makefile.PL.in	2008-08-18 20:54:03.000000000 -0500
-+++ src/pidgin-2.5.0/pidgin/plugins/perl/common/Makefile.PL.in	2008-08-25 21:33:54.634164200 -0500
-@@ -10,6 +10,7 @@
+--- origsrc/pidgin-2.5.6/pidgin/plugins/perl/common/Makefile.PL.in	2009-04-28 13:09:30.000000000 -0500
++++ src/pidgin-2.5.6/pidgin/plugins/perl/common/Makefile.PL.in	2009-06-15 13:46:06.614021300 -0500
+@@ -10,6 +10,7 @@ WriteMakefile(
         'AUTHOR'        => 'Pidgin <http://pidgin.im/>') :  ()),
      'DEFINE'        => '@DEBUG_CFLAGS@',
      'INC'           => '-I. -I@srcdir@ -I@top_srcdir@ -I@top_srcdir@/libpurple -I@top_srcdir@/pidgin @GTK_CFLAGS@',
@@ -892,9 +876,9 @@
      'OBJECT'        => '$(O_FILES)', # link all the C files too
      'TYPEMAPS'      => ["@top_srcdir@/libpurple/plugins/perl/common/typemap"],
  #    'OPTIMIZE'      => '-g', # For debugging.
---- origsrc/pidgin-2.5.0/pidgin/plugins/ticker/Makefile.am	2008-08-18 20:54:03.000000000 -0500
-+++ src/pidgin-2.5.0/pidgin/plugins/ticker/Makefile.am	2008-08-25 21:33:54.649788700 -0500
-@@ -3,7 +3,7 @@
+--- origsrc/pidgin-2.5.6/pidgin/plugins/ticker/Makefile.am	2009-04-28 13:09:30.000000000 -0500
++++ src/pidgin-2.5.6/pidgin/plugins/ticker/Makefile.am	2009-06-15 13:46:06.616021500 -0500
+@@ -3,7 +3,7 @@ EXTRA_DIST = \
  
  plugindir = $(libdir)/pidgin
  
@@ -903,7 +887,7 @@
  
  if PLUGINS
  
-@@ -14,7 +14,7 @@
+@@ -14,7 +14,7 @@ ticker_la_SOURCES = \
  	gtkticker.h \
  	ticker.c
  

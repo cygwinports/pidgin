@@ -1,5 +1,5 @@
 category: Gnome Net
-requires: cygwin glib2-devel libdbus-glib_1-devel libdbus1-devel gettext libxml2-devel minires-devel
+requires: libpurple0 libdbus-glib_1-devel libdbus1-devel libglib2.0-devel gettext libxml2-devel
 external-source: pidgin
 sdesc: "GNOME multi-protocol IM library (development)"
 ldesc: "libpurple is a library intended to be used by programmers 
