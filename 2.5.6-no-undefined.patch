@@ -377,10 +377,12 @@
  
  if STATIC_JABBER
  
-@@ -68,7 +69,7 @@ else
+@@ -68,9 +68,10 @@
+ else
+ 
  st =
 -pkg_LTLIBRARIES      = libjabber.la libxmpp.la
--noinst_LTLIBRARIES      = libjabber.la
++noinst_LTLIBRARIES   = libjabber.la
 +pkg_LTLIBRARIES      = libxmpp.la
  libjabber_la_SOURCES = $(JABBERSOURCES)
 -libjabber_la_LIBADD  = $(GLIB_LIBS) $(SASL_LIBS) $(LIBXML_LIBS)
@@ -492,7 +494,9 @@
  if STATIC_OSCAR
  
  st = -DPURPLE_STATIC_PRPL
-@@ -61,7 +62,7 @@ liboscar_la_CFLAGS  = $(AM_CFLAGS)
+@@ -61,9 +62,10 @@
+ else
+ 
  st =
 -pkg_LTLIBRARIES     = liboscar.la libaim.la libicq.la
 +noinst_LTLIBRARIES  = liboscar.la

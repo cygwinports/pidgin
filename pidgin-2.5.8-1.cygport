@@ -5,8 +5,8 @@ HOMEPAGE="http://pidgin.im/"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 PATCH_URI="
 	2.5.6-no-undefined.patch
+	2.5.7-dnsquery.patch
 "
-#	2.5-dnsquery.patch
 
 PKG_NAMES="pidgin pidgin-devel libpurple0 libpurple-devel" # finch finch-devel libgnt0 libgnt-devel"
 pidgin_CONTENTS="etc/ usr/bin/pidgin.exe usr/bin/purple-* usr/lib/pidgin/ 
