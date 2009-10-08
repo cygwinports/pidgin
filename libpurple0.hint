@@ -1,5 +1,5 @@
 category: Gnome Net
-requires: libdbus-glib_1_2 libdbus1_3 libgcc1 libglib2.0_0 libgnutls26 libintl8 libmeanwhile1 libsasl2 libsilc1.1_2 libsilcclient1.1_3 libxml2 tcl tk
+requires: libdbus-glib_1_2 libdbus1_3 libgcc1 libglib2.0_0 libgnutls26 libgstfarsight0.10_0 libgstinterfaces0.10_0 libgstreamer0.10_0 libidn11 libintl8 libmeanwhile1 libsasl2 libsilc1.1_2 libsilcclient1.1_3 libxml2 tcl tk
 external-source: pidgin
 sdesc: "GNOME multi-protocol IM library (runtime)"
 ldesc: "libpurple is a library intended to be used by programmers 
