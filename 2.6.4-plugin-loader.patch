@@ -1,0 +1,15 @@
+Mono assemblies also have the .dll suffix, but as cygport unsets the 
+executable bit (so they don't get mistakenly run by .NET), we can use
+that to distinguish them from native C plugins.
+
+--- origsrc/pidgin-2.6.4/libpurple/plugin.c	2009-11-29 21:13:47.000000000 -0600
++++ src/pidgin-2.6.4/libpurple/plugin.c	2009-12-20 00:00:33.825632700 -0600
+@@ -239,7 +239,7 @@ purple_plugin_probe(const char *filename
+ 		}
+ 	}
+ 
+-	plugin = purple_plugin_new(has_file_extension(filename, G_MODULE_SUFFIX), filename);
++	plugin = purple_plugin_new((has_file_extension(filename, G_MODULE_SUFFIX) && g_file_test(filename, G_FILE_TEST_IS_EXECUTABLE)), filename);
+ 
+ 	if (plugin->native_plugin) {
+ 		const char *error;
