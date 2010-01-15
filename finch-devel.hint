@@ -1,0 +1,13 @@
+category: Net
+requires: finch libglib2.0-devel libgnt-devel libpurple-devel
+external-source: pidgin
+sdesc: "Text-based version of the Pidgin IM client (plugin development)"
+ldesc: "libpurple is a library intended to be used by programmers 
+seeking to write an IM client that connects to many IM networks.  It 
+supports AIM, ICQ, Jabber, MSN and Yahoo!, among others.
+
+Pidgin is an graphical IM client written in C which uses the GTK+
+toolkit.
+
+Finch is a text-based IM client written in C which uses the ncurses
+toolkit."

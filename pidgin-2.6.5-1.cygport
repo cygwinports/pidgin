@@ -6,10 +6,12 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 PATCH_URI="
 	2.6.4-no-undefined.patch
 	2.5.7-dnsquery.patch
+	2.6.5-ncursesw-fix.patch
 "
 
-PKG_NAMES="pidgin pidgin-devel libpurple0 libpurple-devel" # finch finch-devel libgnt0 libgnt-devel"
-pidgin_CONTENTS="etc/ usr/bin/pidgin.exe usr/bin/purple-* usr/lib/pidgin/ 
+PKG_NAMES="pidgin pidgin-devel libpurple0 libpurple-devel \
+           finch finch-devel libgnt0 libgnt-devel"
+pidgin_CONTENTS="etc/ usr/bin/pidgin.exe usr/bin/purple-* usr/lib/pidgin/
                  usr/share/applications/ usr/share/doc/ usr/share/icons/
                  usr/share/locale/ usr/share/man/man1/pidgin.1.gz
                  usr/share/pixmaps/pidgin/"
@@ -18,17 +20,16 @@ libpurple0_CONTENTS="usr/bin/cygpurple*-0.dll usr/lib/purple-2/
                      usr/share/purple/ usr/share/sounds/"
 libpurple_devel_CONTENTS="usr/include/libpurple/ usr/lib/libpurple*
                           usr/lib/pkgconfig/purple.pc usr/share/aclocal/"
-#finch_CONTENTS="usr/bin/finch.exe usr/lib/finch/ usr/share/man/man1/finch.1.gz"
-#finch_devel_CONTENTS="usr/include/finch/ usr/lib/libfinch.a usr/lib/pkgconfig/finch.pc"
-#libgnt0_CONTENTS="usr/bin/cyggnt-*.dll usr/lib/gnt/"
-#libgnt_devel_CONTENTS="usr/include/gnt/ usr/lib/libgnt.* usr/lib/pkgconfig/gnt.pc"
+finch_CONTENTS="usr/bin/finch.exe usr/lib/finch/ usr/lib/gnt/ usr/share/man/man1/finch.1.gz"
+finch_devel_CONTENTS="usr/include/finch/ usr/lib/libfinch.a usr/lib/pkgconfig/finch.pc"
+libgnt0_CONTENTS="usr/bin/cyggnt-0.dll"
+libgnt_devel_CONTENTS="usr/include/gnt/ usr/lib/libgnt.* usr/lib/pkgconfig/gnt.pc"
 
 DEPS_PATH="/usr/lib/purple-2"
 
 CPPFLAGS+=" -DSILC_MP_GMP"
 
-# consoleui: (finch) requires ncursesw to work properly(?)
-# mono: segfaults in libmono; requires 2.6.4-plugin-loader.patch
+# mono: segfaults in libmono (known issue); requires 2.6.4-plugin-loader.patch
 # perl: rpath issues
 CYGCONF_ARGS="
 	--enable-cyrus-sasl \
@@ -38,13 +39,13 @@ CYGCONF_ARGS="
 	--disable-nss \
 	--enable-tcl --enable-tk \
 	--disable-avahi \
-	--disable-consoleui \
+	--enable-consoleui \
 	--enable-gtkui \
 	--disable-mono \
 	--disable-nm \
 	--disable-perl --with-perl-lib=vendor \
 	--disable-screensaver \
-	--with-ncurses-headers=/usr/include/ncurses \
+	--with-ncurses-headers=/usr/include/ncursesw \
 	--with-gnutls-includes=/usr/include/gnutls --with-gnutls-libs=/usr/lib \
 	--with-gadu-includes=/usr/include --with-gadu-libs=/usr/lib
 "

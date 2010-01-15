@@ -1,0 +1,11 @@
+--- origsrc/pidgin-2.6.5/finch/libgnt/gntwm.c	2009-04-05 17:14:20.000000000 -0500
++++ src/pidgin-2.6.5/finch/libgnt/gntwm.c	2010-01-14 15:47:16.103051400 -0600
+@@ -162,7 +162,7 @@ gnt_wm_copy_win(GntWidget *widget, GntNo
+ static void
+ work_around_for_ncurses_bug(void)
+ {
+-#ifndef NO_WIDECHAR
++#if 0 // ndef NO_WIDECHAR
+ 	PANEL *panel = NULL;
+ 	while ((panel = panel_below(panel)) != NULL) {
+ 		int sx, ex, sy, ey, w, y;
