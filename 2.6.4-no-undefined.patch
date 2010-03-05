@@ -492,13 +492,6 @@
 +	$(mkinstalldirs) $(DESTDIR)$(libdir)
 +	$(INSTALL_DATA) libpidgin.a $(DESTDIR)$(libdir)
 +endif
---- origsrc/pidgin-2.6.4/pidgin/pidgin-uninstalled.pc.in	2009-11-29 21:13:55.000000000 -0600
-+++ src/pidgin-2.6.4/pidgin/pidgin-uninstalled.pc.in	2009-12-19 22:14:17.099904800 -0600
-@@ -11,3 +11,4 @@ Description: Pidgin is a GTK2-based inst
- Version: @VERSION@
- Requires: gtk+-2.0 purple
- Cflags: -I${pcfiledir}
-+Libs: -L${pcfiledir} @LIBPIDGIN@
 --- origsrc/pidgin-2.6.4/pidgin/pidgin.pc.in	2009-11-29 21:13:55.000000000 -0600
 +++ src/pidgin-2.6.4/pidgin/pidgin.pc.in	2009-12-19 22:14:17.103905100 -0600
 @@ -11,4 +11,5 @@ Description: Pidgin is a GTK2-based inst
