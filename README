@@ -11,8 +11,8 @@ Runtime requirements:
   cygwin-1.7.5-1
   libatk1.0_0-1.28.0-1
   libbonobo2_0-2.24.2-1
-  libdbus-glib_1_2-0.86-1
   libdbus1_3-1.2.24-1
+  libdbus-glib_1_2-0.82-1
   libebook1.2_9-2.28.2-1
   libedataserver1.2_11-2.28.2-1
   libgcc1-4.3.4-3
@@ -20,10 +20,10 @@ Runtime requirements:
   libglib2.0_0-2.22.4-2
   libgnutls26-2.8.3-1
   libgstfarsight0.10_0-0.0.17-1
-  libgstinterfaces0.10_0-0.10.28-1
-  libgstreamer0.10_0-0.10.28-1
+  libgstinterfaces0.10_0-0.10.29-1
+  libgstreamer0.10_0-0.10.29-1
   libgtk2.0_0-2.18.6-1
-  libgtkspell0-2.0.15-11
+  libgtkspell0-2.0.16-1
   libICE6-1.0.6-1
   libidn11-1.16-1
   libintl8-0.17-11
@@ -46,13 +46,13 @@ Build requirements:
 (besides corresponding -devel packages)
   autoconf2.5-2.65-1
   automake1.9-1.9.6-10
-  binutils-2.20.51-1
-  cygport-0.9.83-1
+  binutils-2.20.51-2
+  cygport-0.9.84-1
   gawk-3.1.7-1
   gcc4-core-4.3.4-3
   gettext-devel-0.17-11
   gnome-common-2.28.0-1
-  intltool-0.40.6-1
+  intltool-0.41.1-1
   libtool-2.2.7a-15
   make-3.81-2
   pkg-config-0.23b-10
@@ -67,29 +67,32 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack pidgin-2.6.6-X-src.tar.bz2
+  unpack pidgin-2.7.0-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./pidgin-2.6.6-X.cygport all
+  cygport ./pidgin-2.7.0-X.cygport all
 
 This will create:
-  /usr/src/finch-2.6.6-X.tar.bz2
-  /usr/src/finch-devel-2.6.6-X.tar.bz2
-  /usr/src/libgnt-devel-2.6.6-X.tar.bz2
-  /usr/src/libgnt0-2.6.6-X.tar.bz2
-  /usr/src/libpurple-devel-2.6.6-X.tar.bz2
-  /usr/src/libpurple0-2.6.6-X.tar.bz2
-  /usr/src/pidgin-2.6.6-X-src.tar.bz2
-  /usr/src/pidgin-2.6.6-X.tar.bz2
-  /usr/src/pidgin-devel-2.6.6-X.tar.bz2
+  /usr/src/finch-2.7.0-X.tar.bz2
+  /usr/src/finch-devel-2.7.0-X.tar.bz2
+  /usr/src/libgnt-devel-2.7.0-X.tar.bz2
+  /usr/src/libgnt0-2.7.0-X.tar.bz2
+  /usr/src/libpurple-devel-2.7.0-X.tar.bz2
+  /usr/src/libpurple0-2.7.0-X.tar.bz2
+  /usr/src/pidgin-2.7.0-X-src.tar.bz2
+  /usr/src/pidgin-2.7.0-X.tar.bz2
+  /usr/src/pidgin-devel-2.7.0-X.tar.bz2
+  /usr/src/pidgin-evolution-2.7.0-X.tar.bz2
+  /usr/src/pidgin-tcl-2.7.0-X.tar.bz2
 
 -------------------------------------------
 
 Port Notes:
 
------ version 2.6.6-2 -----
-Rebuilt for Python 2.6.
+----- version 2.7.0-1 -----
+Version bump, built for Python 2.6.
+Created separate packages for evolution and tcl plugins.
 
 ----- version 2.6.6-1 -----
 Version bump.
