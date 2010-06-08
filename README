@@ -10,11 +10,10 @@ toolkit.
 Runtime requirements:
   cygwin-1.7.5-1
   libatk1.0_0-1.28.0-1
-  libbonobo2_0-2.24.2-1
   libdbus1_3-1.2.24-1
   libdbus-glib_1_2-0.82-1
-  libebook1.2_9-2.28.2-1
-  libedataserver1.2_11-2.28.2-1
+  libebook1.2_9-2.30.1-1
+  libedataserver1.2_11-2.30.1-1
   libgcc1-4.3.4-3
   libgdk_pixbuf2.0_0-2.18.6-1
   libglib2.0_0-2.22.4-2
@@ -67,30 +66,30 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack pidgin-2.7.0-X-src.tar.bz2
+  unpack pidgin-2.7.1-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./pidgin-2.7.0-X.cygport all
+  cygport ./pidgin-2.7.1-X.cygport all
 
 This will create:
-  /usr/src/finch-2.7.0-X.tar.bz2
-  /usr/src/finch-devel-2.7.0-X.tar.bz2
-  /usr/src/libgnt-devel-2.7.0-X.tar.bz2
-  /usr/src/libgnt0-2.7.0-X.tar.bz2
-  /usr/src/libpurple-devel-2.7.0-X.tar.bz2
-  /usr/src/libpurple0-2.7.0-X.tar.bz2
-  /usr/src/pidgin-2.7.0-X-src.tar.bz2
-  /usr/src/pidgin-2.7.0-X.tar.bz2
-  /usr/src/pidgin-devel-2.7.0-X.tar.bz2
-  /usr/src/pidgin-evolution-2.7.0-X.tar.bz2
-  /usr/src/pidgin-tcl-2.7.0-X.tar.bz2
+  /usr/src/finch-2.7.1-X.tar.bz2
+  /usr/src/finch-devel-2.7.1-X.tar.bz2
+  /usr/src/libgnt-devel-2.7.1-X.tar.bz2
+  /usr/src/libgnt0-2.7.1-X.tar.bz2
+  /usr/src/libpurple-devel-2.7.1-X.tar.bz2
+  /usr/src/libpurple0-2.7.1-X.tar.bz2
+  /usr/src/pidgin-2.7.1-X-src.tar.bz2
+  /usr/src/pidgin-2.7.1-X.tar.bz2
+  /usr/src/pidgin-devel-2.7.1-X.tar.bz2
+  /usr/src/pidgin-evolution-2.7.1-X.tar.bz2
+  /usr/src/pidgin-tcl-2.7.1-X.tar.bz2
 
 -------------------------------------------
 
 Port Notes:
 
------ version 2.7.0-1 -----
+----- version 2.7.1-1 -----
 Version bump, built for Python 2.6.
 Created separate packages for evolution and tcl plugins.
 
