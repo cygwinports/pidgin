@@ -1,5 +1,5 @@
 category: Gnome Net
-requires: libgcc1 libglib2.0_0 libpurple0 tcl tk
+requires: libgcc1 libglib2.0_0 libpurple0 tcl tcl-tk
 external-source: pidgin
 sdesc: "GNOME multi-protocol IM library (Tcl plugin)"
 ldesc: "libpurple is a library intended to be used by programmers 
