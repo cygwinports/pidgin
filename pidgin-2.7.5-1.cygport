@@ -7,6 +7,8 @@ PATCH_URI="
 	2.7.0-no-undefined.patch
 	2.5.7-dnsquery.patch
 	2.6.5-ncursesw-fix.patch
+	2.7.5-libgadu-version.patch
+	2.7.5-nss-cygwin.patch
 "
 
 PKG_NAMES="pidgin pidgin-devel pidgin-evolution pidgin-tcl
@@ -51,4 +53,5 @@ CYGCONF_ARGS="
 	--with-ncurses-headers=/usr/include/ncursesw \
 	--with-gnutls-includes=/usr/include/gnutls --with-gnutls-libs=/usr/lib \
 	--with-gadu-includes=/usr/include --with-gadu-libs=/usr/lib
+	--with-zephyr=/usr
 "
