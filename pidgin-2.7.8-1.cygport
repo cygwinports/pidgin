@@ -7,7 +7,6 @@ PATCH_URI="
 	2.7.0-no-undefined.patch
 	2.5.7-dnsquery.patch
 	2.6.5-ncursesw-fix.patch
-	2.7.5-libgadu-version.patch
 	2.7.5-nss-cygwin.patch
 "
 
