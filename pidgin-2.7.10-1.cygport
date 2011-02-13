@@ -40,7 +40,7 @@ CYGCONF_ARGS="
 	--enable-dbus \
 	--enable-gevolution \
 	--enable-gnutls \
-	--disable-nss \
+	--enable-nss \
 	--enable-tcl --enable-tk \
 	--disable-avahi \
 	--enable-consoleui \
@@ -50,6 +50,8 @@ CYGCONF_ARGS="
 	--disable-perl --with-perl-lib=vendor \
 	--disable-screensaver \
 	--with-ncurses-headers=/usr/include/ncursesw \
+	--with-nspr-includes=/usr/include/nspr --with-nspr-libs=/usr/lib \
+	--with-nss-includes=/usr/include/nss --with-nss-libs=/usr/lib \
 	--with-gnutls-includes=/usr/include/gnutls --with-gnutls-libs=/usr/lib \
 	--with-gadu-includes=/usr/include --with-gadu-libs=/usr/lib
 	--with-zephyr=/usr
