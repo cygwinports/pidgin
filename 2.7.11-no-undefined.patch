@@ -109,14 +109,14 @@
  
  if PLUGINS
  
---- origsrc/pidgin-2.7.0/libpurple/Makefile.am	2010-05-27 19:23:03.209677200 -0500
-+++ src/pidgin-2.7.0/libpurple/Makefile.am	2010-05-27 15:25:09.000000000 -0500
+--- origsrc/pidgin-2.7.11/libpurple/Makefile.am
++++ src/pidgin-2.7.11/libpurple/Makefile.am
 @@ -32,7 +32,7 @@ endif
  pkgconfigdir = $(libdir)/pkgconfig
  pkgconfig_DATA = purple.pc
  
--SUBDIRS = $(GCONF_DIR) plugins protocols . tests example
-+SUBDIRS = . $(GCONF_DIR) plugins protocols tests example
+-SUBDIRS = $(GCONF_DIR) plugins protocols ciphers . tests example
++SUBDIRS = ciphers . $(GCONF_DIR) plugins protocols tests example
  
  purple_coresources = \
  	account.c \

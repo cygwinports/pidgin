@@ -4,7 +4,7 @@ DESCRIPTION="GNOME instant messaging client"
 HOMEPAGE="http://pidgin.im/"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 PATCH_URI="
-	2.7.0-no-undefined.patch
+	2.7.11-no-undefined.patch
 	2.5.7-dnsquery.patch
 	2.6.5-ncursesw-fix.patch
 	2.7.5-nss-cygwin.patch
