@@ -358,17 +358,6 @@
  liboscar_la_SOURCES = $(OSCARSOURCES)
  liboscar_la_LIBADD  = $(GLIB_LIBS)
  
---- origsrc/pidgin-2.7.0/libpurple/protocols/qq/Makefile.am	2010-05-27 19:23:03.296682100 -0500
-+++ src/pidgin-2.7.0/libpurple/protocols/qq/Makefile.am	2010-05-27 15:25:09.000000000 -0500
-@@ -53,7 +53,7 @@ QQSOURCES = \
- 
- AM_CFLAGS = $(st)
- 
--libqq_la_LDFLAGS = -module -avoid-version
-+libqq_la_LDFLAGS = -module -avoid-version $(PURPLE_PLUGIN_LDFLAGS)
- 
- if STATIC_QQ
- 
 --- origsrc/pidgin-2.7.0/libpurple/protocols/sametime/Makefile.am	2010-05-27 19:23:03.301682400 -0500
 +++ src/pidgin-2.7.0/libpurple/protocols/sametime/Makefile.am	2010-05-27 15:25:09.000000000 -0500
 @@ -24,7 +24,7 @@ pkg_LTLIBRARIES     = libsametime.la

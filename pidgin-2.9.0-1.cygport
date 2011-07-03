@@ -10,7 +10,8 @@ PATCH_URI="
 	2.7.5-nss-cygwin.patch
 "
 
-PKG_NAMES="pidgin pidgin-devel pidgin-evolution pidgin-tcl
+PKG_NAMES="pidgin pidgin-devel pidgin-bonjour pidgin-evolution pidgin-gadugadu
+           pidgin-sametime pidgin-silc pidgin-tcl pidgin-zephyr
            libpurple0 libpurple-devel finch finch-devel libgnt0 libgnt-devel"
 pidgin_CONTENTS="--exclude=gevolution*
                  etc/ usr/bin/pidgin.exe usr/bin/purple-* usr/lib/pidgin/
@@ -18,9 +19,16 @@ pidgin_CONTENTS="--exclude=gevolution*
                  usr/share/locale/ usr/share/man/man1/pidgin.1.gz
                  usr/share/pixmaps/pidgin/"
 pidgin_devel_CONTENTS="usr/include/pidgin/ usr/lib/libpidgin.a usr/lib/pkgconfig/pidgin.pc"
+pidgin_bonjour_CONTENTS="usr/lib/purple-2/*bonjour.*"
 pidgin_evolution_CONTENTS="usr/lib/pidgin/gevolution.*"
+pidgin_gadugadu_CONTENTS="usr/lib/purple-2/*gg.*"
+pidgin_sametime_CONTENTS="usr/lib/purple-2/*sametime.*"
+pidgin_silc_CONTENTS="usr/lib/purple-2/*silcpurple.*"
 pidgin_tcl_CONTENTS="usr/lib/purple-2/tcl.*"
-libpurple0_CONTENTS="--exclude=tcl.* usr/bin/cygpurple*-0.dll usr/lib/purple-2/
+pidgin_zephyr_CONTENTS="usr/lib/purple-2/*zephyr.*"
+libpurple0_CONTENTS="--exclude=*bonjour.* --exclude=*gg.* --exclude=*sametime.*
+                     --exclude=*silcpurple.* --exclude=tcl.* --exclude=*zephyr.*
+                     usr/bin/cygpurple*-0.dll usr/lib/purple-2/
                      usr/share/purple/ usr/share/sounds/"
 libpurple_devel_CONTENTS="usr/include/libpurple/ usr/lib/libpurple*
                           usr/lib/pkgconfig/purple.pc usr/share/aclocal/"
@@ -36,13 +44,13 @@ CPPFLAGS+=" -DSILC_MP_GMP"
 # mono: segfaults in libmono (known issue); requires 2.6.4-plugin-loader.patch
 # perl: rpath issues
 CYGCONF_ARGS="
+	--enable-avahi \
 	--enable-cyrus-sasl \
 	--enable-dbus \
 	--enable-gevolution \
 	--enable-gnutls \
 	--enable-nss \
 	--enable-tcl --enable-tk \
-	--disable-avahi \
 	--enable-consoleui \
 	--enable-gtkui \
 	--disable-mono \

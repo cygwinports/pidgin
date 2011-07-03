@@ -1,7 +1,7 @@
 category: Gnome Net
-requires: libdbus-glib_1_2 libdbus1_3 libgcc1 libglib2.0_0 libgnutls26 libgstfarsight0.10_0 libgstinterfaces0.10_0 libgstreamer0.10_0 libidn11 libintl8 libnspr4 libnss3 libsasl2 libxml2
+requires: libglib2.0_0 libintl8 libpurple0 libmeanwhile1
 external-source: pidgin
-sdesc: "GNOME multi-protocol IM library (runtime)"
+sdesc: "GNOME multi-protocol IM library (Sametime protocol plugin)"
 ldesc: "libpurple is a library intended to be used by programmers 
 seeking to write an IM client that connects to many IM networks.  It 
 supports AIM, ICQ, Jabber, MSN and Yahoo!, among others.
