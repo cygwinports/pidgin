@@ -1,6 +1,6 @@
 --- origsrc/pidgin-2.7.0/configure.ac	2010-05-27 19:23:03.184675700 -0500
 +++ src/pidgin-2.7.0/configure.ac	2010-05-27 15:32:25.544208000 -0500
-@@ -2523,6 +2523,34 @@ if test "x$enable_debug" = "xyes" ; then
+@@ -2523,6 +2523,33 @@ if test "x$enable_debug" = "xyes" ; then
  	AC_DEFINE(DEBUG, 1, [Define if debugging is enabled.])
  fi
  
@@ -17,7 +17,6 @@
 +*)
 +	platform_win32=no
 +	LIBFINCH=
-+	LIBPIDGIN=
 +	LIBPIDGIN=
 +	FINCH_PLUGIN_LDFLAGS=
 +	PIDGIN_PLUGIN_LDFLAGS=

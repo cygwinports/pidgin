@@ -5,7 +5,6 @@ HOMEPAGE="http://pidgin.im/"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 PATCH_URI="
 	2.7.11-no-undefined.patch
-	2.5.7-dnsquery.patch
 	2.6.5-ncursesw-fix.patch
 	2.7.5-nss-cygwin.patch
 "
@@ -57,6 +56,7 @@ CYGCONF_ARGS="
 	--disable-nm \
 	--disable-perl --with-perl-lib=vendor \
 	--disable-screensaver \
+	--with-system-ssl-certs=/usr/ssl/certs \
 	--with-ncurses-headers=/usr/include/ncursesw \
 	--with-nspr-includes=/usr/include/nspr --with-nspr-libs=/usr/lib \
 	--with-nss-includes=/usr/include/nss --with-nss-libs=/usr/lib \
