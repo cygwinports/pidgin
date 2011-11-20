@@ -1,5 +1,5 @@
 category: Gnome Net
-requires: libebook1.2_10 libedataserver1.2_14 libgcc1 libgdk_pixbuf2.0_0 libglib2.0_0 libgtk2.0_0 libintl8 libpurple0 pidgin
+requires: libebook1.2_12 libedataserver1.2_15 libgcc1 libgdk_pixbuf2.0_0 libglib2.0_0 libgtk2.0_0 libintl8 libpurple0 pidgin
 external-source: pidgin
 sdesc: "GNOME multi-protocol IM client (Evolution integration)"
 ldesc: "libpurple is a library intended to be used by programmers 
