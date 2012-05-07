@@ -52,10 +52,10 @@ CYGCONF_ARGS="
 	--enable-tcl --enable-tk \
 	--enable-consoleui \
 	--enable-gtkui \
+	--enable-screensaver \
 	--disable-mono \
 	--disable-nm \
 	--disable-perl --with-perl-lib=vendor \
-	--disable-screensaver \
 	--with-system-ssl-certs=/usr/ssl/certs \
 	--with-ncurses-headers=/usr/include/ncursesw \
 	--with-nspr-includes=/usr/include/nspr --with-nspr-libs=/usr/lib \
@@ -64,3 +64,5 @@ CYGCONF_ARGS="
 	--with-gadu-includes=/usr/include --with-gadu-libs=/usr/lib
 	--with-zephyr=/usr
 "
+
+KEEP_LA_FILES="none"

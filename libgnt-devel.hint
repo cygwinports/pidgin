@@ -1,5 +1,5 @@
 category: Libs
-requires: libgnt0 libglib2.0-devel libncursesw-devel libxml2-devel python
+requires: libgnt0 libglib2.0-devel libncursesw-devel python
 external-source: pidgin
 sdesc: "GObject CUI toolkit library (development)"
 ldesc: "libpurple is a library intended to be used by programmers 
