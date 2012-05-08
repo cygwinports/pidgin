@@ -7,6 +7,7 @@ PATCH_URI="
 	2.7.11-no-undefined.patch
 	2.6.5-ncursesw-fix.patch
 	2.7.5-nss-cygwin.patch
+	2.10.1-farstream.patch
 "
 
 PKG_NAMES="pidgin pidgin-devel pidgin-bonjour pidgin-evolution pidgin-gadugadu
