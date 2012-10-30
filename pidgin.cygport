@@ -1,6 +1,15 @@
 inherit gnome2
 
-DESCRIPTION="GNOME instant messaging client"
+NAME="pidgin"
+VERSION=2.10.6
+RELEASE=2
+CATEGORY="Net"
+SUMMARY="GTK+ instant messaging client"
+DESCRIPTION="Pidgin is a chat program which lets you log in to accounts on
+multiple chat networks simultaneously. This means that you can be chatting
+with friends on MSN, talking to a friend on Google Talk, and sitting in a
+Yahoo chat room all at the same time.  Pidgin is cross-platform, supports
+numerous chat protocols, and can be extended through plugins."
 HOMEPAGE="http://pidgin.im/"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 PATCH_URI="
@@ -17,23 +26,38 @@ pidgin_CONTENTS="--exclude=gevolution*
                  usr/share/applications/ usr/share/doc/ usr/share/icons/
                  usr/share/locale/ usr/share/man/man1/pidgin.1.gz
                  usr/share/pixmaps/pidgin/"
-pidgin_devel_CONTENTS="usr/include/pidgin/ usr/lib/libpidgin.a usr/lib/pkgconfig/pidgin.pc"
+pidgin_devel_SUMMARY="${SUMMARY} (plugin development)"
+pidgin_devel_CONTENTS="usr/include/pidgin/ usr/lib/libpidgin.dll.a usr/lib/pkgconfig/pidgin.pc"
+pidgin_bonjour_SUMMARY="XMPP link-local support for Pidgin instant messenger"
 pidgin_bonjour_CONTENTS="usr/lib/purple-2/*bonjour.*"
+pidgin_evolution_SUMMARY="Evolution addressbook support for Pidgin instant messenger"
 pidgin_evolution_CONTENTS="usr/lib/pidgin/gevolution.*"
+pidgin_gadugadu_SUMMARY="Gadu-Gadu protocol support for Pidgin instant messenger"
 pidgin_gadugadu_CONTENTS="usr/lib/purple-2/*gg.*"
+pidgin_sametime_SUMMARY="Sametime protocol support for Pidgin instant messenger"
 pidgin_sametime_CONTENTS="usr/lib/purple-2/*sametime.*"
+pidgin_silc_SUMMARY="SILC protocol support for Pidgin instant messenger"
 pidgin_silc_CONTENTS="usr/lib/purple-2/*silcpurple.*"
+pidgin_tcl_SUMMARY="Tcl scripting support for Pidgin instant messenger"
 pidgin_tcl_CONTENTS="usr/lib/purple-2/tcl.*"
+pidgin_zephyr_SUMMARY="Zephyr protocol support for Pidgin instant messenger"
 pidgin_zephyr_CONTENTS="usr/lib/purple-2/*zephyr.*"
+libpurple0_SUMMARY="GObject instant messaging protocol library (runtime)"
+libpurple0_REQUIRES="ca-certificates"
 libpurple0_CONTENTS="--exclude=*bonjour.* --exclude=*gg.* --exclude=*sametime.*
                      --exclude=*silcpurple.* --exclude=tcl.* --exclude=*zephyr.*
                      usr/bin/cygpurple*-0.dll usr/lib/purple-2/
                      usr/share/purple/ usr/share/sounds/"
+libpurple_devel_SUMMARY="GObject instant messaging protocol library (development)"
 libpurple_devel_CONTENTS="usr/include/libpurple/ usr/lib/libpurple*
                           usr/lib/pkgconfig/purple.pc usr/share/aclocal/"
+finch_SUMMARY="Console version of Pidgin instant messenger"
 finch_CONTENTS="usr/bin/finch.exe usr/lib/finch/ usr/lib/gnt/ usr/share/man/man1/finch.1.gz"
-finch_devel_CONTENTS="usr/include/finch/ usr/lib/libfinch.a usr/lib/pkgconfig/finch.pc"
+finch_devel_SUMMARY="${finch_SUMMARY} (plugin development)"
+finch_devel_CONTENTS="usr/include/finch/ usr/lib/libfinch.dll.a usr/lib/pkgconfig/finch.pc"
+libgnt0_SUMMARY="GObject console UI toolkit (runtime)"
 libgnt0_CONTENTS="usr/bin/cyggnt-0.dll"
+libgnt_devel_SUMMARY="GObject console UI toolkit (development)"
 libgnt_devel_CONTENTS="usr/include/gnt/ usr/lib/libgnt.* usr/lib/pkgconfig/gnt.pc"
 
 DEPS_PATH="/usr/lib/purple-2"

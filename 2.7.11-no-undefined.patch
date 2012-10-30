@@ -10,8 +10,8 @@
 +	platform_win32=yes
 +	LIBFINCH="-lfinch"
 +	LIBPIDGIN="-lpidgin"
-+	FINCH_PLUGIN_LDFLAGS="-no-undefined -Wl,\$(top_builddir)/finch/libfinch.a \$(top_builddir)/finch/libgnt/libgnt.la \$(top_builddir)/libpurple/libpurple.la"
-+	PIDGIN_PLUGIN_LDFLAGS="-no-undefined -Wl,\$(top_builddir)/pidgin/libpidgin.a \$(top_builddir)/libpurple/libpurple.la"
++	FINCH_PLUGIN_LDFLAGS="-no-undefined -Wl,\$(top_builddir)/finch/libfinch.dll.a \$(top_builddir)/finch/libgnt/libgnt.la \$(top_builddir)/libpurple/libpurple.la"
++	PIDGIN_PLUGIN_LDFLAGS="-no-undefined -Wl,\$(top_builddir)/pidgin/libpidgin.dll.a \$(top_builddir)/libpurple/libpurple.la"
 +	PURPLE_PLUGIN_LDFLAGS="-no-undefined \$(top_builddir)/libpurple/libpurple.la"
 +	;;
 +*)
@@ -72,7 +72,7 @@
  finch_DEPENDENCIES = @LIBOBJS@
 +
 +if PLATFORM_WIN32
-+finch_LDFLAGS = -Wl,--export-all-symbols -Wl,--out-implib,libfinch.a
++finch_LDFLAGS = -Wl,--export-all-symbols -Wl,--out-implib,libfinch.dll.a
 +else
  finch_LDFLAGS = -export-dynamic
 +endif
@@ -88,7 +88,7 @@
 +if PLATFORM_WIN32
 +install-data-local:
 +	$(mkinstalldirs) $(DESTDIR)$(libdir)
-+	$(INSTALL_DATA) libfinch.a $(DESTDIR)$(libdir)
++	$(INSTALL_DATA) libfinch.dll.a $(DESTDIR)$(libdir)
 +endif
 --- origsrc/pidgin-2.7.0/finch/plugins/Makefile.am	2010-05-27 19:23:03.204676900 -0500
 +++ src/pidgin-2.7.0/finch/plugins/Makefile.am	2010-05-27 15:25:09.000000000 -0500
@@ -452,7 +452,7 @@
  pidgin_DEPENDENCIES = @LIBOBJS@
 +
 +if PLATFORM_WIN32
-+pidgin_LDFLAGS = -Wl,--export-all-symbols,--out-implib,libpidgin.a
++pidgin_LDFLAGS = -Wl,--export-all-symbols,--out-implib,libpidgin.dll.a
 +else
  pidgin_LDFLAGS = -export-dynamic
 +endif
@@ -468,7 +468,7 @@
 +if PLATFORM_WIN32
 +install-data-local:
 +	$(mkinstalldirs) $(DESTDIR)$(libdir)
-+	$(INSTALL_DATA) libpidgin.a $(DESTDIR)$(libdir)
++	$(INSTALL_DATA) libpidgin.dll.a $(DESTDIR)$(libdir)
 +endif
 --- origsrc/pidgin-2.7.0/pidgin/pidgin.pc.in	2010-05-27 19:23:03.337684500 -0500
 +++ src/pidgin-2.7.0/pidgin/pidgin.pc.in	2010-05-27 15:25:09.000000000 -0500
