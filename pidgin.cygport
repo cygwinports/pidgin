@@ -2,7 +2,7 @@ inherit gnome2
 
 NAME="pidgin"
 VERSION=2.10.6
-RELEASE=2
+RELEASE=3
 CATEGORY="Net"
 SUMMARY="GTK+ instant messaging client"
 DESCRIPTION="Pidgin is a chat program which lets you log in to accounts on
@@ -18,7 +18,7 @@ PATCH_URI="
 	2.7.5-nss-cygwin.patch
 "
 
-PKG_NAMES="pidgin pidgin-devel pidgin-bonjour pidgin-evolution pidgin-gadugadu
+PKG_NAMES="pidgin pidgin-devel pidgin-bonjour pidgin-gadugadu
            pidgin-sametime pidgin-silc pidgin-tcl pidgin-zephyr
            libpurple0 libpurple-devel finch finch-devel libgnt0 libgnt-devel"
 pidgin_CONTENTS="--exclude=gevolution*
@@ -64,13 +64,14 @@ DEPS_PATH="/usr/lib/purple-2"
 
 CPPFLAGS+=" -DSILC_MP_GMP"
 
+# evolution: incompatible with e-d-s 3.6 API
 # mono: segfaults in libmono (known issue); requires 2.6.4-plugin-loader.patch
 # perl: rpath issues
 CYGCONF_ARGS="
 	--enable-avahi \
 	--enable-cyrus-sasl \
 	--enable-dbus \
-	--enable-gevolution \
+	--disable-gevolution \
 	--enable-gnutls \
 	--enable-nss \
 	--enable-tcl --enable-tk \
@@ -89,4 +90,3 @@ CYGCONF_ARGS="
 	--with-zephyr=/usr
 "
 
-KEEP_LA_FILES="none"
