@@ -2,7 +2,7 @@ inherit gnome2
 
 NAME="pidgin"
 VERSION=2.10.6
-RELEASE=3
+RELEASE=4
 CATEGORY="Net"
 SUMMARY="GTK+ instant messaging client"
 DESCRIPTION="Pidgin is a chat program which lets you log in to accounts on
