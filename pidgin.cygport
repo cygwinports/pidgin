@@ -75,6 +75,7 @@ CYGCONF_ARGS="
 	--enable-consoleui \
 	--enable-gtkui \
 	--enable-screensaver \
+	${ARCH_x86_64+--disable-vv} \
 	--disable-mono \
 	--disable-nm \
 	--disable-perl --with-perl-lib=vendor \
