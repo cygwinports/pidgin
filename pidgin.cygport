@@ -1,8 +1,8 @@
 inherit gnome2
 
 NAME="pidgin"
-VERSION=2.10.6
-RELEASE=4
+VERSION=2.10.7
+RELEASE=1
 CATEGORY="Net"
 SUMMARY="GTK+ instant messaging client"
 DESCRIPTION="Pidgin is a chat program which lets you log in to accounts on
@@ -15,7 +15,6 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 PATCH_URI="
 	2.7.11-no-undefined.patch
 	2.6.5-ncursesw-fix.patch
-	2.7.5-nss-cygwin.patch
 "
 
 PKG_NAMES="pidgin pidgin-devel pidgin-bonjour pidgin-gadugadu
@@ -61,8 +60,6 @@ libgnt_devel_SUMMARY="GObject console UI toolkit (development)"
 libgnt_devel_CONTENTS="usr/include/gnt/ usr/lib/libgnt.* usr/lib/pkgconfig/gnt.pc"
 
 DEPS_PATH="/usr/lib/purple-2"
-
-CPPFLAGS+=" -DSILC_MP_GMP"
 
 # evolution: incompatible with e-d-s 3.6 API
 # mono: segfaults in libmono (known issue); requires 2.6.4-plugin-loader.patch
