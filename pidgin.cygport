@@ -1,7 +1,7 @@
 inherit gnome2
 
 NAME="pidgin"
-VERSION=2.10.7
+VERSION=2.10.8
 RELEASE=1
 CATEGORY="Net"
 SUMMARY="GTK+ instant messaging client"
@@ -62,6 +62,7 @@ libgnt_devel_CONTENTS="usr/include/gnt/ usr/lib/libgnt.* usr/lib/pkgconfig/gnt.p
 DEPS_PATH="/usr/lib/purple-2"
 
 # evolution: incompatible with e-d-s 3.6 API
+# gnutls: supposedly unstable
 # mono: segfaults in libmono (known issue); requires 2.6.4-plugin-loader.patch
 # perl: rpath issues
 CYGCONF_ARGS="
@@ -69,7 +70,7 @@ CYGCONF_ARGS="
 	--enable-cyrus-sasl \
 	--enable-dbus \
 	--disable-gevolution \
-	--enable-gnutls \
+	--disable-gnutls \
 	--enable-nss \
 	--enable-tcl --enable-tk \
 	--enable-consoleui \

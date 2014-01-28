@@ -258,15 +258,6 @@
  
  if STATIC_IRC
  
-@@ -27,7 +27,7 @@ else
- st =
- pkg_LTLIBRARIES   = libirc.la
- libirc_la_SOURCES = $(IRCSOURCES)
--libirc_la_LIBADD  = $(GLIB_LIBS)
-+libirc_la_LIBADD  = $(GLIB_LIBS) $(SASL_LIBS)
- 
- endif
- 
 --- origsrc/pidgin-2.7.0/libpurple/protocols/jabber/Makefile.am	2010-05-27 19:23:03.260680100 -0500
 +++ src/pidgin-2.7.0/libpurple/protocols/jabber/Makefile.am	2010-05-27 15:25:09.000000000 -0500
 @@ -80,7 +80,7 @@ JABBERSOURCES = \
@@ -529,7 +520,7 @@
  
 --- origsrc/pidgin-2.7.0/pidgin/plugins/Makefile.am	2010-05-27 19:23:03.344684900 -0500
 +++ src/pidgin-2.7.0/pidgin/plugins/Makefile.am	2010-05-27 15:25:09.000000000 -0500
-@@ -31,24 +31,24 @@ SUBDIRS = \
+@@ -31,25 +31,25 @@ SUBDIRS = \
  
  plugindir = $(libdir)/pidgin
  
@@ -549,6 +540,7 @@
 -themeedit_la_LDFLAGS        = -module -avoid-version
 -timestamp_la_LDFLAGS        = -module -avoid-version
 -timestamp_format_la_LDFLAGS = -module -avoid-version
+-unity_la_LDFLAGS            = -module -avoid-version
 -vvconfig_la_LDFLAGS         = -module -avoid-version
 -xmppconsole_la_LDFLAGS      = -module -avoid-version
 +convcolors_la_LDFLAGS       = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
@@ -567,6 +559,7 @@
 +themeedit_la_LDFLAGS        = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
 +timestamp_la_LDFLAGS        = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
 +timestamp_format_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++unity_la_LDFLAGS            = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
 +vvconfig_la_LDFLAGS         = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
 +xmppconsole_la_LDFLAGS      = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
  
