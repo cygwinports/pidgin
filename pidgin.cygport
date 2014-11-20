@@ -1,7 +1,7 @@
 inherit gnome2
 
 NAME="pidgin"
-VERSION=2.10.8
+VERSION=2.10.10
 RELEASE=1
 CATEGORY="Net"
 SUMMARY="GTK+ instant messaging client"
@@ -11,7 +11,7 @@ with friends on MSN, talking to a friend on Google Talk, and sitting in a
 Yahoo chat room all at the same time.  Pidgin is cross-platform, supports
 numerous chat protocols, and can be extended through plugins."
 HOMEPAGE="http://pidgin.im/"
-SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
+SRC_URI="mirror://sourceforge/pidgin/pidgin-${VERSION}.tar.bz2"
 PATCH_URI="
 	2.7.11-no-undefined.patch
 	2.6.5-ncursesw-fix.patch
@@ -76,16 +76,13 @@ CYGCONF_ARGS="
 	--enable-consoleui \
 	--enable-gtkui \
 	--enable-screensaver \
-	${ARCH_x86_64+--disable-vv} \
+	--disable-vv \
 	--disable-mono \
 	--disable-nm \
 	--disable-perl --with-perl-lib=vendor \
-	--with-system-ssl-certs=/usr/ssl/certs \
-	--with-ncurses-headers=/usr/include/ncursesw \
+	--with-system-ssl-certs=/etc/pki/tls/certs \
 	--with-nspr-includes=/usr/include/nspr --with-nspr-libs=/usr/lib \
 	--with-nss-includes=/usr/include/nss --with-nss-libs=/usr/lib \
 	--with-gnutls-includes=/usr/include/gnutls --with-gnutls-libs=/usr/lib \
-	--with-gadu-includes=/usr/include --with-gadu-libs=/usr/lib
 	--with-zephyr=/usr
 "
-
