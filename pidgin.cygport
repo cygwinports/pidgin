@@ -1,7 +1,7 @@
 inherit gnome2
 
 NAME="pidgin"
-VERSION=2.10.10
+VERSION=2.10.11
 RELEASE=1
 CATEGORY="Net"
 SUMMARY="GTK+ instant messaging client"
@@ -13,17 +13,17 @@ numerous chat protocols, and can be extended through plugins."
 HOMEPAGE="http://pidgin.im/"
 SRC_URI="mirror://sourceforge/pidgin/pidgin-${VERSION}.tar.bz2"
 PATCH_URI="
-	2.7.11-no-undefined.patch
+	2.10.11-no-undefined.patch
 	2.6.5-ncursesw-fix.patch
 "
 
 PKG_NAMES="pidgin pidgin-devel pidgin-bonjour pidgin-gadugadu
-           pidgin-sametime pidgin-silc pidgin-tcl pidgin-zephyr
+           pidgin-sametime pidgin-silc pidgin-tcl
            libpurple0 libpurple-devel finch finch-devel libgnt0 libgnt-devel"
 pidgin_CONTENTS="--exclude=gevolution*
                  etc/ usr/bin/pidgin.exe usr/bin/purple-* usr/lib/pidgin/
-                 usr/share/applications/ usr/share/doc/ usr/share/icons/
-                 usr/share/locale/ usr/share/man/man1/pidgin.1.gz
+                 usr/share/appdata/ usr/share/applications/ usr/share/doc/
+                 usr/share/icons/ usr/share/locale/ usr/share/man/man1/pidgin.*
                  usr/share/pixmaps/pidgin/"
 pidgin_devel_SUMMARY="${SUMMARY} (plugin development)"
 pidgin_devel_CONTENTS="usr/include/pidgin/ usr/lib/libpidgin.dll.a usr/lib/pkgconfig/pidgin.pc"
@@ -39,12 +39,11 @@ pidgin_silc_SUMMARY="SILC protocol support for Pidgin instant messenger"
 pidgin_silc_CONTENTS="usr/lib/purple-2/*silcpurple.*"
 pidgin_tcl_SUMMARY="Tcl scripting support for Pidgin instant messenger"
 pidgin_tcl_CONTENTS="usr/lib/purple-2/tcl.*"
-pidgin_zephyr_SUMMARY="Zephyr protocol support for Pidgin instant messenger"
-pidgin_zephyr_CONTENTS="usr/lib/purple-2/*zephyr.*"
 libpurple0_SUMMARY="GObject instant messaging protocol library (runtime)"
+libpurple0_OBSOLETES="pidgin-zephyr"
 libpurple0_REQUIRES="ca-certificates"
 libpurple0_CONTENTS="--exclude=*bonjour.* --exclude=*gg.* --exclude=*sametime.*
-                     --exclude=*silcpurple.* --exclude=tcl.* --exclude=*zephyr.*
+                     --exclude=*silcpurple.* --exclude=tcl.*
                      usr/bin/cygpurple*-0.dll usr/lib/purple-2/
                      usr/share/purple/ usr/share/sounds/"
 libpurple_devel_SUMMARY="GObject instant messaging protocol library (development)"
@@ -84,5 +83,4 @@ CYGCONF_ARGS="
 	--with-nspr-includes=/usr/include/nspr --with-nspr-libs=/usr/lib \
 	--with-nss-includes=/usr/include/nss --with-nss-libs=/usr/lib \
 	--with-gnutls-includes=/usr/include/gnutls --with-gnutls-libs=/usr/lib \
-	--with-zephyr=/usr
 "
