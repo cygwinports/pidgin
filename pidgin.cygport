@@ -1,7 +1,7 @@
 inherit gnome2
 
 NAME="pidgin"
-VERSION=2.10.11
+VERSION=2.11.0
 RELEASE=1
 CATEGORY="Net"
 SUMMARY="GTK+ instant messaging client"
@@ -18,7 +18,7 @@ PATCH_URI="
 "
 
 PKG_NAMES="pidgin pidgin-devel pidgin-bonjour pidgin-gadugadu
-           pidgin-sametime pidgin-silc pidgin-tcl
+           pidgin-sametime pidgin-tcl
            libpurple0 libpurple-devel finch finch-devel libgnt0 libgnt-devel"
 pidgin_CONTENTS="--exclude=gevolution*
                  etc/ usr/bin/pidgin.exe usr/bin/purple-* usr/lib/pidgin/
@@ -45,7 +45,7 @@ libpurple0_REQUIRES="ca-certificates"
 libpurple0_CONTENTS="--exclude=*bonjour.* --exclude=*gg.* --exclude=*sametime.*
                      --exclude=*silcpurple.* --exclude=tcl.*
                      usr/bin/cygpurple*-0.dll usr/lib/purple-2/
-                     usr/share/purple/ usr/share/sounds/"
+                     usr/share/sounds/"
 libpurple_devel_SUMMARY="GObject instant messaging protocol library (development)"
 libpurple_devel_CONTENTS="usr/include/libpurple/ usr/lib/libpurple*
                           usr/lib/pkgconfig/purple.pc usr/share/aclocal/"
