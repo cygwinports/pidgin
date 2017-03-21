@@ -281,39 +281,6 @@
  libjabber_la_SOURCES = $(JABBERSOURCES)
  libjabber_la_LIBADD  = $(GLIB_LIBS) $(SASL_LIBS) $(LIBXML_LIBS) $(IDN_LIBS)\
  	$(FARSIGHT_LIBS) \
---- origsrc/pidgin-2.10.11/libpurple/protocols/msn/Makefile.am	2014-11-23 10:41:26.000000000 -0600
-+++ src/pidgin-2.10.11/libpurple/protocols/msn/Makefile.am	2015-03-19 12:40:17.712802900 -0500
-@@ -77,7 +77,7 @@ MSNSOURCES = \
- 
- AM_CFLAGS = $(st)
- 
--libmsn_la_LDFLAGS = -module -avoid-version
-+libmsn_la_LDFLAGS = -module -avoid-version $(PURPLE_PLUGIN_LDFLAGS)
- 
- if STATIC_MSN
- 
---- origsrc/pidgin-2.10.11/libpurple/protocols/mxit/Makefile.am	2014-11-23 10:41:26.000000000 -0600
-+++ src/pidgin-2.10.11/libpurple/protocols/mxit/Makefile.am	2015-03-19 12:40:17.717303500 -0500
-@@ -40,7 +40,7 @@ MXITSOURCES = \
- 
- AM_CFLAGS = $(st)
- 
--libmxit_la_LDFLAGS = -module -avoid-version
-+libmxit_la_LDFLAGS = -module -avoid-version $(PURPLE_PLUGIN_LDFLAGS)
- 
- if STATIC_MXIT
- 
---- origsrc/pidgin-2.10.11/libpurple/protocols/myspace/Makefile.am	2014-11-23 10:41:26.000000000 -0600
-+++ src/pidgin-2.10.11/libpurple/protocols/myspace/Makefile.am	2015-03-19 12:40:17.721804000 -0500
-@@ -19,7 +19,7 @@ MSIMSOURCES = markup.c \
- 
- AM_CFLAGS = $(st)
- 
--libmyspace_la_LDFLAGS = -module -avoid-version
-+libmyspace_la_LDFLAGS = -module -avoid-version $(PURPLE_PLUGIN_LDFLAGS)
- 
- if STATIC_MYSPACE
- 
 --- origsrc/pidgin-2.10.11/libpurple/protocols/novell/Makefile.am	2014-11-23 10:41:26.000000000 -0600
 +++ src/pidgin-2.10.11/libpurple/protocols/novell/Makefile.am	2015-03-19 12:40:17.724804400 -0500
 @@ -28,7 +28,7 @@ NOVELLSOURCES = \
@@ -403,29 +370,6 @@
  
  if STATIC_SIMPLE
  
---- origsrc/pidgin-2.10.11/libpurple/protocols/yahoo/Makefile.am	2014-11-23 10:41:26.000000000 -0600
-+++ src/pidgin-2.10.11/libpurple/protocols/yahoo/Makefile.am	2015-03-19 12:40:17.747307300 -0500
-@@ -27,8 +27,8 @@ YAHOOSOURCES = \
- 
- AM_CFLAGS = $(st)
- 
--libyahoo_la_LDFLAGS = -module -avoid-version
--libyahoojp_la_LDFLAGS = -module -avoid-version
-+libyahoo_la_LDFLAGS = -module -avoid-version $(PURPLE_PLUGIN_LDFLAGS)
-+libyahoojp_la_LDFLAGS = -module -avoid-version $(PURPLE_PLUGIN_LDFLAGS)
- 
- if STATIC_YAHOO
- 
-@@ -40,7 +40,8 @@ libymsg_la_CFLAGS  = $(AM_CFLAGS)
- else
- 
- st =
--pkg_LTLIBRARIES     = libymsg.la libyahoo.la libyahoojp.la
-+noinst_LTLIBRARIES  = libymsg.la
-+pkg_LTLIBRARIES     = libyahoo.la libyahoojp.la
- 
- libymsg_la_SOURCES = $(YAHOOSOURCES)
- libymsg_la_LIBADD  = $(GLIB_LIBS)
 --- origsrc/pidgin-2.10.11/libpurple/protocols/zephyr/Makefile.am	2014-11-23 10:41:26.000000000 -0600
 +++ src/pidgin-2.10.11/libpurple/protocols/zephyr/Makefile.am	2015-03-19 12:40:17.750307600 -0500
 @@ -72,7 +72,7 @@ ZEPHYRLIBS = $(KRB4_LDFLAGS) $(KRB4_LIBS
@@ -556,6 +500,15 @@
 +gestures_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
  
  if PLUGINS
+ 
+@@ -13,7 +13,7 @@ gestures_la_SOURCES = \
+ 	stroke.c \
+ 	stroke-draw.c
+ 
+-gestures_la_LIBADD = $(GTK_LIBS)
++gestures_la_LIBADD = $(GTK_LIBS) $(X11_LIBS)
+ 
+ endif
  
 --- origsrc/pidgin-2.10.11/pidgin/plugins/gevolution/Makefile.am	2014-11-23 10:41:27.000000000 -0600
 +++ src/pidgin-2.10.11/pidgin/plugins/gevolution/Makefile.am	2015-03-19 12:40:17.770310200 -0500
