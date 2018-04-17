@@ -426,7 +426,7 @@
  
 --- origsrc/pidgin-2.10.11/pidgin/plugins/Makefile.am	2014-11-23 10:41:27.000000000 -0600
 +++ src/pidgin-2.10.11/pidgin/plugins/Makefile.am	2015-03-19 12:40:17.773310600 -0500
-@@ -31,25 +31,25 @@ SUBDIRS = \
+@@ -31,26 +31,26 @@ SUBDIRS = \
  
  plugindir = $(libdir)/pidgin
  
@@ -446,6 +446,7 @@
 -themeedit_la_LDFLAGS        = -module -avoid-version
 -timestamp_la_LDFLAGS        = -module -avoid-version
 -timestamp_format_la_LDFLAGS = -module -avoid-version
+-transparency_la_LDFLAGS     = -module -avoid-version
 -unity_la_LDFLAGS            = -module -avoid-version
 -vvconfig_la_LDFLAGS         = -module -avoid-version
 -xmppconsole_la_LDFLAGS      = -module -avoid-version
@@ -465,6 +466,7 @@
 +themeedit_la_LDFLAGS        = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
 +timestamp_la_LDFLAGS        = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
 +timestamp_format_la_LDFLAGS = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
++transparency_la_LDFLAGS     = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
 +unity_la_LDFLAGS            = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
 +vvconfig_la_LDFLAGS         = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)
 +xmppconsole_la_LDFLAGS      = -module -avoid-version $(PIDGIN_PLUGIN_LDFLAGS)

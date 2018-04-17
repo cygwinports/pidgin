@@ -1,7 +1,7 @@
 inherit gnome2
 
 NAME="pidgin"
-VERSION=2.12.0
+VERSION=2.13.0
 RELEASE=1
 CATEGORY="Net"
 SUMMARY="GTK+ instant messaging client"
@@ -13,6 +13,7 @@ numerous chat protocols, and can be extended through plugins."
 HOMEPAGE="http://pidgin.im/"
 SRC_URI="mirror://sourceforge/pidgin/pidgin-${VERSION}.tar.bz2"
 PATCH_URI="
+	https://src.fedoraproject.org/cgit/rpms/pidgin.git/plain/pidgin-2.10.11-do-not-disable-wall.patch
 	2.10.11-no-undefined.patch
 	2.6.5-ncursesw-fix.patch
 "
